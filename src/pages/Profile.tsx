@@ -186,7 +186,7 @@ export default function Profile() {
         <div className="mt-3">
           <div className="flex items-center gap-2">
             <h2 className="text-2xl font-extrabold text-foreground">{displayName}</h2>
-            <span className="text-lg">🌍</span>
+            <span className="text-lg">{getCountryFlag()}</span>
           </div>
           {user?.email && (
             <p className="text-sm text-muted-foreground mt-0.5">{user.email}</p>
