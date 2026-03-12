@@ -1,0 +1,301 @@
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { useRevenueCat } from '@/contexts/RevenueCatContext';
+import { ArrowLeft, Settings, Loader2, Camera, RefreshCw, Cloud, LogOut, ImagePlus } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { m as motion } from 'framer-motion';
+import { BottomNavigation } from '@/components/BottomNavigation';
+import { TodoBottomNavigation } from '@/components/TodoBottomNavigation';
+import { getSetting } from '@/utils/settingsStorage';
+import { useGoogleAuth } from '@/contexts/GoogleAuthContext';
+import { performSync, getLastSyncInfo, SyncMeta, SyncResult, SyncState, addSyncListener } from '@/utils/driveSyncManager';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
+import { useUserProfile } from '@/hooks/useUserProfile';
+import { ProfileImageCropper } from '@/components/ProfileImageCropper';
+import { ProfileStatsBanner } from '@/components/profile/ProfileStats';
+import { ProfileAchievements } from '@/components/profile/ProfileAchievements';
+
+
+export default function Profile() {
+  const { t } = useTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const { restorePurchases, initialize: initRevenueCat } = useRevenueCat();
+  const { user, isLoading: authLoading, isSigningIn, signIn, signOut } = useGoogleAuth();
+  const [lastDashboard, setLastDashboard] = useState<'notes' | 'todo'>('notes');
+  const [syncState, setSyncState] = useState<SyncState>('idle');
+  const [lastSync, setLastSync] = useState<SyncMeta | null>(null);
+  const { profile, updateProfile } = useUserProfile();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const coverInputRef = useRef<HTMLInputElement>(null);
+  const [cropImageSrc, setCropImageSrc] = useState<string | null>(null);
+  const [coverCropSrc, setCoverCropSrc] = useState<string | null>(null);
+
+  useEffect(() => {
+    getLastSyncInfo().then(setLastSync);
+    const unsub = addSyncListener(setSyncState);
+    return unsub;
+  }, []);
+
+  useEffect(() => {
+    const checkLastDashboard = async () => {
+      const fromState = (location.state as any)?.from;
+      if (fromState?.startsWith('/todo')) {
+        setLastDashboard('todo');
+      } else {
+        const stored = await getSetting<string>('lastDashboard', 'notes');
+        setLastDashboard(stored === 'todo' ? 'todo' : 'notes');
+      }
+    };
+    checkLastDashboard();
+  }, [location.state]);
+
+  const handleSignIn = async () => {
+    try {
+      const googleUser = await signIn();
+      try {
+        await initRevenueCat(googleUser?.email || undefined);
+        await restorePurchases();
+      } catch (rcErr) {
+        console.warn('RevenueCat login with Google ID failed:', rcErr);
+      }
+      toast({ title: t('profile.signInSuccess', 'Signed in successfully'), description: t('profile.signInSuccessGDrive', 'Your Google account is connected for Drive sync.') });
+    } catch (err: any) {
+      console.error('Sign-in error:', err);
+      toast({ title: t('profile.signInFailed', 'Sign-in failed'), description: err?.message || t('common.retry', 'Please try again.'), variant: 'destructive' });
+    }
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    setLastSync(null);
+    toast({ title: t('profile.signedOut', 'Signed out'), description: t('profile.signedOutDesc2', 'Google account disconnected.') });
+  };
+
+  const handleSync = useCallback(async () => {
+    if (syncState === 'syncing') return;
+    const result: SyncResult = await performSync();
+    if (result.success) {
+      const info = await getLastSyncInfo();
+      setLastSync(info);
+      toast({ title: t('profile.syncSuccess', 'Sync complete') });
+    } else {
+      toast({ title: t('profile.syncFailed', 'Sync failed'), description: result.error || t('common.retry', 'Please try again.'), variant: 'destructive' });
+    }
+  }, [syncState, toast]);
+
+  // Format joined date from user metadata
+  const getJoinedDate = () => {
+    if (!user) return '';
+    // Use current date as fallback since Google doesn't provide join date
+    return t('profile.joinedDate', 'Joined {{date}}', {
+      date: new Date().toLocaleDateString(undefined, { month: 'long', year: 'numeric' })
+    });
+  };
+
+  const displayName = profile.name || user?.name || t('profile.guest', 'Guest User');
+
+  return (
+    <div className="min-h-screen bg-background pb-24">
+      {/* Header bar */}
+      <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-sm" style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}>
+        <div className="flex items-center justify-between px-4 h-12">
+          <Link to={lastDashboard === 'todo' ? '/todo/today' : '/'} className="p-2 -ml-2 hover:bg-muted/50 rounded-lg">
+            <ArrowLeft className="h-5 w-5 text-foreground" />
+          </Link>
+          <h1 className="text-base font-bold text-foreground">{t('profile.title', 'Profile')}</h1>
+          <Link to="/settings" className="p-2 -mr-2 hover:bg-muted/50 rounded-lg">
+            <Settings className="h-5 w-5 text-muted-foreground" />
+          </Link>
+        </div>
+      </header>
+
+      {/* Cover Image Area */}
+      <div className="relative h-40 overflow-hidden">
+        {profile.coverUrl ? (
+          <img src={profile.coverUrl} alt="Cover" className="w-full h-full object-cover" />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-br from-primary via-primary/80 to-primary/60">
+            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZG90cyIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48Y2lyY2xlIGN4PSIxMCIgY3k9IjEwIiByPSIxLjUiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4xKSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNkb3RzKSIvPjwvc3ZnPg==')] opacity-60" />
+          </div>
+        )}
+        <button
+          onClick={() => coverInputRef.current?.click()}
+          className="absolute bottom-3 right-3 w-9 h-9 rounded-full bg-background/70 backdrop-blur-sm text-foreground flex items-center justify-center shadow-md border border-border/50"
+        >
+          <ImagePlus className="h-4 w-4" />
+        </button>
+        <input
+          ref={coverInputRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => setCoverCropSrc(ev.target?.result as string);
+            reader.readAsDataURL(file);
+            e.target.value = '';
+          }}
+        />
+      </div>
+
+      {/* Profile Info Section */}
+      <div className="relative px-5 -mt-14">
+        {/* Profile Avatar */}
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="relative inline-block"
+        >
+          <div className="w-28 h-28 rounded-full border-4 border-background overflow-hidden shadow-lg bg-muted">
+            {profile.avatarUrl ? (
+              <img
+                src={profile.avatarUrl}
+                alt={displayName}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full bg-primary/15 flex items-center justify-center">
+                <span className="text-4xl font-bold text-primary">
+                  {displayName.charAt(0).toUpperCase()}
+                </span>
+              </div>
+            )}
+          </div>
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            className="absolute bottom-1 right-1 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-md border-2 border-background"
+          >
+            <Camera className="h-3.5 w-3.5" />
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (!file) return;
+              const reader = new FileReader();
+              reader.onload = (ev) => setCropImageSrc(ev.target?.result as string);
+              reader.readAsDataURL(file);
+              e.target.value = '';
+            }}
+          />
+        </motion.div>
+
+        {/* Name & Info */}
+        <div className="mt-3">
+          <div className="flex items-center gap-2">
+            <h2 className="text-2xl font-extrabold text-foreground">{displayName}</h2>
+            <span className="text-lg">🌍</span>
+          </div>
+          {user?.email && (
+            <p className="text-sm text-muted-foreground mt-0.5">{user.email}</p>
+          )}
+          {user && (
+            <p className="text-xs text-muted-foreground mt-1">{getJoinedDate()}</p>
+          )}
+        </div>
+
+        {/* Sync / Sign-in Button */}
+        <div className="mt-4">
+          {authLoading ? (
+            <div className="flex items-center justify-center py-3">
+              <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+            </div>
+          ) : user ? (
+            <div className="flex gap-2">
+              <Button
+                className="flex-1 rounded-xl h-11 bg-primary text-primary-foreground font-semibold"
+                onClick={handleSync}
+                disabled={syncState === 'syncing'}
+              >
+                {syncState === 'syncing' ? (
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                ) : (
+                  <Cloud className="h-4 w-4 mr-2" />
+                )}
+                {syncState === 'syncing' ? t('profile.syncing', 'Syncing...') : t('profile.syncNow', 'Sync Now')}
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                className="rounded-xl h-11 w-11 border-destructive/30 text-destructive hover:bg-destructive/10"
+                onClick={handleSignOut}
+              >
+                <LogOut className="h-4 w-4" />
+              </Button>
+            </div>
+          ) : (
+            <button
+              onClick={handleSignIn}
+              disabled={isSigningIn}
+              className="w-full flex items-center justify-center gap-3 px-6 py-3 bg-card border border-border rounded-xl shadow-sm hover:shadow-md transition-all disabled:opacity-50"
+            >
+              {isSigningIn ? (
+                <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+              ) : (
+                <>
+                  <svg className="h-5 w-5" viewBox="0 0 24 24">
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                  </svg>
+                  <span className="text-sm font-medium text-foreground">
+                    {t('profile.signInGoogle', 'Sign in with Google')}
+                  </span>
+                </>
+              )}
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Statistics Section */}
+      <div className="px-5 mt-6">
+        <h3 className="text-lg font-bold text-foreground mb-3">{t('profile.statistics', 'Statistics')}</h3>
+        <ProfileStatsBanner />
+      </div>
+
+      {/* Achievements Section */}
+      <div className="px-5 mt-6">
+        <ProfileAchievements onViewCertificate={() => navigate('/todo/journey-badges')} />
+      </div>
+
+
+      {lastDashboard === 'todo' ? <TodoBottomNavigation /> : <BottomNavigation />}
+
+      {/* Image Cropper Modal */}
+      {cropImageSrc && (
+        <ProfileImageCropper
+          imageSrc={cropImageSrc}
+          onCropComplete={async (croppedUrl) => {
+            await updateProfile({ avatarUrl: croppedUrl });
+            setCropImageSrc(null);
+            toast({ title: t('profile.photoUpdated', 'Profile photo updated') });
+          }}
+          onCancel={() => setCropImageSrc(null)}
+        />
+      )}
+
+      {/* Cover Image Cropper Modal */}
+      {coverCropSrc && (
+        <ProfileImageCropper
+          imageSrc={coverCropSrc}
+          onCropComplete={async (croppedUrl) => {
+            await updateProfile({ coverUrl: croppedUrl });
+            setCoverCropSrc(null);
+            toast({ title: t('profile.coverUpdated', 'Cover photo updated') });
+          }}
+          onCancel={() => setCoverCropSrc(null)}
+        />
+      )}
+    </div>
+  );
+}
