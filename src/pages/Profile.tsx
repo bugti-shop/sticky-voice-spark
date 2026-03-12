@@ -95,6 +95,60 @@ export default function Profile() {
     });
   };
 
+  const getCountryFlag = () => {
+    try {
+      // Try to get country from timezone
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+      const tzCountryMap: Record<string, string> = {
+        'Asia/Karachi': 'PK', 'Asia/Kolkata': 'IN', 'Asia/Calcutta': 'IN',
+        'America/New_York': 'US', 'America/Chicago': 'US', 'America/Denver': 'US',
+        'America/Los_Angeles': 'US', 'America/Phoenix': 'US', 'America/Anchorage': 'US',
+        'Pacific/Honolulu': 'US', 'Europe/London': 'GB', 'Europe/Paris': 'FR',
+        'Europe/Berlin': 'DE', 'Europe/Rome': 'IT', 'Europe/Madrid': 'ES',
+        'Europe/Istanbul': 'TR', 'Asia/Tokyo': 'JP', 'Asia/Seoul': 'KR',
+        'Asia/Shanghai': 'CN', 'Asia/Hong_Kong': 'HK', 'Asia/Dubai': 'AE',
+        'Asia/Riyadh': 'SA', 'Asia/Baghdad': 'IQ', 'Asia/Tehran': 'IR',
+        'Asia/Kabul': 'AF', 'Asia/Dhaka': 'BD', 'Asia/Colombo': 'LK',
+        'Asia/Kathmandu': 'NP', 'Asia/Singapore': 'SG', 'Asia/Kuala_Lumpur': 'MY',
+        'Asia/Jakarta': 'ID', 'Asia/Manila': 'PH', 'Asia/Bangkok': 'TH',
+        'Asia/Ho_Chi_Minh': 'VN', 'Australia/Sydney': 'AU', 'Australia/Melbourne': 'AU',
+        'Pacific/Auckland': 'NZ', 'America/Toronto': 'CA', 'America/Vancouver': 'CA',
+        'America/Mexico_City': 'MX', 'America/Sao_Paulo': 'BR', 'America/Argentina/Buenos_Aires': 'AR',
+        'Africa/Cairo': 'EG', 'Africa/Lagos': 'NG', 'Africa/Johannesburg': 'ZA',
+        'Africa/Nairobi': 'KE', 'Europe/Moscow': 'RU', 'Europe/Warsaw': 'PL',
+        'Europe/Amsterdam': 'NL', 'Europe/Brussels': 'BE', 'Europe/Zurich': 'CH',
+        'Europe/Vienna': 'AT', 'Europe/Stockholm': 'SE', 'Europe/Oslo': 'NO',
+        'Europe/Copenhagen': 'DK', 'Europe/Helsinki': 'FI', 'Europe/Athens': 'GR',
+        'Europe/Bucharest': 'RO', 'Europe/Prague': 'CZ', 'Europe/Budapest': 'HU',
+        'Europe/Lisbon': 'PT', 'Europe/Dublin': 'IE',
+        'Asia/Tashkent': 'UZ', 'Asia/Almaty': 'KZ', 'Asia/Baku': 'AZ',
+        'Asia/Tbilisi': 'GE', 'Asia/Yerevan': 'AM', 'Asia/Beirut': 'LB',
+        'Asia/Jerusalem': 'IL', 'Asia/Amman': 'JO', 'Asia/Kuwait': 'KW',
+        'Asia/Qatar': 'QA', 'Asia/Bahrain': 'BH', 'Asia/Muscat': 'OM',
+      };
+
+      let countryCode = tzCountryMap[tz];
+
+      // Fallback: try locale
+      if (!countryCode) {
+        const locale = navigator.language || navigator.languages?.[0] || '';
+        const parts = locale.split('-');
+        if (parts.length > 1 && parts[1].length === 2) {
+          countryCode = parts[1].toUpperCase();
+        }
+      }
+
+      if (countryCode && countryCode.length === 2) {
+        // Convert country code to flag emoji
+        const flag = String.fromCodePoint(
+          ...countryCode.toUpperCase().split('').map(c => 0x1F1E6 + c.charCodeAt(0) - 65)
+        );
+        return flag;
+      }
+    } catch {}
+    return '🌍';
+  };
+
   const displayName = profile.name || user?.name || t('profile.guest', 'Guest User');
 
   return (
@@ -186,7 +240,7 @@ export default function Profile() {
         <div className="mt-3">
           <div className="flex items-center gap-2">
             <h2 className="text-2xl font-extrabold text-foreground">{displayName}</h2>
-            <span className="text-lg">🌍</span>
+            <span className="text-lg">{getCountryFlag()}</span>
           </div>
           {user?.email && (
             <p className="text-sm text-muted-foreground mt-0.5">{user.email}</p>
