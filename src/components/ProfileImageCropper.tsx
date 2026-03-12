@@ -60,7 +60,7 @@ export const ProfileImageCropper = ({ imageSrc, onCropComplete, onCancel, aspect
     if (!croppedAreaPixels) return;
     setIsSaving(true);
     try {
-      const croppedUrl = await createCroppedImage(imageSrc, croppedAreaPixels);
+      const croppedUrl = await createCroppedImage(imageSrc, croppedAreaPixels, outputWidth, outputHeight);
       onCropComplete(croppedUrl);
     } catch (e) {
       console.error('Crop failed:', e);
