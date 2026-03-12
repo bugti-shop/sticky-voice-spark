@@ -483,7 +483,7 @@
   "privacy": {
     "title": "Informativa sulla privacy",
     "infoCollect": "Informazioni che raccogliamo",
-    "infoCollectDesc": "NPD memorizza tutte le tue note e dati localmente sul tuo dispositivo. Non raccogliamo, trasmettiamo o memorizziamo informazioni personali su server esterni.",
+    "infoCollectDesc": "Flowist memorizza tutte le tue note e dati localmente sul tuo dispositivo. Non raccogliamo, trasmettiamo o memorizziamo informazioni personali su server esterni.",
     "localStorage": "Archiviazione locale",
     "localStorageDesc": "Le tue note, cartelle e impostazioni sono memorizzate utilizzando l'archiviazione locale del tuo dispositivo. Questi dati rimangono sul tuo dispositivo e non sono accessibili a noi.",
     "dataSecurity": "Sicurezza dei dati",
