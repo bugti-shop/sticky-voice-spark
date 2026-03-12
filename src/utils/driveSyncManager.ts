@@ -60,10 +60,10 @@ const SYNC_SETTING_KEYS = [
 // ── Device ID ──────────────────────────────────────────────────────────────
 
 const getDeviceId = async (): Promise<string> => {
-  let deviceId = await getSetting<string>('npd_device_id', '');
+  let deviceId = await getSetting<string>('flowist_device_id', '');
   if (!deviceId) {
     deviceId = `device_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
-    await setSetting('npd_device_id', deviceId);
+    await setSetting('flowist_device_id', deviceId);
   }
   return deviceId;
 };
