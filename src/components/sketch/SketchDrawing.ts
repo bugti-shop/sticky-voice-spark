@@ -2,6 +2,7 @@
 import type { Stroke, Point, BackgroundType, BBox } from './SketchTypes';
 import { DEFAULT_BRUSH_SETTINGS, isShapeTool, hexToRgba, seededRandom, HANDLE_SIZE } from './SketchTypes';
 import type { DrawToolType } from './SketchTypes';
+import { WASHI_PATTERNS, washiPatternCache } from '../sketch/SketchWashiTape';
 
 // --- Drawing helpers ---
 
