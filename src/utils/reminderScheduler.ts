@@ -42,10 +42,11 @@ export const requestReminderPermission = async (): Promise<boolean> => {
 export const scheduleTaskReminder = async (
   taskId: string,
   taskText: string,
-  reminderTime: Date
+  reminderTime: Date,
+  isUrgent?: boolean
 ): Promise<void> => {
   if (!Capacitor.isNativePlatform()) {
-    console.log('[Reminder] Web: would schedule task reminder for', taskText, 'at', reminderTime);
+    console.log('[Reminder] Web: would schedule task reminder for', taskText, 'at', reminderTime, isUrgent ? '(URGENT)' : '');
     return;
   }
 
@@ -64,15 +65,15 @@ export const scheduleTaskReminder = async (
     await LocalNotifications.schedule({
       notifications: [{
         id: notifId,
-        title: '📋 Task Reminder',
+        title: isUrgent ? '🚨 URGENT Task Reminder' : '📋 Task Reminder',
         body: taskText,
         schedule: { at: reminderTime, allowWhileIdle: true },
-        channelId: 'task-reminders',
-        extra: { type: 'task', taskId },
+        channelId: isUrgent ? 'urgent-task-reminders' : 'task-reminders',
+        extra: { type: 'task', taskId, isUrgent: isUrgent ? 'true' : 'false' },
       }],
     });
 
-    console.log('[Reminder] Scheduled task reminder:', taskText, 'at', reminderTime.toLocaleString());
+    console.log('[Reminder] Scheduled task reminder:', taskText, 'at', reminderTime.toLocaleString(), isUrgent ? '(URGENT)' : '');
   } catch (e) {
     console.error('[Reminder] Failed to schedule task reminder:', e);
   }
