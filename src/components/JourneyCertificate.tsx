@@ -335,8 +335,8 @@ export const JourneyCertificate = ({ open, onClose, journey, progress }: Journey
               </div>
               <div style={{ textAlign: 'left' }}>
                 <div data-export-brand-row="true" style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 3 }}>
-                  <span data-export-brand-name="true" style={{ color: '#ffffff', fontSize: 13, fontWeight: 600 }}>
-                    Flowist
+                  <span data-export-brand-name="true" style={{ color: '#ffffff', fontSize: 12, fontWeight: 600 }}>
+                    Flowist: Notepad & To Do List
                   </span>
                 </div>
                 <p style={{ color: colors.text, fontSize: 7, opacity: 0.45, margin: 0 }}>
