@@ -42,10 +42,11 @@ export const requestReminderPermission = async (): Promise<boolean> => {
 export const scheduleTaskReminder = async (
   taskId: string,
   taskText: string,
-  reminderTime: Date
+  reminderTime: Date,
+  isUrgent?: boolean
 ): Promise<void> => {
   if (!Capacitor.isNativePlatform()) {
-    console.log('[Reminder] Web: would schedule task reminder for', taskText, 'at', reminderTime);
+    console.log('[Reminder] Web: would schedule task reminder for', taskText, 'at', reminderTime, isUrgent ? '(URGENT)' : '');
     return;
   }
 
@@ -64,15 +65,15 @@ export const scheduleTaskReminder = async (
     await LocalNotifications.schedule({
       notifications: [{
         id: notifId,
-        title: '📋 Task Reminder',
+        title: isUrgent ? '🚨 URGENT Task Reminder' : '📋 Task Reminder',
         body: taskText,
         schedule: { at: reminderTime, allowWhileIdle: true },
-        channelId: 'task-reminders',
-        extra: { type: 'task', taskId },
+        channelId: isUrgent ? 'urgent-task-reminders' : 'task-reminders',
+        extra: { type: 'task', taskId, isUrgent: isUrgent ? 'true' : 'false' },
       }],
     });
 
-    console.log('[Reminder] Scheduled task reminder:', taskText, 'at', reminderTime.toLocaleString());
+    console.log('[Reminder] Scheduled task reminder:', taskText, 'at', reminderTime.toLocaleString(), isUrgent ? '(URGENT)' : '');
   } catch (e) {
     console.error('[Reminder] Failed to schedule task reminder:', e);
   }
@@ -166,6 +167,16 @@ export const createReminderChannels = async (): Promise<void> => {
     });
 
     await LocalNotifications.createChannel({
+      id: 'urgent-task-reminders',
+      name: 'Urgent Task Reminders',
+      description: 'Urgent full-screen reminders for critical tasks',
+      importance: 5, // MAX
+      visibility: 1, // PUBLIC
+      vibration: true,
+      sound: 'default',
+    });
+
+    await LocalNotifications.createChannel({
       id: 'note-reminders',
       name: 'Note Reminders',
       description: 'Reminders for your notes',
@@ -189,6 +200,33 @@ export const initializeReminders = async (): Promise<void> => {
 
   await createReminderChannels();
   
+  // Listen for notification received events to trigger urgent overlay
+  LocalNotifications.addListener('localNotificationReceived', (notification) => {
+    if (notification.extra?.isUrgent === 'true') {
+      // Dispatch event to show full-screen urgent reminder overlay
+      window.dispatchEvent(new CustomEvent('urgentReminderTriggered', {
+        detail: {
+          id: notification.extra.taskId,
+          taskName: notification.body || 'Urgent Task',
+          triggeredAt: new Date(),
+        }
+      }));
+    }
+  });
+
+  // Also listen for notification action (when user taps the notification)
+  LocalNotifications.addListener('localNotificationActionPerformed', (action) => {
+    if (action.notification.extra?.isUrgent === 'true') {
+      window.dispatchEvent(new CustomEvent('urgentReminderTriggered', {
+        detail: {
+          id: action.notification.extra.taskId,
+          taskName: action.notification.body || 'Urgent Task',
+          triggeredAt: new Date(),
+        }
+      }));
+    }
+  });
+
   // Request permission after a short delay
   setTimeout(async () => {
     await requestReminderPermission();

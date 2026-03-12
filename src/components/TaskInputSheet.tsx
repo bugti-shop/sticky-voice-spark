@@ -44,7 +44,8 @@ import {
   Paperclip,
   File,
   Trash2,
-  Crown
+  Crown,
+  AlertTriangle
 } from 'lucide-react';
 import { EditActionsSheet, ActionItem, defaultActions } from './EditActionsSheet';
 import { WaveformVisualizer } from './WaveformVisualizer';
@@ -130,6 +131,7 @@ export const TaskInputSheet = ({ isOpen, onClose, onAddTask, folders, selectedFo
   const { tags: globalTags, resolveTagIds, invalidateCache: refreshGlobalTags } = useGlobalTags();
   const [attachments, setAttachments] = useState<TaskAttachment[]>([]);
   const [estimatedHours, setEstimatedHours] = useState<number | undefined>();
+  const [isUrgent, setIsUrgent] = useState(false);
   
   // Load saved actions, tags, and task settings from IndexedDB
   useEffect(() => {
@@ -213,6 +215,7 @@ export const TaskInputSheet = ({ isOpen, onClose, onAddTask, folders, selectedFo
       setShowDescriptionInput(false);
       setAttachments([]);
       setVoiceRecording(undefined);
+      setIsUrgent(false);
       setIsRecording(false);
       setRecordingTime(0);
       recordingTimeRef.current = 0;
@@ -330,6 +333,7 @@ export const TaskInputSheet = ({ isOpen, onClose, onAddTask, folders, selectedFo
       subtasks: subtasks,
       attachments: attachments.length > 0 ? attachments : undefined,
       estimatedHours: finalEstimatedHours,
+      isUrgent: isUrgent || undefined,
     };
 
     // If deadline is set, store it in dueDate
@@ -360,6 +364,7 @@ export const TaskInputSheet = ({ isOpen, onClose, onAddTask, folders, selectedFo
       setAttachments([]);
       setEstimatedHours(undefined);
       setVoiceRecording(undefined);
+      setIsUrgent(false);
       inputRef.current?.focus();
     }, 0);
   };
@@ -1044,6 +1049,18 @@ export const TaskInputSheet = ({ isOpen, onClose, onAddTask, folders, selectedFo
             </div>
           )}
 
+          {/* Urgent indicator */}
+          {isUrgent && (
+            <div className="px-4 py-2 bg-destructive/10 dark:bg-destructive/20 rounded-lg flex items-center gap-2 mb-4 border border-destructive/30">
+              <AlertTriangle className="h-4 w-4 text-destructive animate-pulse" />
+              <span className="text-sm text-destructive font-medium">
+                {t('taskInput.urgentEnabled', 'Urgent — Full-screen reminder will trigger')}
+              </span>
+              <button onClick={() => setIsUrgent(false)} className="ml-auto">
+                <X className="h-4 w-4 text-destructive hover:text-destructive/70" />
+              </button>
+            </div>
+          )}
 
           <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {/* Template button - always first */}
@@ -1362,6 +1379,21 @@ export const TaskInputSheet = ({ isOpen, onClose, onAddTask, folders, selectedFo
 
               return null;
             })}
+
+            {/* Urgent Toggle Button */}
+            <button
+              onClick={() => setIsUrgent(!isUrgent)}
+              className={cn(
+                "relative flex items-center gap-1.5 px-3 py-2 rounded-md border transition-all whitespace-nowrap",
+                isUrgent ? "border-destructive bg-destructive/10 dark:bg-destructive/20" : "border-border bg-card hover:bg-muted"
+              )}
+            >
+              {isUrgent && <span className="absolute -top-1 -right-1 w-2 h-2 bg-destructive rounded-full animate-pulse" />}
+              <AlertTriangle className={cn("h-4 w-4 flex-shrink-0", isUrgent ? "text-destructive" : "text-muted-foreground")} />
+              <span className={cn("text-sm whitespace-nowrap", isUrgent ? "text-destructive font-medium" : "text-muted-foreground")}>
+                {t('taskInput.urgent', 'Urgent')}
+              </span>
+            </button>
 
             {/* Edit Actions Button - always last */}
             <button
