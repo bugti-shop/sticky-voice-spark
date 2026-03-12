@@ -277,7 +277,7 @@ export const GamificationCertificates = ({ isOpen, onClose, streakData }: Certif
           loadTodoItems(),
           loadNotesFromDB(),
           loadFolders(),
-          getSetting<string[]>('npd_seen_certificates', []),
+          getSetting<string[]>('flowist_seen_certificates', []),
         ]);
 
         const completedTasks = tasks.filter(t => t.completed).length;
