@@ -435,7 +435,7 @@
   "privacy": {
     "title": "Privacy Policy",
     "infoCollect": "Information We Collect",
-    "infoCollectDesc": "NPD stores all your notes and data locally on your device. We do not collect, transmit, or store any personal information on external servers.",
+    "infoCollectDesc": "Flowist stores all your notes and data locally on your device. We do not collect, transmit, or store any personal information on external servers.",
     "localStorage": "Local Storage",
     "localStorageDesc": "Your notes, folders, and settings are stored using your device's local storage. This data remains on your device and is not accessible to us.",
     "dataSecurity": "Data Security",
