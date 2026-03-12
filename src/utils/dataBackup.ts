@@ -29,7 +29,7 @@ const BACKUP_SETTING_KEYS = [
   'todoSections',
   'theme',
   'darkMode',
-  'npd_language',
+  'flowist_language',
   'haptic_intensity',
   'onboardingAnswers',
   'todoShowCompleted',
