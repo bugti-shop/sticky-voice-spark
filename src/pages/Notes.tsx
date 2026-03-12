@@ -326,7 +326,7 @@ const Notes = () => {
         <div className="container mx-auto px-2 xs:px-3 sm:px-4 py-2">
           <div className="flex items-center justify-between gap-1 xs:gap-2">
             <div className="flex items-center gap-1.5 xs:gap-2 min-w-0 flex-shrink-0">
-              <img src={appLogo} alt="Npd" className="h-6 w-6 xs:h-7 xs:w-7 sm:h-8 sm:w-8 flex-shrink-0" />
+              <img src={appLogo} alt="Flowist" className="h-6 w-6 xs:h-7 xs:w-7 sm:h-8 sm:w-8 flex-shrink-0" />
               <h1 className="text-base xs:text-lg sm:text-xl font-bold">{t('notes.title')}</h1>
             </div>
             <div className="flex gap-0.5 xs:gap-1 sm:gap-2 flex-shrink-0">

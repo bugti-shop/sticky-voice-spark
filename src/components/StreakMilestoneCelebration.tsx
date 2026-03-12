@@ -352,7 +352,7 @@ const ShareCard = ({
       {/* Logo */}
       <img
         src={appLogo}
-        alt="Npd"
+        alt="Flowist"
         style={{
           width: '160px',
           height: '160px',
