@@ -304,7 +304,7 @@ export const GamificationCertificates = ({ isOpen, onClose, streakData }: Certif
           triggerNotificationHaptic('success').catch(() => {});
 
           const updatedSeen = [...seenCerts, ...newlyUnlocked.map(c => c.id)];
-          await setSetting('npd_seen_certificates', updatedSeen);
+          await setSetting('flowist_seen_certificates', updatedSeen);
         }
       } catch (e) {
         console.error('Failed to load certificate data:', e);
