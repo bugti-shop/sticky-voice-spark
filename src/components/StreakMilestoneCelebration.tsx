@@ -197,7 +197,7 @@ export const StreakMilestoneCelebration = () => {
             {config.emoji}
           </motion.div>
 
-          {/* Animated Npd Logo */}
+          {/* Animated Flowist Logo */}
           <motion.div
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}

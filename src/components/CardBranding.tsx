@@ -15,7 +15,7 @@ interface CardBrandingFooterProps {
 }
 
 /**
- * Combined footer: user profile line + Npd branding
+ * Combined footer: user profile line + Flowist branding
  * For use inside shareable card designs (html2canvas-friendly).
  */
 export const CardBrandingFooter = ({
