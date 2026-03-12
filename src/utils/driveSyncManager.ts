@@ -41,10 +41,10 @@ interface SyncDataFile<T> {
 
 // File names in Google Drive
 const FILES = {
-  NOTES: 'npd-notes.json',
-  TASKS: 'npd-tasks.json',
-  SETTINGS: 'npd-settings.json',
-  META: 'npd-sync-meta.json',
+  NOTES: 'flowist-notes.json',
+  TASKS: 'flowist-tasks.json',
+  SETTINGS: 'flowist-settings.json',
+  META: 'flowist-sync-meta.json',
 } as const;
 
 // Settings keys to sync
