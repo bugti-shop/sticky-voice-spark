@@ -114,8 +114,8 @@ const CERTIFICATE_LEVELS: CertificateLevel[] = [
     subtitle: 'Elite Performer',
     icon: Crown,
     requirements: { tasksCompleted: 500, streakDays: 30, notesCreated: 75, foldersUsed: 5 },
-    certificateText: 'This certifies that the holder has reached Champion status — a distinction held by the top tier of Npd users. With 500+ tasks conquered, a 30-day streak of unbroken productivity, and a rich knowledge system of 75+ notes, they have demonstrated elite-level commitment to personal and professional excellence.',
-    linkedInDescription: '👑 Just unlocked the Npd Champion Certificate!\n\n🎯 500+ tasks completed\n🔥 30-day streak — zero days missed\n📝 75+ notes in my knowledge base\n📁 5+ organized workflows\n\n30 consecutive days of showing up. No excuses. No breaks.\n\nThe hardest part was day 1. After that, it became identity.\n\nIf you\'re looking for a system that actually works: @Npd\n\n#Champion #Productivity #Npd #DisciplineEqualsFreedom #30DayChallenge',
+    certificateText: 'This certifies that the holder has reached Champion status — a distinction held by the top tier of Flowist users. With 500+ tasks conquered, a 30-day streak of unbroken productivity, and a rich knowledge system of 75+ notes, they have demonstrated elite-level commitment to personal and professional excellence.',
+    linkedInDescription: '👑 Just unlocked the Flowist Champion Certificate!\n\n🎯 500+ tasks completed\n🔥 30-day streak — zero days missed\n📝 75+ notes in my knowledge base\n📁 5+ organized workflows\n\n30 consecutive days of showing up. No excuses. No breaks.\n\nThe hardest part was day 1. After that, it became identity.\n\nIf you\'re looking for a system that actually works: @Flowist\n\n#Champion #Productivity #Flowist #DisciplineEqualsFreedom #30DayChallenge',
     colors: {
       bg: 'linear-gradient(160deg, hsl(270, 35%, 10%), hsl(280, 40%, 15%))',
       accent: 'hsl(271, 70%, 60%)',
