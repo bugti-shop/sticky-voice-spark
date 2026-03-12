@@ -123,8 +123,8 @@ export const StreakMilestoneCelebration = () => {
         if (navigator.share && navigator.canShare?.({ files: [file] })) {
           try {
             await navigator.share({
-              title: `${milestone}-Day Streak on Npd!`,
-              text: `I'm on a ${milestone} day productivity streak on Npd! 🔥`,
+              title: `${milestone}-Day Streak on Flowist!`,
+              text: `I'm on a ${milestone} day productivity streak on Flowist! 🔥`,
               files: [file],
             });
           } catch { /* user cancelled */ }
