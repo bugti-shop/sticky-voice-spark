@@ -197,7 +197,7 @@ export const PremiumPaywall = () => {
             disabled={isPurchasing}
             className="w-full max-w-sm mt-2 btn-duo disabled:opacity-50"
           >
-            {isPurchasing ? t('onboarding.paywall.processing') : `Subscribe — ${currentPlan.price}${currentPlan.period}`}
+            {isPurchasing ? t('onboarding.paywall.processing') : `Continue with ${currentPlan.label} — ${currentPlan.price}${currentPlan.period}`}
           </button>
 
           {/* Restore */}
@@ -212,33 +212,6 @@ export const PremiumPaywall = () => {
           {adminError && (
             <p className="text-destructive text-xs">{adminError}</p>
           )}
-
-          {/* Apple-required subscription disclosure */}
-          <div className="mt-4 px-2 max-w-sm">
-            <p className="text-[10px] text-muted-foreground text-center leading-relaxed">
-              {getSubscriptionDescription()}
-            </p>
-            <p className="text-[10px] text-muted-foreground text-center leading-relaxed mt-2">
-              You can manage and cancel your subscription in your device's Settings → Apple ID → Subscriptions. Any unused portion of a free trial period will be forfeited when you purchase a subscription.
-            </p>
-          </div>
-
-          {/* Terms & Privacy links — Apple required */}
-          <div className="flex items-center justify-center gap-4 mt-2">
-            <a 
-              href="/terms"
-              className="text-[11px] text-muted-foreground underline"
-            >
-              Terms of Use
-            </a>
-            <span className="text-muted-foreground text-[10px]">•</span>
-            <a 
-              href="/privacy"
-              className="text-[11px] text-muted-foreground underline"
-            >
-              Privacy Policy
-            </a>
-          </div>
 
           {/* Access Code */}
           <div className="mt-4 w-full max-w-sm pb-4">
