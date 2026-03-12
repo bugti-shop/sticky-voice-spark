@@ -793,7 +793,7 @@
     "title": "Web Clipper",
     "description": "Save web pages directly to your notes with one click",
     "dragOption": "Option 1: Drag to Bookmarks Bar",
-    "clipToNpd": "📎 Clip to Npd",
+    "clipToNpd": "📎 Clip to Flowist",
     "dragInstructions": "Drag this button to your browser's bookmarks bar",
     "manualOption": "Option 2: Manual Setup",
     "copyCode": "Copy Code",
