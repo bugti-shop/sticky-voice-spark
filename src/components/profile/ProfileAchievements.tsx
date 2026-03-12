@@ -21,6 +21,7 @@ export const ProfileAchievements = ({ onViewCertificate }: { onViewCertificate?:
   const { t } = useTranslation();
   const [unlockedAchievements, setUnlockedAchievements] = useState<typeof ALL_ACHIEVEMENTS>([]);
   const [journeyBadges, setJourneyBadges] = useState<JourneyBadge[]>([]);
+  const [journeyCompletionBadges, setJourneyCompletionBadges] = useState<JourneyBadge[]>([]);
   const [unlockedCerts, setUnlockedCerts] = useState<CertMilestone[]>([]);
   const [selectedItem, setSelectedItem] = useState<{ icon: string; name: string; description: string; rarity?: string; earnedAt?: string; type: 'achievement' | 'journey' } | null>(null);
 
@@ -40,7 +41,8 @@ export const ProfileAchievements = ({ onViewCertificate }: { onViewCertificate?:
       // Journey badges (only earned ones)
       const jData = loadJourneyData();
       const jBadges = getJourneyBadges(jData);
-      setJourneyBadges(jBadges);
+      // Split: milestone badges go to Badges, journey_complete go to Certificates
+      setJourneyBadges(jBadges.filter(b => b.type === 'milestone'));
 
       // Only unlocked certificates
       const completed = tasks.filter(t => t.completed).length;
@@ -51,13 +53,16 @@ export const ProfileAchievements = ({ onViewCertificate }: { onViewCertificate?:
         { id: 'master', title: t('cert.master', 'Master'), description: t('cert.masterDesc', 'Complete 500 tasks & 100-day streak'), icon: '👑', unlocked: completed >= 500 && streak.longestStreak >= 100 },
       ];
       setUnlockedCerts(allCerts.filter(c => c.unlocked));
+
+      // Journey completion badges go into certificates section
+      setJourneyCompletionBadges(jBadges.filter(b => b.type === 'journey_complete'));
     };
     load();
   }, []);
 
   const hasAchievements = unlockedAchievements.length > 0;
   const hasJourneyBadges = journeyBadges.length > 0;
-  const hasCerts = unlockedCerts.length > 0;
+  const hasCerts = unlockedCerts.length > 0 || journeyCompletionBadges.length > 0;
   const hasAnything = hasAchievements || hasJourneyBadges || hasCerts;
 
   if (!hasAnything) {
@@ -168,6 +173,27 @@ export const ProfileAchievements = ({ onViewCertificate }: { onViewCertificate?:
                   </div>
                 </motion.div>
               ))}
+              {journeyCompletionBadges.map((badge, i) => {
+                const rarityConf = RARITY_CONFIG[badge.rarity];
+                return (
+                  <motion.div
+                    key={badge.id}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: (unlockedCerts.length + i) * 0.06 }}
+                    onClick={() => setSelectedItem({ icon: badge.icon, name: badge.label, description: badge.description, rarity: rarityConf.label, earnedAt: badge.earnedAt, type: 'journey' })}
+                    className="flex flex-col items-center p-3 rounded-2xl border bg-card border-warning/30 cursor-pointer relative overflow-hidden w-[110px] shrink-0"
+                  >
+                    <motion.div className="absolute inset-0 bg-gradient-to-b from-warning/10 to-transparent" initial={{ opacity: 0 }} animate={{ opacity: 1 }} />
+                    <div className="w-14 h-14 rounded-xl flex items-center justify-center text-2xl shrink-0 relative z-10 bg-gradient-to-br from-warning/25 to-warning/10">
+                      {badge.icon}
+                      <Sparkles className="absolute -top-1 -right-1 h-3 w-3 text-warning" />
+                    </div>
+                    <p className="text-[11px] font-semibold mt-2 text-center relative z-10 text-foreground">{badge.label}</p>
+                    <p className={cn("text-[8px] font-medium mt-0.5 relative z-10", rarityConf.color)}>{rarityConf.label}</p>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </>
