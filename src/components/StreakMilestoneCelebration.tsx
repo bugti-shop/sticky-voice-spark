@@ -213,7 +213,7 @@ export const StreakMilestoneCelebration = () => {
             />
             <motion.img
               src={appLogo}
-              alt="Npd"
+               alt="Flowist"
               className="w-24 h-24 rounded-3xl relative z-10 shadow-2xl"
               animate={{
                 y: [0, -8, 0],
