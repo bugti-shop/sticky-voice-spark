@@ -16,7 +16,7 @@ const PLANS = [
 
 export const PremiumPaywall = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  
   const { showPaywall, closePaywall, unlockPro, purchase } = useSubscription();
   const [selectedPlan, setSelectedPlan] = useState<ProductType>('monthly');
   const [isPurchasing, setIsPurchasing] = useState(false);
