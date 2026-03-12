@@ -845,7 +845,7 @@
     "title": "웹 클리퍼",
     "description": "한 번의 클릭으로 웹 페이지를 노트에 직접 저장",
     "dragOption": "옵션 1: 북마크 바로 드래그",
-    "clipToNpd": "📎 Npd에 저장",
+    "clipToNpd": "📎 Flowist에 저장",
     "dragInstructions": "이 버튼을 브라우저의 북마크 바로 드래그하세요",
     "manualOption": "옵션 2: 수동 설정",
     "copyCode": "코드 복사",
