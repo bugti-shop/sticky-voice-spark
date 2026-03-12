@@ -90,7 +90,7 @@ const TodoSettings = () => {
 
   const handleLanguageChange = async (langCode: string) => {
     i18n.changeLanguage(langCode);
-    await setSetting('npd_language', langCode);
+    await setSetting('flowist_language', langCode);
     const lang = languages.find(l => l.code === langCode);
     toast.success(t('settings.languageChanged', { language: lang?.nativeName || langCode }));
     setShowLanguageDialog(false);

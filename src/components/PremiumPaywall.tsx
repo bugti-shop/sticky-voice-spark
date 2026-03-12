@@ -89,7 +89,7 @@ export const PremiumPaywall = () => {
   const handleAccessCode = async () => {
     const validCode = 'BUGTI';
     if (adminCode.trim().toUpperCase() === validCode) {
-      await setSetting('npd_admin_bypass', true);
+      await setSetting('flowist_admin_bypass', true);
       await unlockPro();
     } else {
       setAdminError('Invalid access code');

@@ -521,7 +521,7 @@ export const SubscriptionProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const unlockPro = useCallback(async () => {
-    await setSetting('npd_admin_bypass', true);
+    await setSetting('flowist_admin_bypass', true);
     setLocalProAccess(true);
     setShowPaywall(false);
     setPaywallFeature(null);
