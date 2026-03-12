@@ -1,6 +1,6 @@
 /**
  * Shared branding and user profile components for all shareable cards.
- * Includes Npd logo footer and user avatar + name strip.
+ * Includes Flowist logo footer and user avatar + name strip.
  * 
  * IMPORTANT: All styles use inline CSS for html2canvas compatibility.
  * Do NOT use Tailwind classes here — they can break when rendering to image.
