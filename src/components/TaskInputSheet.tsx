@@ -44,7 +44,8 @@ import {
   Paperclip,
   File,
   Trash2,
-  Crown
+  Crown,
+  Zap
 } from 'lucide-react';
 import { EditActionsSheet, ActionItem, defaultActions } from './EditActionsSheet';
 import { WaveformVisualizer } from './WaveformVisualizer';
