@@ -483,7 +483,7 @@
   "privacy": {
     "title": "개인정보처리방침",
     "infoCollect": "수집하는 정보",
-    "infoCollectDesc": "NPD는 모든 노트와 데이터를 기기에 로컬로 저장합니다. 외부 서버에 개인 정보를 수집, 전송 또는 저장하지 않습니다.",
+    "infoCollectDesc": "Flowist는 모든 노트와 데이터를 기기에 로컬로 저장합니다. 외부 서버에 개인 정보를 수집, 전송 또는 저장하지 않습니다.",
     "localStorage": "로컬 저장소",
     "localStorageDesc": "노트, 폴더 및 설정은 기기의 로컬 저장소를 사용하여 저장됩니다. 이 데이터는 기기에 유지되며 당사가 접근할 수 없습니다.",
     "dataSecurity": "데이터 보안",
