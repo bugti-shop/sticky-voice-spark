@@ -1106,27 +1106,6 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
                   Tags ({noteTagIds.length})
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => {
-                  const plainContent = content.replace(/<[^>]*>/g, '').trim();
-                  const shareText = title ? `${title}\n\n${plainContent}` : plainContent;
-                  if (navigator.share) {
-                    navigator.share({
-                      title: title || 'Note',
-                      text: shareText,
-                    }).catch(() => {});
-                  } else {
-                    navigator.clipboard.writeText(shareText);
-                    toast.success(t('toast.noteCopied'));
-                  }
-                }}>
-                  <Share2 className="h-4 w-4 mr-2" />
-                  {t('editor.shareNote')}
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setShowPdfOptionsSheet(true)}>
-                  <FileType className="h-4 w-4 mr-2" />
-                  {t('editor.exportPdf')}
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
                 {/* Email Extractor with inline sub-options - Premium */}
                 <Collapsible>
                   <CollapsibleTrigger asChild>
