@@ -62,7 +62,7 @@ export const ProfileAchievements = ({ onViewCertificate }: { onViewCertificate?:
 
   const hasAchievements = unlockedAchievements.length > 0;
   const hasJourneyBadges = journeyBadges.length > 0;
-  const hasCerts = unlockedCerts.length > 0;
+  const hasCerts = unlockedCerts.length > 0 || journeyCompletionBadges.length > 0;
   const hasAnything = hasAchievements || hasJourneyBadges || hasCerts;
 
   if (!hasAnything) {
