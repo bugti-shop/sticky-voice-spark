@@ -215,6 +215,7 @@ export const TaskInputSheet = ({ isOpen, onClose, onAddTask, folders, selectedFo
       setShowDescriptionInput(false);
       setAttachments([]);
       setVoiceRecording(undefined);
+      setIsUrgent(false);
       setIsRecording(false);
       setRecordingTime(0);
       recordingTimeRef.current = 0;
