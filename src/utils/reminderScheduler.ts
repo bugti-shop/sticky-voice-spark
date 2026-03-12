@@ -42,10 +42,24 @@ export const requestReminderPermission = async (): Promise<boolean> => {
 export const scheduleTaskReminder = async (
   taskId: string,
   taskText: string,
-  reminderTime: Date
+  reminderTime: Date,
+  isUrgent?: boolean
 ): Promise<void> => {
   if (!Capacitor.isNativePlatform()) {
-    console.log('[Reminder] Web: would schedule task reminder for', taskText, 'at', reminderTime);
+    console.log('[Reminder] Web: would schedule task reminder for', taskText, 'at', reminderTime, isUrgent ? '(URGENT)' : '');
+    
+    // For urgent tasks on web, schedule a setTimeout-based full-screen reminder
+    if (isUrgent) {
+      const delay = reminderTime.getTime() - Date.now();
+      if (delay > 0) {
+        setTimeout(() => {
+          try {
+            const { triggerUrgentReminder } = require('@/components/FullScreenReminderOverlay');
+            triggerUrgentReminder(taskId, taskText);
+          } catch {}
+        }, delay);
+      }
+    }
     return;
   }
 
@@ -64,15 +78,24 @@ export const scheduleTaskReminder = async (
     await LocalNotifications.schedule({
       notifications: [{
         id: notifId,
-        title: '📋 Task Reminder',
+        title: isUrgent ? '🚨 URGENT Task Reminder' : '📋 Task Reminder',
         body: taskText,
         schedule: { at: reminderTime, allowWhileIdle: true },
-        channelId: 'task-reminders',
-        extra: { type: 'task', taskId },
+        channelId: isUrgent ? 'urgent-reminders' : 'task-reminders',
+        extra: { type: 'task', taskId, isUrgent: isUrgent || false },
       }],
     });
 
-    console.log('[Reminder] Scheduled task reminder:', taskText, 'at', reminderTime.toLocaleString());
+    // Store urgent flag for full-screen display when notification is tapped
+    if (isUrgent) {
+      try {
+        const urgentTasks = JSON.parse(localStorage.getItem('urgentTaskReminders') || '{}');
+        urgentTasks[taskId] = { taskName: taskText, reminderTime: reminderTime.toISOString() };
+        localStorage.setItem('urgentTaskReminders', JSON.stringify(urgentTasks));
+      } catch {}
+    }
+
+    console.log('[Reminder] Scheduled task reminder:', taskText, 'at', reminderTime.toLocaleString(), isUrgent ? '(URGENT)' : '');
   } catch (e) {
     console.error('[Reminder] Failed to schedule task reminder:', e);
   }
