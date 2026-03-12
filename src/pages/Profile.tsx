@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRevenueCat } from '@/contexts/RevenueCatContext';
-import { ArrowLeft, Settings, Loader2, Camera, RefreshCw, Cloud, LogOut, ImagePlus, Edit3, Check } from 'lucide-react';
+import { ArrowLeft, Settings, Loader2, Camera, RefreshCw, Cloud, LogOut, ImagePlus } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { m as motion } from 'framer-motion';
@@ -32,8 +32,6 @@ export default function Profile() {
   const coverInputRef = useRef<HTMLInputElement>(null);
   const [cropImageSrc, setCropImageSrc] = useState<string | null>(null);
   const [coverCropSrc, setCoverCropSrc] = useState<string | null>(null);
-  const [editingName, setEditingName] = useState(false);
-  const [nameInput, setNameInput] = useState('');
 
   useEffect(() => {
     getLastSyncInfo().then(setLastSync);
@@ -187,39 +185,7 @@ export default function Profile() {
         {/* Name & Info */}
         <div className="mt-3">
           <div className="flex items-center gap-2">
-            {editingName ? (
-              <div className="flex items-center gap-2">
-                <input
-                  type="text"
-                  value={nameInput}
-                  onChange={(e) => setNameInput(e.target.value)}
-                  placeholder={t('profile.enterName', 'Enter your name')}
-                  className="text-xl font-extrabold text-foreground bg-muted/50 border border-border rounded-lg px-3 py-1 outline-none focus:ring-1 focus:ring-primary w-48"
-                  autoFocus
-                  maxLength={30}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      updateProfile({ name: nameInput });
-                      setEditingName(false);
-                    }
-                  }}
-                />
-                <button
-                  onClick={() => { updateProfile({ name: nameInput }); setEditingName(false); }}
-                  className="p-1.5 rounded-lg bg-primary/10 text-primary"
-                >
-                  <Check className="h-4 w-4" />
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={() => { setNameInput(profile.name || user?.name || ''); setEditingName(true); }}
-                className="flex items-center gap-2 group"
-              >
-                <h2 className="text-2xl font-extrabold text-foreground">{displayName}</h2>
-                <Edit3 className="h-3.5 w-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-              </button>
-            )}
+            <h2 className="text-2xl font-extrabold text-foreground">{displayName}</h2>
             <span className="text-lg">🌍</span>
           </div>
           {user?.email && (
