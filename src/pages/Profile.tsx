@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRevenueCat } from '@/contexts/RevenueCatContext';
-import { ArrowLeft, Settings, Loader2, Camera, RefreshCw, Cloud, LogOut, ImagePlus } from 'lucide-react';
+import { ArrowLeft, Settings, Loader2, Camera, RefreshCw, Cloud, LogOut, ImagePlus, Edit3, Check } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { m as motion } from 'framer-motion';
