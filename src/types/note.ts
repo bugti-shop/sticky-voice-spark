@@ -164,6 +164,7 @@ export interface TodoItem {
   timeTracking?: TimeTracking;
   estimatedHours?: number; // Effort estimation in hours
   escalationRule?: EscalationRule; // Deadline escalation alerts
+  isUrgent?: boolean; // Urgent task - triggers full-screen reminder
   // Recurring task intelligence
   recurringStats?: RecurringStats;
   // Timestamp fields
