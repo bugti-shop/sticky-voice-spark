@@ -1001,83 +1001,7 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
                   {metaDescription ? t('editor.editMetaDescription') : t('editor.addMetaDescription')}
                 </DropdownMenuItem>
                 
-                {/* Note Background Color - for non-sticky, non-voice notes */}
-                {noteType !== 'sticky' && noteType !== 'voice' && (
-                  <>
-                    <DropdownMenuSeparator />
-                    <div className="px-2 py-1.5 text-sm font-semibold flex items-center gap-2">
-                      <Palette className="h-4 w-4" />
-                      {t('editor.backgroundColor', 'Background Color')}
-                    </div>
-                    <div className="px-2 py-2">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        {/* Reset/No color button */}
-                        <button
-                          type="button"
-                          onClick={() => setCustomColor(undefined)}
-                          className={cn(
-                            "h-7 w-7 rounded-full border-2 flex items-center justify-center transition-all",
-                            !customColor ? "ring-2 ring-primary ring-offset-2" : "hover:scale-110"
-                          )}
-                          style={{ backgroundColor: 'hsl(var(--background))' }}
-                          aria-label={t('editor.defaultColor', 'Default')}
-                        >
-                          {!customColor && <span className="text-xs">✓</span>}
-                        </button>
-                        {/* Preset colors */}
-                        {[
-                          '#FEF3C7', // Warm yellow
-                          '#DBEAFE', // Soft blue
-                          '#D1FAE5', // Mint green
-                          '#FCE7F3', // Light pink
-                          '#FED7AA', // Peach
-                          '#E9D5FF', // Lavender
-                          '#CFFAFE', // Cyan
-                          '#FEE2E2', // Rose
-                        ].map((presetColor) => (
-                          <button
-                            key={presetColor}
-                            type="button"
-                            onClick={() => setCustomColor(presetColor)}
-                            className={cn(
-                              "h-7 w-7 rounded-full border transition-all",
-                              customColor === presetColor ? "ring-2 ring-primary ring-offset-2" : "hover:scale-110"
-                            )}
-                            style={{ backgroundColor: presetColor }}
-                            aria-label={`Set color ${presetColor}`}
-                          />
-                        ))}
-                        {/* Custom color picker */}
-                        <label className="relative">
-                          <input
-                            type="color"
-                            value={customColor || '#ffffff'}
-                            onChange={(e) => setCustomColor(e.target.value)}
-                            className="absolute opacity-0 w-0 h-0"
-                          />
-                          <span 
-                            className={cn(
-                              "h-7 w-7 rounded-full border flex items-center justify-center cursor-pointer transition-all hover:scale-110",
-                              customColor && ![
-                                '#FEF3C7', '#DBEAFE', '#D1FAE5', '#FCE7F3', 
-                                '#FED7AA', '#E9D5FF', '#CFFAFE', '#FEE2E2'
-                              ].includes(customColor) ? "ring-2 ring-primary ring-offset-2" : ""
-                            )}
-                            style={{ 
-                              background: customColor && ![
-                                '#FEF3C7', '#DBEAFE', '#D1FAE5', '#FCE7F3', 
-                                '#FED7AA', '#E9D5FF', '#CFFAFE', '#FEE2E2'
-                              ].includes(customColor) ? customColor : 'linear-gradient(135deg, #f87171, #fbbf24, #34d399, #60a5fa, #a78bfa)'
-                            }}
-                          >
-                            <Plus className="h-3 w-3 text-white drop-shadow" />
-                          </span>
-                        </label>
-                      </div>
-                    </div>
-                  </>
-                )}
-                <DropdownMenuSeparator />
+
                 
                 {/* Note Reminder */}
                 <div className="px-2 py-1.5 text-sm font-semibold flex items-center gap-2">
@@ -1180,27 +1104,6 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
                 <DropdownMenuItem onClick={() => setShowTagSheet(true)}>
                   <TagIcon className="h-4 w-4 mr-2" />
                   Tags ({noteTagIds.length})
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => {
-                  const plainContent = content.replace(/<[^>]*>/g, '').trim();
-                  const shareText = title ? `${title}\n\n${plainContent}` : plainContent;
-                  if (navigator.share) {
-                    navigator.share({
-                      title: title || 'Note',
-                      text: shareText,
-                    }).catch(() => {});
-                  } else {
-                    navigator.clipboard.writeText(shareText);
-                    toast.success(t('toast.noteCopied'));
-                  }
-                }}>
-                  <Share2 className="h-4 w-4 mr-2" />
-                  {t('editor.shareNote')}
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setShowPdfOptionsSheet(true)}>
-                  <FileType className="h-4 w-4 mr-2" />
-                  {t('editor.exportPdf')}
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 {/* Email Extractor with inline sub-options - Premium */}
