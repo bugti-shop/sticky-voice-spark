@@ -106,7 +106,7 @@ export const useSettingsPageState = () => {
             const sessionWarningShown = sessionStorage.getItem('flowist_trial_warning_shown');
             if (days === 0 && !sessionWarningShown && !hasShownTrialWarning) {
               toast({ title: `⏰ ${t('trial.endingSoon')}`, description: t('trial.expiresIn', { hours, minutes }), duration: 10000 });
-              sessionStorage.setItem('npd_trial_warning_shown', 'true');
+              sessionStorage.setItem('flowist_trial_warning_shown', 'true');
               setHasShownTrialWarning(true);
             }
           } else {
