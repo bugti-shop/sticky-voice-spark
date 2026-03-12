@@ -845,7 +845,7 @@
     "title": "Web Clipper",
     "description": "Enregistrez des pages web directement dans vos notes en un clic",
     "dragOption": "Option 1 : Glisser vers la Barre de Favoris",
-    "clipToNpd": "📎 Capturer dans Npd",
+    "clipToNpd": "📎 Capturer dans Flowist",
     "dragInstructions": "Faites glisser ce bouton vers la barre de favoris de votre navigateur",
     "manualOption": "Option 2 : Configuration Manuelle",
     "copyCode": "Copier le Code",
