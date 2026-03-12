@@ -17,16 +17,17 @@ interface ProfileImageCropperProps {
 
 const createCroppedImage = async (
   imageSrc: string,
-  pixelCrop: Area
+  pixelCrop: Area,
+  outputWidth = 400,
+  outputHeight = 400
 ): Promise<string> => {
   const image = new Image();
   image.src = imageSrc;
-  await new Promise((resolve) => { image.onload = resolve; });
+  await new Promise((resolve, reject) => { image.onload = resolve; image.onerror = reject; });
 
   const canvas = document.createElement('canvas');
-  const size = Math.min(pixelCrop.width, pixelCrop.height);
-  canvas.width = 400;
-  canvas.height = 400;
+  canvas.width = outputWidth;
+  canvas.height = outputHeight;
   const ctx = canvas.getContext('2d')!;
 
   ctx.drawImage(
@@ -37,8 +38,8 @@ const createCroppedImage = async (
     pixelCrop.height,
     0,
     0,
-    400,
-    400
+    outputWidth,
+    outputHeight
   );
 
   return canvas.toDataURL('image/jpeg', 0.85);
