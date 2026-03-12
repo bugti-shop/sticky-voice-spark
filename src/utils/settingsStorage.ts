@@ -173,8 +173,8 @@ export const migrateLocalStorageToIndexedDB = async (): Promise<boolean> => {
 
     // List of all known localStorage keys to migrate
     const keysToMigrate = [
-      'theme', 'darkMode', 'npd_language', 'haptic_intensity',
-      'hasSeenWelcome', 'npd_admin_bypass', 'npd_trial_start',
+      'theme', 'darkMode', 'flowist_language', 'haptic_intensity',
+      'hasSeenWelcome', 'flowist_admin_bypass', 'flowist_trial_start',
       'onboardingAnswers', 'folders',
       'todoFolders', 'todoSections', 'todoShowCompleted',
       'todoDateFilter', 'todoPriorityFilter', 'todoStatusFilter', 'todoTagFilter',
@@ -182,8 +182,8 @@ export const migrateLocalStorageToIndexedDB = async (): Promise<boolean> => {
       'todoSelectedFolder', 'todoDefaultSectionId', 'todoTaskAddPosition',
       'todoShowStatusBadge', 'todoCompactMode', 'todoGroupByOption',
       'googleAccessToken', 'googleCalendarEnabled',
-      'npd-cloud-sync-settings', 'npd-calendar-settings', 
-      'npd-integration-tokens', 'npd-connections', 'npd-last-sync',
+      'flowist-cloud-sync-settings', 'flowist-calendar-settings', 
+      'flowist-integration-tokens', 'flowist-connections', 'flowist-last-sync',
       'nota-sync-enabled', 'nota-last-sync',
       'note_versions', 'mapbox_token',
       'notes_migrated_to_indexeddb',
