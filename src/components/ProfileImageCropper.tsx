@@ -9,6 +9,10 @@ interface ProfileImageCropperProps {
   imageSrc: string;
   onCropComplete: (croppedDataUrl: string) => void;
   onCancel: () => void;
+  aspect?: number;
+  cropShape?: 'round' | 'rect';
+  outputWidth?: number;
+  outputHeight?: number;
 }
 
 const createCroppedImage = async (
