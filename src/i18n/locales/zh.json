@@ -845,7 +845,7 @@
     "title": "网页剪藏",
     "description": "一键将网页直接保存到笔记中",
     "dragOption": "选项1：拖动到书签栏",
-    "clipToNpd": "📎 剪藏到Npd",
+    "clipToNpd": "📎 剪藏到Flowist",
     "dragInstructions": "将此按钮拖动到浏览器的书签栏",
     "manualOption": "选项2：手动设置",
     "copyCode": "复制代码",
