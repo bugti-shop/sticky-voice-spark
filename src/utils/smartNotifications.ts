@@ -251,7 +251,7 @@ const BUDDY_ANGRY_ID = 998009;
 const REENGAGEMENT_2D_ID = 998010;
 const REENGAGEMENT_5D_ID = 998011;
 const REENGAGEMENT_7D_ID = 998012;
-const LAST_OPEN_KEY = 'npd_last_app_open';
+const LAST_OPEN_KEY = 'flowist_last_app_open';
 
 /**
  * Record that the user opened the app right now.

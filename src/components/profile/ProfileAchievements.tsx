@@ -30,7 +30,7 @@ export const ProfileAchievements = ({ onViewCertificate }: { onViewCertificate?:
         loadAchievementsData(),
         loadTodoItems(),
         loadNotesFromDB(),
-        loadStreakData('npd_streak'),
+        loadStreakData('flowist_streak'),
       ]);
 
       // Only unlocked achievements
