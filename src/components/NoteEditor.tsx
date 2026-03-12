@@ -1000,12 +1000,6 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
                   <FileText className="h-4 w-4 mr-2" />
                   {metaDescription ? t('editor.editMetaDescription') : t('editor.addMetaDescription')}
                 </DropdownMenuItem>
-                {noteType !== 'voice' && (
-                  <DropdownMenuItem onClick={() => setShowVoiceRecorder(true)}>
-                    <Mic className="h-4 w-4 mr-2 text-destructive" />
-                    {t('editor.addVoiceRecording', 'Add Voice Recording')}
-                  </DropdownMenuItem>
-                )}
                 
                 {/* Note Background Color - for non-sticky, non-voice notes */}
                 {noteType !== 'sticky' && noteType !== 'voice' && (
