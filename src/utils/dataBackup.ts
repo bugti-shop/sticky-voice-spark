@@ -99,7 +99,7 @@ export const downloadBackup = async (filename?: string): Promise<void> => {
   
   const a = document.createElement('a');
   a.href = url;
-  a.download = filename || `npd-backup-${Date.now()}.json`;
+  a.download = filename || `flowist-backup-${Date.now()}.json`;
   a.click();
   
   URL.revokeObjectURL(url);
