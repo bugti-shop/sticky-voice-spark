@@ -21,7 +21,7 @@ export interface AchievementsData {
   achievementDates: Record<string, string>;
 }
 
-const ACHIEVEMENTS_STORAGE_KEY = 'npd_achievements';
+const ACHIEVEMENTS_STORAGE_KEY = 'flowist_achievements';
 
 export const ALL_ACHIEVEMENTS: Achievement[] = [
   // Streak achievements
