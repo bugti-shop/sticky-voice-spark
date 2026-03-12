@@ -35,6 +35,8 @@ import { PriorityView } from '@/components/todo/PriorityView';
 import { HistoryView } from '@/components/todo/HistoryView';
 import { GroupedView } from '@/components/todo/GroupedView';
 import { FlatView } from '@/components/todo/FlatView';
+import { TaskSectionHeader } from '@/components/todo/TaskSectionHeader';
+import { TaskSubtasksInline } from '@/components/todo/TaskSubtasksInline';
 
 const Today = () => {
   const { t } = useTranslation();
@@ -140,17 +142,6 @@ const Today = () => {
   const { subtaskSwipeState, handleSubtaskSwipeStart, handleSubtaskSwipeMove, handleSubtaskSwipeEnd } = swipe;
 
   // ── Render helpers ──
-  const getViewModeIcon = () => {
-    switch (viewMode) {
-      case 'kanban': return <Columns3 className="h-3.5 w-3.5" />;
-      case 'kanban-status': return <ListChecks className="h-3.5 w-3.5" />;
-      case 'timeline': return <GitBranch className="h-3.5 w-3.5" />;
-      case 'progress': return <TrendingUp className="h-3.5 w-3.5" />;
-      case 'priority': return <Flag className="h-3.5 w-3.5" />;
-      case 'history': return <History className="h-3.5 w-3.5" />;
-      default: return <LayoutList className="h-3.5 w-3.5" />;
-    }
-  };
 
   // Render task item in flat layout style for ALL view modes
   const renderTaskItem = (item: TodoItem) => {
@@ -359,75 +350,35 @@ const Today = () => {
     );
   };
 
-  // Render subtasks inline for Kanban/Progress/Timeline views
-  const renderSubtasksInline = (item: TodoItem) => {
-    const isExpanded = expandedTasks.has(item.id);
-    if (!isExpanded || !item.subtasks || item.subtasks.length === 0) return null;
-    return (
-      <div className="border-t border-border/30 bg-muted/20 p-2 space-y-1">
-        {item.subtasks.map((subtask) => (
-          <div key={subtask.id} className="flex items-center gap-2 py-1.5 px-2 rounded-md hover:bg-muted/40 transition-colors" style={{ borderLeft: `3px solid ${getPriorityColor(subtask.priority || 'none')}` }}>
-            <Checkbox
-              checked={subtask.completed}
-              onCheckedChange={(checked) => {
-                const updatedSubtasks = item.subtasks?.map(st => st.id === subtask.id ? { ...st, completed: !!checked } : st);
-                updateItem(item.id, { subtasks: updatedSubtasks });
-              }}
-              onClick={(e) => e.stopPropagation()}
-              className={cn("h-4 w-4 rounded-sm border-0", subtask.completed ? "bg-muted-foreground/30 data-[state=checked]:bg-muted-foreground/30 data-[state=checked]:text-white" : "border-2")}
-              style={{ borderColor: subtask.completed ? undefined : getPriorityColor(subtask.priority || 'none') }}
-            />
-            <span className={cn("text-xs flex-1", subtask.completed && "text-muted-foreground line-through")} onClick={() => setSelectedSubtask({ subtask, parentId: item.id })}>• {subtask.text}</span>
-          </div>
-        ))}
-      </div>
-    );
-  };
+  // Render subtasks inline — delegates to extracted component
+  const renderSubtasksInline = (item: TodoItem) => (
+    <TaskSubtasksInline
+      item={item}
+      expandedTasks={expandedTasks}
+      getPriorityColor={getPriorityColor}
+      updateItem={updateItem}
+      onSubtaskClick={(subtask, parentId) => setSelectedSubtask({ subtask, parentId })}
+    />
+  );
 
-  const renderSectionHeader = (section: TaskSection, isDragging: boolean = false) => {
-    const sectionTasks = uncompletedItems.filter(item => item.sectionId === section.id || (!item.sectionId && section.id === sections[0]?.id));
-    return (
-      <div data-tour="task-section" className={cn("flex items-center", isDragging && "opacity-90 scale-[1.02] shadow-xl bg-card rounded-t-xl")} style={{ borderLeft: `4px solid ${section.color}` }}>
-        <div className="flex-1 flex items-center gap-3 px-3 py-2.5 bg-muted/30">
-          <span className="text-muted-foreground" style={{ color: section.color }}>{getViewModeIcon()}</span>
-          <span className="text-sm font-semibold">{section.name}</span>
-          <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">{sectionTasks.length}</span>
-        </div>
-        <button onClick={() => handleToggleSectionCollapse(section.id)} className="p-2 hover:bg-muted/50 transition-colors">
-          {collapsedViewSections.has(`flat-${section.id}`) ? <ChevronRight className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
-        </button>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <button className="p-2 hover:bg-muted/50 transition-colors"><MoreVertical className="h-4 w-4 text-muted-foreground" /></button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-48 bg-popover border shadow-lg z-50">
-            <DropdownMenuItem onClick={() => handleEditSection(section)} className="cursor-pointer"><Edit className="h-4 w-4 mr-2" />{t('sections.editSection')}</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleAddTaskToSection(section.id)} className="cursor-pointer"><PlusIcon className="h-4 w-4 mr-2" />{t('sections.addTask')}</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => handleAddSection('above', section.id)} className="cursor-pointer"><ArrowUpCircle className="h-4 w-4 mr-2" />{t('sections.addSectionAbove')}</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleAddSection('below', section.id)} className="cursor-pointer"><ArrowDownCircle className="h-4 w-4 mr-2" />{t('sections.addSectionBelow')}</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleDuplicateSection(section.id)} className="cursor-pointer"><Copy className="h-4 w-4 mr-2" />{t('sections.duplicateSection')}</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => { setEditingSection(section); setIsSectionMoveOpen(true); }} className="cursor-pointer"><Move className="h-4 w-4 mr-2" />{t('sections.moveTo')}</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => handleDeleteSection(section.id)} className="cursor-pointer text-destructive focus:text-destructive" disabled={sections.length <= 1}><Trash2 className="h-4 w-4 mr-2" />{t('common.delete')}</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    );
-  };
-
-  const renderViewModeSectionHeader = (label: string, taskCount: number, color: string, icon: React.ReactNode, sectionId: string, extra?: React.ReactNode) => {
-    const isCollapsed = collapsedViewSections.has(sectionId);
-    return (
-      <button onClick={() => toggleViewSectionCollapse(sectionId)} className="w-full flex items-center gap-2 px-4 py-3 border-b border-border/30 hover:bg-muted/20 transition-colors" style={{ borderLeft: `4px solid ${color}` }}>
-        <span style={{ color }}>{icon}</span>
-        <span className="text-sm font-semibold flex-1 text-left">{label}</span>
-        {extra}
-        <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">{taskCount}</span>
-        {isCollapsed ? <ChevronRight className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
-      </button>
-    );
-  };
+  // Render section header — delegates to extracted component
+  const renderSectionHeader = (section: TaskSection, isDragging: boolean = false) => (
+    <TaskSectionHeader
+      section={section}
+      sections={sections}
+      isDragging={isDragging}
+      uncompletedItems={uncompletedItems}
+      viewMode={viewMode}
+      collapsedViewSections={collapsedViewSections}
+      onToggleSectionCollapse={handleToggleSectionCollapse}
+      onEditSection={handleEditSection}
+      onAddTaskToSection={handleAddTaskToSection}
+      onAddSection={handleAddSection}
+      onDuplicateSection={handleDuplicateSection}
+      onMoveSection={(sec) => { setEditingSection(sec); setIsSectionMoveOpen(true); }}
+      onDeleteSection={handleDeleteSection}
+    />
+  );
 
   const renderCompletedSectionForViewMode = () => {
     if (!showCompleted || completedItems.length === 0) return null;
