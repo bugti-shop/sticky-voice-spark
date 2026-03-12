@@ -167,6 +167,16 @@ export const createReminderChannels = async (): Promise<void> => {
     });
 
     await LocalNotifications.createChannel({
+      id: 'urgent-task-reminders',
+      name: 'Urgent Task Reminders',
+      description: 'Urgent full-screen reminders for critical tasks',
+      importance: 5, // MAX
+      visibility: 1, // PUBLIC
+      vibration: true,
+      sound: 'default',
+    });
+
+    await LocalNotifications.createChannel({
       id: 'note-reminders',
       name: 'Note Reminders',
       description: 'Reminders for your notes',
