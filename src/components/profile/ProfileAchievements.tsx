@@ -40,7 +40,8 @@ export const ProfileAchievements = ({ onViewCertificate }: { onViewCertificate?:
       // Journey badges (only earned ones)
       const jData = loadJourneyData();
       const jBadges = getJourneyBadges(jData);
-      setJourneyBadges(jBadges);
+      // Split: milestone badges go to Badges, journey_complete go to Certificates
+      setJourneyBadges(jBadges.filter(b => b.type === 'milestone'));
 
       // Only unlocked certificates
       const completed = tasks.filter(t => t.completed).length;
@@ -51,6 +52,9 @@ export const ProfileAchievements = ({ onViewCertificate }: { onViewCertificate?:
         { id: 'master', title: t('cert.master', 'Master'), description: t('cert.masterDesc', 'Complete 500 tasks & 100-day streak'), icon: '👑', unlocked: completed >= 500 && streak.longestStreak >= 100 },
       ];
       setUnlockedCerts(allCerts.filter(c => c.unlocked));
+
+      // Journey completion badges go into certificates section
+      setJourneyCompletionBadges(jBadges.filter(b => b.type === 'journey_complete'));
     };
     load();
   }, []);
