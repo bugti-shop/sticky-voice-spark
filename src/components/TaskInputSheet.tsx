@@ -331,6 +331,7 @@ export const TaskInputSheet = ({ isOpen, onClose, onAddTask, folders, selectedFo
       subtasks: subtasks,
       attachments: attachments.length > 0 ? attachments : undefined,
       estimatedHours: finalEstimatedHours,
+      isUrgent: isUrgent || undefined,
     };
 
     // If deadline is set, store it in dueDate
