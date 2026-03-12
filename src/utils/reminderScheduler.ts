@@ -200,6 +200,33 @@ export const initializeReminders = async (): Promise<void> => {
 
   await createReminderChannels();
   
+  // Listen for notification received events to trigger urgent overlay
+  LocalNotifications.addListener('localNotificationReceived', (notification) => {
+    if (notification.extra?.isUrgent === 'true') {
+      // Dispatch event to show full-screen urgent reminder overlay
+      window.dispatchEvent(new CustomEvent('urgentReminderTriggered', {
+        detail: {
+          id: notification.extra.taskId,
+          taskName: notification.body || 'Urgent Task',
+          triggeredAt: new Date(),
+        }
+      }));
+    }
+  });
+
+  // Also listen for notification action (when user taps the notification)
+  LocalNotifications.addListener('localNotificationActionPerformed', (action) => {
+    if (action.notification.extra?.isUrgent === 'true') {
+      window.dispatchEvent(new CustomEvent('urgentReminderTriggered', {
+        detail: {
+          id: action.notification.extra.taskId,
+          taskName: action.notification.body || 'Urgent Task',
+          triggeredAt: new Date(),
+        }
+      }));
+    }
+  });
+
   // Request permission after a short delay
   setTimeout(async () => {
     await requestReminderPermission();
