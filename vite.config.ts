@@ -39,8 +39,8 @@ export default defineConfig(({ mode }) => ({
         navigateFallbackDenylist: [/^\/~oauth/],
       },
       manifest: {
-        name: "NPD - Notes & Todo",
-        short_name: "NPD",
+        name: "Flowist - Notes & Todo",
+        short_name: "Flowist",
         description: "Your personal notes and todo app",
         theme_color: "#ffffff",
         background_color: "#ffffff",

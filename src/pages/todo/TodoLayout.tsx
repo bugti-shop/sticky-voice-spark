@@ -38,7 +38,7 @@ export const TodoLayout = ({ children, title, searchValue, onSearchChange }: Tod
         <div className="container mx-auto px-3 sm:px-4 py-2">
           <div className="flex items-center justify-between mb-3 sm:mb-4 gap-2">
             <div className="flex items-center gap-2 min-w-0 flex-shrink-0">
-              <img src={appLogo} alt="Npd" className="h-7 w-7 sm:h-8 sm:w-8 flex-shrink-0" style={{ minWidth: '28px', minHeight: '28px' }} />
+              <img src={appLogo} alt="Flowist" className="h-7 w-7 sm:h-8 sm:w-8 flex-shrink-0" style={{ minWidth: '28px', minHeight: '28px' }} />
               <h1 className="text-lg sm:text-xl font-bold truncate">{title}</h1>
             </div>
             <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">

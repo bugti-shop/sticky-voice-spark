@@ -34,9 +34,9 @@ export const CardBrandingFooter = ({
       </div>
     )}
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
-      <img src={npdLogo} alt="Npd" style={{ width: '20px', height: '20px', borderRadius: '4px', objectFit: 'cover' }} />
+      <img src={npdLogo} alt="Flowist" style={{ width: '20px', height: '20px', borderRadius: '4px', objectFit: 'cover' }} />
       <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.05em', color }}>
-        Npd • task manager
+        Flowist • task manager
       </span>
     </div>
   </div>
@@ -60,8 +60,8 @@ export const CardBrandingFooterLarge = ({
       </div>
     )}
     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-      <img src={npdLogo} alt="Npd" style={{ width: '48px', height: '48px', borderRadius: '12px' }} />
-      <span style={{ fontSize: '32px', fontWeight: 700, color, letterSpacing: '4px' }}>Npd</span>
+      <img src={npdLogo} alt="Flowist" style={{ width: '48px', height: '48px', borderRadius: '12px' }} />
+      <span style={{ fontSize: '32px', fontWeight: 700, color, letterSpacing: '4px' }}>Flowist</span>
     </div>
   </div>
 );

@@ -2,7 +2,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'nota.npd.com',
-  appName: 'Npd',
+  appName: 'Flowist',
   webDir: 'dist',
   server: {
     cleartext: true

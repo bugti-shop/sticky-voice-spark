@@ -109,7 +109,7 @@ export const scheduleStreakRiskNotifications = async (): Promise<void> => {
       notifications.push({
         id: STREAK_RISK_10PM_ID,
         title: `Last chance! Your streak ends at midnight ⏰`,
-        body: `${streak} days of consistency — don't break it now! Open Npd and complete one task.`,
+        body: `${streak} days of consistency — don't break it now! Open Flowist and complete one task.`,
         schedule: { at: tenPm, allowWhileIdle: true },
         channelId: CHANNEL_ID,
         smallIcon: 'npd_notification_icon',
