@@ -468,22 +468,22 @@
   "terms": {
     "title": "服务条款",
     "acceptance": "接受条款",
-    "acceptanceDesc": "访问和使用 NPD 即表示您接受并同意受本协议条款和条件的约束。",
+    "acceptanceDesc": "访问和使用 Flowist 即表示您接受并同意受本协议条款和条件的约束。",
     "license": "使用许可",
-    "licenseDesc": "授权您临时使用 NPD 仅供个人、非商业的临时查看。",
+    "licenseDesc": "授权您临时使用 Flowist 仅供个人、非商业的临时查看。",
     "userData": "用户数据",
     "userDataDesc": "所有笔记和数据都存储在您的设备本地。您有责任定期备份数据。",
     "disclaimer": "免责声明",
     "disclaimerDesc": "该应用按原样提供，不提供任何形式的保证。我们不保证应用无错误或不间断运行。",
     "limitations": "限制",
-    "limitationsDesc": "在任何情况下，NPD 或其供应商均不对因使用或无法使用该应用而产生的任何损害负责。",
+    "limitationsDesc": "在任何情况下，Flowist 或其供应商均不对因使用或无法使用该应用而产生的任何损害负责。",
     "modifications": "修改",
     "modificationsDesc": "我们可以随时修改这些条款而无需通知。使用此应用即表示您同意受这些条款的当前版本约束。"
   },
   "privacy": {
     "title": "隐私政策",
     "infoCollect": "我们收集的信息",
-    "infoCollectDesc": "NPD 将您的所有笔记和数据本地存储在您的设备上。我们不收集、传输或在外部服务器上存储任何个人信息。",
+    "infoCollectDesc": "Flowist 将您的所有笔记和数据本地存储在您的设备上。我们不收集、传输或在外部服务器上存储任何个人信息。",
     "localStorage": "本地存储",
     "localStorageDesc": "您的笔记、文件夹和设置使用设备的本地存储。这些数据保留在您的设备上，我们无法访问。",
     "dataSecurity": "数据安全",
@@ -510,7 +510,7 @@
     "contactSupport": "联系支持",
     "contactSupportDesc": "如需更多帮助或报告问题，请通过应用商店评论区或我们的支持渠道联系我们。",
     "feedback": "反馈",
-    "feedbackDesc": "我们重视您的反馈！通过评价应用和留下评论，让我们知道如何改进 NPD。"
+    "feedbackDesc": "我们重视您的反馈！通过评价应用和留下评论，让我们知道如何改进 Flowist。"
   },
   "toasts": {
     "dataBackedUp": "数据备份成功",
@@ -567,7 +567,7 @@
     "connectedAs": "已连接为 {{email}}"
   },
   "share": {
-    "appTitle": "NPD - 笔记应用",
+    "appTitle": "Flowist - 笔记应用",
     "appDescription": "快来体验这款出色的笔记应用！"
   },
   "trial": {
@@ -845,7 +845,7 @@
     "title": "网页剪藏",
     "description": "一键将网页直接保存到笔记中",
     "dragOption": "选项1：拖动到书签栏",
-    "clipToNpd": "📎 剪藏到Npd",
+    "clipToNpd": "📎 剪藏到Flowist",
     "dragInstructions": "将此按钮拖动到浏览器的书签栏",
     "manualOption": "选项2：手动设置",
     "copyCode": "复制代码",
@@ -853,7 +853,7 @@
     "howToUse": "使用方法",
     "step1": "访问您想要保存的任何网页",
     "step2": "选择文本（可选）以剪藏特定内容",
-    "step3": "点击\"剪藏到Npd\"书签",
+    "step3": "点击\"剪藏到Flowist\"书签",
     "step4": "页面将被保存到您的笔记中！",
     "pageTitle": "页面标题",
     "urlSource": "URL来源",
@@ -1499,7 +1499,7 @@
     },
     "testimonials": {
       "title": "加入50,000+满意用户",
-      "subtitle": "看看人们为什么喜欢 NPD",
+      "subtitle": "看看人们为什么喜欢 Flowist",
       "review1": "终于找到一款完美处理笔记和任务的应用。我生产力的游戏规则改变者！",
       "reviewer1": "— 萨拉 K., 设计师",
       "review2": "文件夹整理太棒了。我保持一切井井有条，从不丢失笔记！",
@@ -2016,7 +2016,7 @@
     "step1": "在上方启用您想要的小部件",
     "step2": "长按主屏幕",
     "step3": "点击\"小部件\"",
-    "step4": "找到\"Npd\"并将小部件拖到主屏幕",
+    "step4": "找到\"Flowist\"并将小部件拖到主屏幕",
     "step5": "查看 WIDGET.md 文件了解原生代码设置",
     "noteWidgetConfigured": "笔记小部件已配置",
     "sectionWidgetConfigured": "分区小部件已配置",

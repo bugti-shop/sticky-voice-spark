@@ -468,22 +468,22 @@
   "terms": {
     "title": "Hizmet Şartları",
     "acceptance": "Şartların Kabulü",
-    "acceptanceDesc": "NPD'ye erişerek ve kullanarak, bu sözleşmenin şartlarına bağlı olmayı kabul edersiniz.",
+    "acceptanceDesc": "Flowist'e erişerek ve kullanarak, bu sözleşmenin şartlarına bağlı olmayı kabul edersiniz.",
     "license": "Kullanım Lisansı",
-    "licenseDesc": "NPD'yi yalnızca kişisel, ticari olmayan geçici görüntüleme için geçici olarak kullanma izni verilmiştir.",
+    "licenseDesc": "Flowist'i yalnızca kişisel, ticari olmayan geçici görüntüleme için geçici olarak kullanma izni verilmiştir.",
     "userData": "Kullanıcı Verileri",
     "userDataDesc": "Tüm notlar ve veriler cihazınızda yerel olarak depolanır. Verilerinizi düzenli olarak yedeklemek sizin sorumluluğunuzdadır.",
     "disclaimer": "Sorumluluk Reddi",
     "disclaimerDesc": "Uygulama herhangi bir garanti olmaksızın \"olduğu gibi\" sağlanmaktadır. Uygulamanın hatasız veya kesintisiz olacağını garanti etmiyoruz.",
     "limitations": "Sınırlamalar",
-    "limitationsDesc": "Hiçbir durumda NPD veya tedarikçileri, uygulamanın kullanımından veya kullanılamamasından kaynaklanan herhangi bir zarardan sorumlu olmayacaktır.",
+    "limitationsDesc": "Hiçbir durumda Flowist veya tedarikçileri, uygulamanın kullanımından veya kullanılamamasından kaynaklanan herhangi bir zarardan sorumlu olmayacaktır.",
     "modifications": "Değişiklikler",
     "modificationsDesc": "Bu şartları herhangi bir zamanda önceden haber vermeksizin revize edebiliriz."
   },
   "privacy": {
     "title": "Gizlilik Politikası",
     "infoCollect": "Topladığımız Bilgiler",
-    "infoCollectDesc": "NPD tüm notlarınızı ve verilerinizi cihazınızda yerel olarak depolar. Harici sunucularda herhangi bir kişisel bilgi toplamıyor, iletmiyor veya depolamıyoruz.",
+    "infoCollectDesc": "Flowist tüm notlarınızı ve verilerinizi cihazınızda yerel olarak depolar. Harici sunucularda herhangi bir kişisel bilgi toplamıyor, iletmiyor veya depolamıyoruz.",
     "localStorage": "Yerel Depolama",
     "localStorageDesc": "Notlarınız, klasörleriniz ve ayarlarınız cihazınızın yerel depolaması kullanılarak saklanır. Bu veriler cihazınızda kalır ve bize erişilemez.",
     "dataSecurity": "Veri Güvenliği",
@@ -567,7 +567,7 @@
     "connectedAs": "{{email}} olarak bağlandı"
   },
   "share": {
-    "appTitle": "NPD - Not Alma Uygulaması",
+    "appTitle": "Flowist - Not Alma Uygulaması",
     "appDescription": "Bu harika not alma uygulamasına göz atın!"
   },
   "trial": {
@@ -1357,7 +1357,7 @@
     },
     "testimonials": {
       "title": "50.000+ Mutlu Kullanıcıya Katılın",
-      "subtitle": "İnsanlar neden NPD'yi seviyor",
+      "subtitle": "İnsanlar neden Flowist'i seviyor",
       "review1": "Sonunda hem notları hem de görevleri mükemmel yapan bir uygulama. Verimliliğim için çığır açıcı!",
       "reviewer1": "— Sara K., Tasarımcı",
       "review2": "Klasör organizasyonu inanılmaz. Her şeyi düzenli tutuyorum ve hiçbir notu kaybetmiyorum!",
@@ -1854,7 +1854,7 @@
     "step1": "Yukarıda istediğiniz widget'ları etkinleştirin",
     "step2": "Ana ekranınıza uzun basın",
     "step3": "\"Widget'lar\"a dokunun",
-    "step4": "\"Npd\"yi bulun ve widget'ı ana ekrana sürükleyin",
+    "step4": "\"Flowist\"yi bulun ve widget'ı ana ekrana sürükleyin",
     "step5": "Yerel kod kurulumu için WIDGET.md dosyasını kontrol edin",
     "noteWidgetConfigured": "Not widget'ı yapılandırıldı",
     "sectionWidgetConfigured": "Bölüm widget'ı yapılandırıldı",
@@ -2087,7 +2087,7 @@
     "title": "Web Kesici",
     "description": "Web sayfalarını tek tıkla doğrudan notlarınıza kaydedin",
     "dragOption": "Seçenek 1: Yer İşareti Çubuğuna Sürükleyin",
-    "clipToNpd": "📎 Npd'ye Kes",
+    "clipToNpd": "📎 Flowist'e Kes",
     "dragInstructions": "Bu düğmeyi tarayıcınızın yer işareti çubuğuna sürükleyin",
     "manualOption": "Seçenek 2: Manuel Kurulum",
     "copyCode": "Kodu Kopyala",
@@ -2095,7 +2095,7 @@
     "howToUse": "Nasıl Kullanılır",
     "step1": "Kaydetmek istediğiniz web sayfasını ziyaret edin",
     "step2": "Belirli içeriği kesmek için metin seçin (isteğe bağlı)",
-    "step3": "\"Npd'ye Kes\" yer işaretine tıklayın",
+    "step3": "\"Flowist'e Kes\" yer işaretine tıklayın",
     "step4": "Sayfa notlarınıza kaydedilecek!",
     "pageTitle": "Sayfa Başlığı",
     "urlSource": "URL Kaynağı",

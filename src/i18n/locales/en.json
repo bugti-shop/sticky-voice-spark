@@ -420,22 +420,22 @@
   "terms": {
     "title": "Terms of Service",
     "acceptance": "Acceptance of Terms",
-    "acceptanceDesc": "By accessing and using NPD, you accept and agree to be bound by the terms and provision of this agreement.",
+    "acceptanceDesc": "By accessing and using Flowist, you accept and agree to be bound by the terms and provision of this agreement.",
     "license": "Use License",
-    "licenseDesc": "Permission is granted to temporarily use NPD for personal, non-commercial transitory viewing only.",
+    "licenseDesc": "Permission is granted to temporarily use Flowist for personal, non-commercial transitory viewing only.",
     "userData": "User Data",
     "userDataDesc": "All notes and data are stored locally on your device. You are responsible for backing up your data regularly.",
     "disclaimer": "Disclaimer",
     "disclaimerDesc": "The app is provided \"as is\" without warranty of any kind. We do not guarantee that the app will be error-free or uninterrupted.",
     "limitations": "Limitations",
-    "limitationsDesc": "In no event shall NPD or its suppliers be liable for any damages arising out of the use or inability to use the app.",
+    "limitationsDesc": "In no event shall Flowist or its suppliers be liable for any damages arising out of the use or inability to use the app.",
     "modifications": "Modifications",
     "modificationsDesc": "We may revise these terms at any time without notice. By using this app, you agree to be bound by the current version of these terms."
   },
   "privacy": {
     "title": "Privacy Policy",
     "infoCollect": "Information We Collect",
-    "infoCollectDesc": "NPD stores all your notes and data locally on your device. We do not collect, transmit, or store any personal information on external servers.",
+    "infoCollectDesc": "Flowist stores all your notes and data locally on your device. We do not collect, transmit, or store any personal information on external servers.",
     "localStorage": "Local Storage",
     "localStorageDesc": "Your notes, folders, and settings are stored using your device's local storage. This data remains on your device and is not accessible to us.",
     "dataSecurity": "Data Security",
@@ -462,7 +462,7 @@
     "contactSupport": "Contact Support",
     "contactSupportDesc": "For additional help or to report issues, please contact us through the app store review section or reach out via our support channels.",
     "feedback": "Feedback",
-    "feedbackDesc": "We value your feedback! Let us know how we can improve NPD by rating the app and leaving a review."
+    "feedbackDesc": "We value your feedback! Let us know how we can improve Flowist by rating the app and leaving a review."
   },
   "toasts": {
     "dataBackedUp": "Data backed up successfully",
@@ -519,7 +519,7 @@
     "connectedAs": "Connected as {{email}}"
   },
   "share": {
-    "appTitle": "NPD - Note Taking App",
+    "appTitle": "Flowist - Note Taking App",
     "appDescription": "Check out this amazing note-taking app!"
   },
   "trial": {
@@ -793,7 +793,7 @@
     "title": "Web Clipper",
     "description": "Save web pages directly to your notes with one click",
     "dragOption": "Option 1: Drag to Bookmarks Bar",
-    "clipToNpd": "📎 Clip to Npd",
+    "clipToNpd": "📎 Clip to Flowist",
     "dragInstructions": "Drag this button to your browser's bookmarks bar",
     "manualOption": "Option 2: Manual Setup",
     "copyCode": "Copy Code",
@@ -801,7 +801,7 @@
     "howToUse": "How to use",
     "step1": "Visit any webpage you want to save",
     "step2": "Select text (optional) to clip specific content",
-    "step3": "Click the \"Clip to Npd\" bookmark",
+    "step3": "Click the \"Clip to Flowist\" bookmark",
     "step4": "The page will be saved to your notes!",
     "pageTitle": "Page Title",
     "urlSource": "URL Source",
@@ -1400,7 +1400,7 @@
     },
     "testimonials": {
       "title": "Join 50,000+ Happy Users",
-      "subtitle": "See why people love NPD",
+      "subtitle": "See why people love Flowist",
       "review1": "Finally an app that does notes AND tasks perfectly. Game changer for my productivity!",
       "reviewer1": "— Sarah K., Designer",
       "review2": "The folder organization is incredible. I keep everything sorted and never lose a note!",
@@ -1952,7 +1952,7 @@
     "step1": "Enable the widgets you want above",
     "step2": "Long press on your home screen",
     "step3": "Tap \"Widgets\"",
-    "step4": "Find \"Npd\" and drag the widget to your home screen",
+    "step4": "Find \"Flowist\" and drag the widget to your home screen",
     "step5": "Check WIDGET.md file for native code setup",
     "noteWidgetConfigured": "Note widget configured",
     "sectionWidgetConfigured": "Section widget configured",

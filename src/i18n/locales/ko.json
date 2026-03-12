@@ -468,22 +468,22 @@
   "terms": {
     "title": "서비스 약관",
     "acceptance": "약관 동의",
-    "acceptanceDesc": "NPD에 접속하고 사용함으로써 본 약관의 조항에 동의하고 이에 구속됩니다.",
+    "acceptanceDesc": "Flowist에 접속하고 사용함으로써 본 약관의 조항에 동의하고 이에 구속됩니다.",
     "license": "사용 라이선스",
-    "licenseDesc": "개인적, 비상업적 일시적 열람 목적으로만 NPD를 임시 사용할 수 있는 권한이 부여됩니다.",
+    "licenseDesc": "개인적, 비상업적 일시적 열람 목적으로만 Flowist를 임시 사용할 수 있는 권한이 부여됩니다.",
     "userData": "사용자 데이터",
     "userDataDesc": "모든 노트와 데이터는 기기에 로컬로 저장됩니다. 정기적으로 데이터를 백업할 책임은 사용자에게 있습니다.",
     "disclaimer": "면책 조항",
     "disclaimerDesc": "앱은 어떠한 종류의 보증 없이 \"있는 그대로\" 제공됩니다. 앱이 오류 없이 또는 중단 없이 작동한다고 보장하지 않습니다.",
     "limitations": "제한 사항",
-    "limitationsDesc": "어떠한 경우에도 NPD 또는 공급업체는 앱 사용 또는 사용 불가로 인한 손해에 대해 책임을 지지 않습니다.",
+    "limitationsDesc": "어떠한 경우에도 Flowist 또는 공급업체는 앱 사용 또는 사용 불가로 인한 손해에 대해 책임을 지지 않습니다.",
     "modifications": "수정",
     "modificationsDesc": "당사는 언제든지 사전 통지 없이 이 약관을 수정할 수 있습니다. 이 앱을 사용함으로써 현재 버전의 약관에 구속됩니다."
   },
   "privacy": {
     "title": "개인정보처리방침",
     "infoCollect": "수집하는 정보",
-    "infoCollectDesc": "NPD는 모든 노트와 데이터를 기기에 로컬로 저장합니다. 외부 서버에 개인 정보를 수집, 전송 또는 저장하지 않습니다.",
+    "infoCollectDesc": "Flowist는 모든 노트와 데이터를 기기에 로컬로 저장합니다. 외부 서버에 개인 정보를 수집, 전송 또는 저장하지 않습니다.",
     "localStorage": "로컬 저장소",
     "localStorageDesc": "노트, 폴더 및 설정은 기기의 로컬 저장소를 사용하여 저장됩니다. 이 데이터는 기기에 유지되며 당사가 접근할 수 없습니다.",
     "dataSecurity": "데이터 보안",
@@ -510,7 +510,7 @@
     "contactSupport": "지원 문의",
     "contactSupportDesc": "추가 도움이 필요하거나 문제를 보고하려면 앱 스토어 리뷰 섹션이나 지원 채널을 통해 문의해 주세요.",
     "feedback": "피드백",
-    "feedbackDesc": "피드백을 소중히 여깁니다! 앱을 평가하고 리뷰를 남겨 NPD를 개선할 수 있는 방법을 알려주세요."
+    "feedbackDesc": "피드백을 소중히 여깁니다! 앱을 평가하고 리뷰를 남겨 Flowist를 개선할 수 있는 방법을 알려주세요."
   },
   "toasts": {
     "dataBackedUp": "데이터가 성공적으로 백업되었습니다",
@@ -567,7 +567,7 @@
     "connectedAs": "{{email}}(으)로 연결됨"
   },
   "share": {
-    "appTitle": "NPD - 메모 앱",
+    "appTitle": "Flowist - 메모 앱",
     "appDescription": "이 멋진 메모 앱을 확인해 보세요!"
   },
   "trial": {
@@ -845,7 +845,7 @@
     "title": "웹 클리퍼",
     "description": "한 번의 클릭으로 웹 페이지를 노트에 직접 저장",
     "dragOption": "옵션 1: 북마크 바로 드래그",
-    "clipToNpd": "📎 Npd에 저장",
+    "clipToNpd": "📎 Flowist에 저장",
     "dragInstructions": "이 버튼을 브라우저의 북마크 바로 드래그하세요",
     "manualOption": "옵션 2: 수동 설정",
     "copyCode": "코드 복사",
@@ -853,7 +853,7 @@
     "howToUse": "사용 방법",
     "step1": "저장하려는 웹 페이지 방문",
     "step2": "특정 콘텐츠를 클립하려면 텍스트 선택 (선택사항)",
-    "step3": "\"Npd에 저장\" 북마크 클릭",
+    "step3": "\"Flowist에 저장\" 북마크 클릭",
     "step4": "페이지가 노트에 저장됩니다!",
     "pageTitle": "페이지 제목",
     "urlSource": "URL 소스",
@@ -1524,7 +1524,7 @@
     },
     "testimonials": {
       "title": "50,000명 이상의 행복한 사용자와 함께",
-      "subtitle": "사람들이 NPD를 사랑하는 이유를 확인하세요",
+      "subtitle": "사람들이 Flowist를 사랑하는 이유를 확인하세요",
       "review1": "노트와 작업을 완벽하게 처리하는 앱을 드디어 찾았습니다. 생산성의 게임 체인저!",
       "reviewer1": "— 사라 K., 디자이너",
       "review2": "폴더 정리가 놀랍습니다. 모든 것을 정리하고 노트를 잃어버리지 않아요!",
@@ -2021,7 +2021,7 @@
     "step1": "위에서 원하는 위젯을 활성화하세요",
     "step2": "홈 화면을 길게 누르세요",
     "step3": "\"위젯\"을 탭하세요",
-    "step4": "\"Npd\"를 찾아 홈 화면으로 드래그하세요",
+    "step4": "\"Flowist\"를 찾아 홈 화면으로 드래그하세요",
     "step5": "네이티브 코드 설정은 WIDGET.md 파일을 확인하세요",
     "noteWidgetConfigured": "노트 위젯 설정 완료",
     "sectionWidgetConfigured": "섹션 위젯 설정 완료",

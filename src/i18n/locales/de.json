@@ -468,22 +468,22 @@
   "terms": {
     "title": "Nutzungsbedingungen",
     "acceptance": "Annahme der Bedingungen",
-    "acceptanceDesc": "Durch den Zugriff und die Nutzung von NPD akzeptieren Sie die Bedingungen und Bestimmungen dieser Vereinbarung.",
+    "acceptanceDesc": "Durch den Zugriff und die Nutzung von Flowist akzeptieren Sie die Bedingungen und Bestimmungen dieser Vereinbarung.",
     "license": "Nutzungslizenz",
-    "licenseDesc": "Es wird die Erlaubnis erteilt, NPD vorübergehend nur für persönliche, nicht-kommerzielle Zwecke zu nutzen.",
+    "licenseDesc": "Es wird die Erlaubnis erteilt, Flowist vorübergehend nur für persönliche, nicht-kommerzielle Zwecke zu nutzen.",
     "userData": "Benutzerdaten",
     "userDataDesc": "Alle Notizen und Daten werden lokal auf Ihrem Gerät gespeichert. Sie sind für die regelmäßige Sicherung Ihrer Daten verantwortlich.",
     "disclaimer": "Haftungsausschluss",
     "disclaimerDesc": "Die App wird \"wie besehen\" ohne Gewährleistung jeglicher Art bereitgestellt. Wir garantieren nicht, dass die App fehlerfrei oder unterbrechungsfrei ist.",
     "limitations": "Einschränkungen",
-    "limitationsDesc": "In keinem Fall haften NPD oder seine Lieferanten für Schäden, die aus der Nutzung oder der Unmöglichkeit der Nutzung der App entstehen.",
+    "limitationsDesc": "In keinem Fall haften Flowist oder seine Lieferanten für Schäden, die aus der Nutzung oder der Unmöglichkeit der Nutzung der App entstehen.",
     "modifications": "Änderungen",
     "modificationsDesc": "Wir können diese Bedingungen jederzeit ohne Vorankündigung ändern. Durch die Nutzung dieser App akzeptieren Sie die aktuelle Version dieser Bedingungen."
   },
   "privacy": {
     "title": "Datenschutzerklärung",
     "infoCollect": "Informationen, die wir sammeln",
-    "infoCollectDesc": "NPD speichert alle Ihre Notizen und Daten lokal auf Ihrem Gerät. Wir sammeln, übertragen oder speichern keine persönlichen Informationen auf externen Servern.",
+    "infoCollectDesc": "Flowist speichert alle Ihre Notizen und Daten lokal auf Ihrem Gerät. Wir sammeln, übertragen oder speichern keine persönlichen Informationen auf externen Servern.",
     "localStorage": "Lokaler Speicher",
     "localStorageDesc": "Ihre Notizen, Ordner und Einstellungen werden im lokalen Speicher Ihres Geräts gespeichert. Diese Daten bleiben auf Ihrem Gerät und sind für uns nicht zugänglich.",
     "dataSecurity": "Datensicherheit",
@@ -510,7 +510,7 @@
     "contactSupport": "Support kontaktieren",
     "contactSupportDesc": "Für zusätzliche Hilfe oder um Probleme zu melden, kontaktieren Sie uns bitte über den Bewertungsbereich des App-Stores oder über unsere Support-Kanäle.",
     "feedback": "Feedback",
-    "feedbackDesc": "Wir schätzen Ihr Feedback! Lassen Sie uns wissen, wie wir NPD verbessern können, indem Sie die App bewerten und eine Rezension hinterlassen."
+    "feedbackDesc": "Wir schätzen Ihr Feedback! Lassen Sie uns wissen, wie wir Flowist verbessern können, indem Sie die App bewerten und eine Rezension hinterlassen."
   },
   "toasts": {
     "dataBackedUp": "Daten erfolgreich gesichert",
@@ -567,7 +567,7 @@
     "connectedAs": "Verbunden als {{email}}"
   },
   "share": {
-    "appTitle": "NPD - Notiz-App",
+    "appTitle": "Flowist - Notiz-App",
     "appDescription": "Entdecke diese tolle Notiz-App!"
   },
   "trial": {
@@ -846,7 +846,7 @@
     "title": "Web Clipper",
     "description": "Speichern Sie Webseiten mit einem Klick direkt in Ihren Notizen",
     "dragOption": "Option 1: Zur Lesezeichen-Leiste Ziehen",
-    "clipToNpd": "📎 Zu Npd Speichern",
+    "clipToNpd": "📎 Zu Flowist Speichern",
     "dragInstructions": "Ziehen Sie diese Schaltfläche in die Lesezeichen-Leiste Ihres Browsers",
     "manualOption": "Option 2: Manuelle Einrichtung",
     "copyCode": "Code Kopieren",
@@ -854,7 +854,7 @@
     "howToUse": "Verwendung",
     "step1": "Besuchen Sie eine Webseite, die Sie speichern möchten",
     "step2": "Wählen Sie Text aus (optional) um spezifische Inhalte auszuschneiden",
-    "step3": "Klicken Sie auf das Lesezeichen \"Zu Npd Speichern\"",
+    "step3": "Klicken Sie auf das Lesezeichen \"Zu Flowist Speichern\"",
     "step4": "Die Seite wird in Ihren Notizen gespeichert!",
     "pageTitle": "Seitentitel",
     "urlSource": "URL-Quelle",
@@ -1534,7 +1534,7 @@
     },
     "testimonials": {
       "title": "Schließen Sie sich 50.000+ zufriedenen Nutzern an",
-      "subtitle": "Sehen Sie, warum Menschen NPD lieben",
+      "subtitle": "Sehen Sie, warum Menschen Flowist lieben",
       "review1": "Endlich eine App, die Notizen UND Aufgaben perfekt macht. Ein Game Changer für meine Produktivität!",
       "reviewer1": "— Sarah K., Designerin",
       "review2": "Die Ordner-Organisation ist unglaublich. Ich halte alles sortiert und verliere nie eine Notiz!",
@@ -2051,7 +2051,7 @@
     "step1": "Aktivieren Sie die gewünschten Widgets oben",
     "step2": "Halten Sie den Startbildschirm gedrückt",
     "step3": "Tippen Sie auf \"Widgets\"",
-    "step4": "Suchen Sie \"Npd\" und ziehen Sie das Widget auf den Startbildschirm",
+    "step4": "Suchen Sie \"Flowist\" und ziehen Sie das Widget auf den Startbildschirm",
     "step5": "Siehe WIDGET.md für die native Code-Einrichtung",
     "noteWidgetConfigured": "Notizen-Widget konfiguriert",
     "sectionWidgetConfigured": "Bereichs-Widget konfiguriert",

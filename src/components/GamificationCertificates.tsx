@@ -148,8 +148,8 @@ const CERTIFICATE_LEVELS: CertificateLevel[] = [
     subtitle: 'Year-Long Discipline',
     icon: Crown,
     requirements: { tasksCompleted: 2000, streakDays: 365, notesCreated: 300, foldersUsed: 10 },
-    certificateText: 'This certifies that the holder has maintained an extraordinary 365-day unbroken streak on Npd — one full year of daily productivity without a single missed day. Combined with 2,000+ tasks completed and 300+ notes, this achievement represents unparalleled dedication to personal excellence and systematic productivity mastery.',
-    linkedInDescription: '🏆✨ Npd 365-Day Legend Certificate — UNLOCKED!\n\n📊 One full year of daily productivity:\n• 365-day streak — zero days missed\n• 2,000+ tasks completed\n• 300+ notes in my knowledge base\n• 10+ organized workflows\n\n365 days. Every single day. No excuses, no breaks, no skipping.\n\nThis isn\'t motivation — this is identity. Npd helped me build a system that became second nature.\n\n#365DayStreak #ProductivityLegend #Npd #DailyDiscipline #YearOfExcellence',
+    certificateText: 'This certifies that the holder has maintained an extraordinary 365-day unbroken streak on Flowist — one full year of daily productivity without a single missed day. Combined with 2,000+ tasks completed and 300+ notes, this achievement represents unparalleled dedication to personal excellence and systematic productivity mastery.',
+    linkedInDescription: '🏆✨ Flowist 365-Day Legend Certificate — UNLOCKED!\n\n📊 One full year of daily productivity:\n• 365-day streak — zero days missed\n• 2,000+ tasks completed\n• 300+ notes in my knowledge base\n• 10+ organized workflows\n\n365 days. Every single day. No excuses, no breaks, no skipping.\n\nThis isn\'t motivation — this is identity. Flowist helped me build a system that became second nature.\n\n#365DayStreak #ProductivityLegend #Flowist #DailyDiscipline #YearOfExcellence',
     colors: {
       bg: 'linear-gradient(160deg, hsl(15, 50%, 8%), hsl(25, 60%, 12%))',
       accent: 'hsl(20, 100%, 55%)',
@@ -165,8 +165,8 @@ const CERTIFICATE_LEVELS: CertificateLevel[] = [
     subtitle: 'Immortal Productivity',
     icon: Gem,
     requirements: { tasksCompleted: 5000, streakDays: 1000, notesCreated: 500, foldersUsed: 15 },
-    certificateText: 'This certifies that the holder has achieved the ultimate pinnacle of productivity — a 1,000-day unbroken streak on Npd. Nearly three years of daily commitment, 5,000+ tasks completed, and 500+ notes created. This legendary achievement places them among the most disciplined individuals on the planet. Their consistency is not just a habit — it is a way of life.',
-    linkedInDescription: '💎🔥 Npd 1000-Day IMMORTAL Certificate — The ultimate achievement.\n\n📊 The impossible, achieved:\n• 1,000-day streak — nearly 3 YEARS, zero days missed\n• 5,000+ tasks completed\n• 500+ notes in my second brain\n• 15+ structured workflows\n\n1,000 consecutive days of showing up. Rain or shine. Sick or healthy. Busy or free.\n\nThis is beyond discipline. This is identity forged through relentless consistency.\n\n#1000DayStreak #Immortal #Npd #UltimateProductivity #LegendaryDiscipline',
+    certificateText: 'This certifies that the holder has achieved the ultimate pinnacle of productivity — a 1,000-day unbroken streak on Flowist. Nearly three years of daily commitment, 5,000+ tasks completed, and 500+ notes created. This legendary achievement places them among the most disciplined individuals on the planet. Their consistency is not just a habit — it is a way of life.',
+    linkedInDescription: '💎🔥 Flowist 1000-Day IMMORTAL Certificate — The ultimate achievement.\n\n📊 The impossible, achieved:\n• 1,000-day streak — nearly 3 YEARS, zero days missed\n• 5,000+ tasks completed\n• 500+ notes in my second brain\n• 15+ structured workflows\n\n1,000 consecutive days of showing up. Rain or shine. Sick or healthy. Busy or free.\n\nThis is beyond discipline. This is identity forged through relentless consistency.\n\n#1000DayStreak #Immortal #Flowist #UltimateProductivity #LegendaryDiscipline',
     colors: {
       bg: 'linear-gradient(160deg, hsl(340, 45%, 8%), hsl(350, 50%, 12%))',
       accent: 'hsl(345, 100%, 60%)',
@@ -401,7 +401,7 @@ export const GamificationCertificates = ({ isOpen, onClose, streakData }: Certif
       await shareImageBlob({
         blob,
         fileName: `npd-certificate-${selectedCert.id}.png`,
-        title: `Npd ${getCertTitle(selectedCert)} Certificate`,
+        title: `Flowist ${getCertTitle(selectedCert)} Certificate`,
         text: selectedCert.linkedInDescription,
         dialogTitle: t('certificates.shareCertificate', 'Share Certificate'),
       });
@@ -829,7 +829,7 @@ const CertificateCard = ({ cert, unlocked, userName, userAvatar }: { cert: Certi
                     whiteSpace: 'nowrap',
                   }}
                 >
-                  Npd: Notepad & To Do List
+                  Flowist: Notepad & To Do List
                 </span>
               </div>
               <p style={{ color: cert.colors.text, fontSize: 7, opacity: 0.45, margin: 0 }}>
