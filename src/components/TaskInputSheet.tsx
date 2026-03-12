@@ -130,6 +130,7 @@ export const TaskInputSheet = ({ isOpen, onClose, onAddTask, folders, selectedFo
   const { tags: globalTags, resolveTagIds, invalidateCache: refreshGlobalTags } = useGlobalTags();
   const [attachments, setAttachments] = useState<TaskAttachment[]>([]);
   const [estimatedHours, setEstimatedHours] = useState<number | undefined>();
+  const [isUrgent, setIsUrgent] = useState(false);
   
   // Load saved actions, tags, and task settings from IndexedDB
   useEffect(() => {
