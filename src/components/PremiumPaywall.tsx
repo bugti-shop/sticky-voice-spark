@@ -7,7 +7,6 @@ import { Purchases } from '@revenuecat/purchases-capacitor';
 import { triggerHaptic } from '@/utils/haptics';
 import { useHardwareBackButton } from '@/hooks/useHardwareBackButton';
 import { setSetting } from '@/utils/settingsStorage';
-import { useNavigate } from 'react-router-dom';
 
 const PLANS = [
   { id: 'weekly' as ProductType, label: 'Weekly', price: '$1.99', period: '/wk', badge: null },
@@ -17,7 +16,7 @@ const PLANS = [
 
 export const PremiumPaywall = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  
   const { showPaywall, closePaywall, unlockPro, purchase } = useSubscription();
   const [selectedPlan, setSelectedPlan] = useState<ProductType>('monthly');
   const [isPurchasing, setIsPurchasing] = useState(false);
@@ -226,19 +225,19 @@ export const PremiumPaywall = () => {
 
           {/* Terms & Privacy links — Apple required */}
           <div className="flex items-center justify-center gap-4 mt-2">
-            <button 
-              onClick={() => { closePaywall(); navigate('/terms'); }} 
+            <a 
+              href="/terms"
               className="text-[11px] text-muted-foreground underline"
             >
               Terms of Use
-            </button>
+            </a>
             <span className="text-muted-foreground text-[10px]">•</span>
-            <button 
-              onClick={() => { closePaywall(); navigate('/privacy'); }}
+            <a 
+              href="/privacy"
               className="text-[11px] text-muted-foreground underline"
             >
               Privacy Policy
-            </button>
+            </a>
           </div>
 
           {/* Access Code */}
