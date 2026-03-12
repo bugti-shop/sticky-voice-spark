@@ -25,6 +25,7 @@ import { WhatsNewSheet } from "@/components/WhatsNewSheet";
 import { StreakMilestoneCelebration } from "@/components/StreakMilestoneCelebration";
 import { StreakTierCelebration } from "@/components/StreakTierCelebration";
 import { SmartReviewPrompt } from "@/components/SmartReviewPrompt";
+import { FullScreenReminderOverlay } from "@/components/FullScreenReminderOverlay";
 
 import { ComboOverlay } from "@/components/ComboOverlay";
 // Eager load only the two most critical pages for instant first render
@@ -293,6 +294,7 @@ const AppContent = () => {
       <SmartReviewPrompt />
       
       <ComboOverlay />
+      <FullScreenReminderOverlay />
       <DeferredSyncInit />
       <AppRoutes />
     </>

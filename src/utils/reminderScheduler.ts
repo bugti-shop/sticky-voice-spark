@@ -42,10 +42,24 @@ export const requestReminderPermission = async (): Promise<boolean> => {
 export const scheduleTaskReminder = async (
   taskId: string,
   taskText: string,
-  reminderTime: Date
+  reminderTime: Date,
+  isUrgent?: boolean
 ): Promise<void> => {
   if (!Capacitor.isNativePlatform()) {
-    console.log('[Reminder] Web: would schedule task reminder for', taskText, 'at', reminderTime);
+    console.log('[Reminder] Web: would schedule task reminder for', taskText, 'at', reminderTime, isUrgent ? '(URGENT)' : '');
+    
+    // For urgent tasks on web, schedule a setTimeout-based full-screen reminder
+    if (isUrgent) {
+      const delay = reminderTime.getTime() - Date.now();
+      if (delay > 0) {
+        setTimeout(() => {
+          try {
+            const { triggerUrgentReminder } = require('@/components/FullScreenReminderOverlay');
+            triggerUrgentReminder(taskId, taskText);
+          } catch {}
+        }, delay);
+      }
+    }
     return;
   }
 
@@ -64,15 +78,24 @@ export const scheduleTaskReminder = async (
     await LocalNotifications.schedule({
       notifications: [{
         id: notifId,
-        title: '📋 Task Reminder',
+        title: isUrgent ? '🚨 URGENT Task Reminder' : '📋 Task Reminder',
         body: taskText,
         schedule: { at: reminderTime, allowWhileIdle: true },
-        channelId: 'task-reminders',
-        extra: { type: 'task', taskId },
+        channelId: isUrgent ? 'urgent-reminders' : 'task-reminders',
+        extra: { type: 'task', taskId, isUrgent: isUrgent || false },
       }],
     });
 
-    console.log('[Reminder] Scheduled task reminder:', taskText, 'at', reminderTime.toLocaleString());
+    // Store urgent flag for full-screen display when notification is tapped
+    if (isUrgent) {
+      try {
+        const urgentTasks = JSON.parse(localStorage.getItem('urgentTaskReminders') || '{}');
+        urgentTasks[taskId] = { taskName: taskText, reminderTime: reminderTime.toISOString() };
+        localStorage.setItem('urgentTaskReminders', JSON.stringify(urgentTasks));
+      } catch {}
+    }
+
+    console.log('[Reminder] Scheduled task reminder:', taskText, 'at', reminderTime.toLocaleString(), isUrgent ? '(URGENT)' : '');
   } catch (e) {
     console.error('[Reminder] Failed to schedule task reminder:', e);
   }
@@ -175,6 +198,16 @@ export const createReminderChannels = async (): Promise<void> => {
       sound: 'default',
     });
 
+    await LocalNotifications.createChannel({
+      id: 'urgent-reminders',
+      name: 'Urgent Reminders',
+      description: 'Full-screen urgent task reminders',
+      importance: 5, // MAX
+      visibility: 1,
+      vibration: true,
+      sound: 'default',
+    });
+
     console.log('[Reminder] Notification channels created');
   } catch (e) {
     console.warn('[Reminder] Channel creation failed:', e);
@@ -193,4 +226,32 @@ export const initializeReminders = async (): Promise<void> => {
   setTimeout(async () => {
     await requestReminderPermission();
   }, 1500);
+
+  // Listen for notification actions (when user taps notification)
+  try {
+    await LocalNotifications.addListener('localNotificationActionPerformed', (notification) => {
+      const extra = notification.notification.extra;
+      if (extra?.isUrgent && extra?.taskId) {
+        // Trigger full-screen reminder when urgent notification is tapped
+        try {
+          const { storePendingUrgentReminder } = require('@/components/FullScreenReminderOverlay');
+          storePendingUrgentReminder(extra.taskId, notification.notification.body || 'Urgent Task');
+        } catch {}
+      }
+    });
+
+    // Also listen for when notification is received while app is open
+    await LocalNotifications.addListener('localNotificationReceived', (notification) => {
+      const extra = notification.extra;
+      if (extra?.isUrgent && extra?.taskId) {
+        // Show full-screen overlay immediately
+        try {
+          const { triggerUrgentReminder } = require('@/components/FullScreenReminderOverlay');
+          triggerUrgentReminder(extra.taskId, notification.body || 'Urgent Task');
+        } catch {}
+      }
+    });
+  } catch (e) {
+    console.warn('[Reminder] Listener setup failed:', e);
+  }
 };
