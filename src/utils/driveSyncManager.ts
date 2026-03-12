@@ -410,7 +410,7 @@ export const performSync = async (): Promise<SyncResult> => {
       setSetting('sync_notes_version', notesVersion),
       setSetting('sync_tasks_version', tasksVersion),
       setSetting('sync_settings_version', settingsVersion),
-      setSetting('npd_last_sync', meta),
+      setSetting('flowist_last_sync', meta),
     ]);
 
     // Surface conflicts to UI
