@@ -14,582 +14,391 @@ export interface WashiTapePattern {
 // --- Washi tape patterns ---
 
 export const WASHI_PATTERNS: WashiTapePattern[] = [
+  // 1. Clouds on sky blue
   {
-    id: 'solid-pink', name: 'Rose Quartz', color: '#f9a8d4', bgColor: '#fbcfe8',
+    id: 'clouds-blue', name: 'Cloudy Sky', color: '#a8d8ea', bgColor: '#c9e4f2',
     draw: (ctx, w, h) => {
-      const grad = ctx.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, '#fce7f3'); grad.addColorStop(0.3, '#fbcfe8');
-      grad.addColorStop(0.7, '#f9a8d4'); grad.addColorStop(1, '#fce7f3');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
-      ctx.globalAlpha = 0.08;
-      for (let i = 0; i < w * h * 0.02; i++) {
-        const fx = Math.random() * w, fy = Math.random() * h;
-        const fl = 2 + Math.random() * 6;
-        const fa = Math.random() * Math.PI;
-        ctx.strokeStyle = '#c084fc'; ctx.lineWidth = 0.3;
-        ctx.beginPath(); ctx.moveTo(fx, fy); ctx.lineTo(fx + Math.cos(fa) * fl, fy + Math.sin(fa) * fl); ctx.stroke();
-      }
-      ctx.globalAlpha = 1;
-      const shimmer = ctx.createLinearGradient(0, 0, w * 0.5, 0);
-      shimmer.addColorStop(0, 'rgba(255,255,255,0)'); shimmer.addColorStop(0.5, 'rgba(255,255,255,0.12)');
-      shimmer.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = shimmer; ctx.fillRect(0, 0, w, h);
-    },
-  },
-  {
-    id: 'solid-mint', name: 'Jade Mint', color: '#6ee7b7', bgColor: '#a7f3d0',
-    draw: (ctx, w, h) => {
-      const grad = ctx.createLinearGradient(0, 0, w * 0.7, h);
-      grad.addColorStop(0, '#d1fae5'); grad.addColorStop(0.4, '#a7f3d0');
-      grad.addColorStop(0.8, '#6ee7b7'); grad.addColorStop(1, '#d1fae5');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
-      ctx.globalAlpha = 0.06;
-      ctx.strokeStyle = '#059669'; ctx.lineWidth = 0.5;
-      for (let x = 0; x < w; x += 4) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
-      for (let y = 0; y < h; y += 4) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
-      ctx.globalAlpha = 1;
-    },
-  },
-  {
-    id: 'solid-lavender', name: 'Amethyst', color: '#c4b5fd', bgColor: '#ddd6fe',
-    draw: (ctx, w, h) => {
-      const grad = ctx.createLinearGradient(0, 0, w, h * 0.8);
-      grad.addColorStop(0, '#ede9fe'); grad.addColorStop(0.35, '#ddd6fe');
-      grad.addColorStop(0.65, '#c4b5fd'); grad.addColorStop(1, '#ede9fe');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
-      ctx.globalAlpha = 0.15;
-      for (let i = 0; i < Math.min(w * h * 0.003, 60); i++) {
-        const sx = Math.random() * w, sy = Math.random() * h, sr = 0.5 + Math.random() * 1.5;
-        ctx.fillStyle = '#ffffff';
-        ctx.beginPath(); ctx.arc(sx, sy, sr, 0, Math.PI * 2); ctx.fill();
-      }
-      ctx.globalAlpha = 1;
-    },
-  },
-  {
-    id: 'solid-peach', name: 'Sunset Peach', color: '#fdba74', bgColor: '#fed7aa',
-    draw: (ctx, w, h) => {
-      const grad = ctx.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, '#fff7ed'); grad.addColorStop(0.3, '#fed7aa');
-      grad.addColorStop(0.6, '#fdba74'); grad.addColorStop(1, '#fbbf24');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
-      ctx.globalAlpha = 0.08;
-      for (let i = 0; i < 5; i++) {
-        const gx = Math.random() * w, gy = Math.random() * h, gr = 4 + Math.random() * 8;
-        const glow = ctx.createRadialGradient(gx, gy, 0, gx, gy, gr);
-        glow.addColorStop(0, '#ffffff'); glow.addColorStop(1, 'rgba(255,255,255,0)');
-        ctx.fillStyle = glow; ctx.fillRect(gx - gr, gy - gr, gr * 2, gr * 2);
-      }
-      ctx.globalAlpha = 1;
-    },
-  },
-  {
-    id: 'stripes-blue', name: 'Ocean Stripes', color: '#93c5fd', bgColor: '#bfdbfe',
-    draw: (ctx, w, h) => {
-      const grad = ctx.createLinearGradient(0, 0, 0, h);
-      grad.addColorStop(0, '#dbeafe'); grad.addColorStop(0.5, '#bfdbfe'); grad.addColorStop(1, '#93c5fd');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
-      ctx.lineWidth = 3.5; ctx.lineCap = 'round';
-      for (let x = -h * 2; x < w + h * 2; x += 8) {
-        const stripeGrad = ctx.createLinearGradient(x, 0, x + h, h);
-        stripeGrad.addColorStop(0, '#3b82f6'); stripeGrad.addColorStop(0.5, '#60a5fa'); stripeGrad.addColorStop(1, '#3b82f6');
-        ctx.strokeStyle = stripeGrad;
-        ctx.globalAlpha = 0.45;
-        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x + h, h); ctx.stroke();
-      }
-      ctx.globalAlpha = 1;
-      const shine = ctx.createLinearGradient(0, 0, 0, h * 0.3);
-      shine.addColorStop(0, 'rgba(255,255,255,0.2)'); shine.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = shine; ctx.fillRect(0, 0, w, h * 0.3);
-    },
-  },
-  {
-    id: 'stripes-red', name: 'Cherry Stripes', color: '#fca5a5', bgColor: '#fecaca',
-    draw: (ctx, w, h) => {
-      const grad = ctx.createLinearGradient(0, 0, 0, h);
-      grad.addColorStop(0, '#fee2e2'); grad.addColorStop(0.5, '#fecaca'); grad.addColorStop(1, '#fca5a5');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
-      ctx.lineCap = 'round'; ctx.lineWidth = 2.5;
-      for (let x = -h * 2; x < w + h * 2; x += 7) {
-        const stripeGrad = ctx.createLinearGradient(x, 0, x + h, h);
-        stripeGrad.addColorStop(0, '#ef4444'); stripeGrad.addColorStop(0.5, '#f87171'); stripeGrad.addColorStop(1, '#ef4444');
-        ctx.strokeStyle = stripeGrad;
-        ctx.globalAlpha = 0.4;
-        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x + h, h); ctx.stroke();
-      }
-      ctx.globalAlpha = 1;
-      const shine = ctx.createLinearGradient(0, 0, 0, h * 0.25);
-      shine.addColorStop(0, 'rgba(255,255,255,0.18)'); shine.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = shine; ctx.fillRect(0, 0, w, h * 0.25);
-    },
-  },
-  {
-    id: 'polka-yellow', name: 'Gold Dots', color: '#fde047', bgColor: '#fef9c3',
-    draw: (ctx, w, h) => {
-      const grad = ctx.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, '#fefce8'); grad.addColorStop(0.5, '#fef9c3'); grad.addColorStop(1, '#fde68a');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
-      for (let x = 6; x < w; x += 12) {
-        for (let y = 4; y < h; y += 12) {
-          const ox = Math.floor(y / 12) % 2 ? 6 : 0;
-          const dx = x + ox, dy = y;
-          ctx.globalAlpha = 0.08; ctx.fillStyle = '#92400e';
-          ctx.beginPath(); ctx.arc(dx + 0.5, dy + 0.8, 3, 0, Math.PI * 2); ctx.fill();
-          ctx.globalAlpha = 0.85;
-          const dotGrad = ctx.createRadialGradient(dx - 0.8, dy - 0.8, 0.5, dx, dy, 3);
-          dotGrad.addColorStop(0, '#fef08a'); dotGrad.addColorStop(0.6, '#facc15'); dotGrad.addColorStop(1, '#eab308');
-          ctx.fillStyle = dotGrad;
-          ctx.beginPath(); ctx.arc(dx, dy, 2.8, 0, Math.PI * 2); ctx.fill();
-          ctx.globalAlpha = 0.5; ctx.fillStyle = '#ffffff';
-          ctx.beginPath(); ctx.arc(dx - 1, dy - 1, 0.8, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#c9e4f2'; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#ffffff'; ctx.globalAlpha = 0.9;
+      const drawCloud = (cx: number, cy: number, s: number) => {
+        ctx.beginPath();
+        ctx.arc(cx, cy, s * 1.2, 0, Math.PI * 2); ctx.fill();
+        ctx.arc(cx - s, cy + s * 0.3, s * 0.85, 0, Math.PI * 2); ctx.fill();
+        ctx.arc(cx + s, cy + s * 0.3, s * 0.9, 0, Math.PI * 2); ctx.fill();
+        ctx.arc(cx - s * 0.5, cy + s * 0.1, s, 0, Math.PI * 2); ctx.fill();
+        ctx.arc(cx + s * 0.5, cy - s * 0.1, s * 0.95, 0, Math.PI * 2); ctx.fill();
+      };
+      for (let x = 8; x < w; x += 28) {
+        for (let y = 6; y < h; y += 16) {
+          const ox = Math.floor(y / 16) % 2 ? 14 : 0;
+          drawCloud(x + ox, y, 3.5);
         }
       }
       ctx.globalAlpha = 1;
     },
   },
+  // 2. Pink hearts
   {
-    id: 'polka-green', name: 'Emerald Dots', color: '#86efac', bgColor: '#bbf7d0',
+    id: 'hearts-pink', name: 'Love Hearts', color: '#f9a8d4', bgColor: '#fce7f3',
     draw: (ctx, w, h) => {
-      const grad = ctx.createLinearGradient(0, 0, w * 0.5, h);
-      grad.addColorStop(0, '#ecfdf5'); grad.addColorStop(0.5, '#d1fae5'); grad.addColorStop(1, '#bbf7d0');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
-      for (let x = 5; x < w; x += 10) {
-        for (let y = 5; y < h; y += 10) {
-          ctx.globalAlpha = 0.06; ctx.fillStyle = '#064e3b';
-          ctx.beginPath(); ctx.arc(x + 0.4, y + 0.6, 2.5, 0, Math.PI * 2); ctx.fill();
-          ctx.globalAlpha = 0.8;
-          const dg = ctx.createRadialGradient(x - 0.5, y - 0.5, 0.3, x, y, 2.5);
-          dg.addColorStop(0, '#86efac'); dg.addColorStop(0.7, '#4ade80'); dg.addColorStop(1, '#22c55e');
-          ctx.fillStyle = dg;
-          ctx.beginPath(); ctx.arc(x, y, 2.2, 0, Math.PI * 2); ctx.fill();
-          ctx.globalAlpha = 0.45; ctx.fillStyle = '#fff';
-          ctx.beginPath(); ctx.arc(x - 0.7, y - 0.7, 0.6, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#fce7f3'; ctx.fillRect(0, 0, w, h);
+      const drawHeart = (cx: number, cy: number, s: number, color: string) => {
+        ctx.fillStyle = color; ctx.globalAlpha = 0.85;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy + s * 0.4);
+        ctx.bezierCurveTo(cx - s, cy - s * 0.3, cx - s * 0.5, cy - s, cx, cy - s * 0.4);
+        ctx.bezierCurveTo(cx + s * 0.5, cy - s, cx + s, cy - s * 0.3, cx, cy + s * 0.4);
+        ctx.fill();
+      };
+      for (let x = 7; x < w; x += 14) {
+        for (let y = 7; y < h; y += 13) {
+          const ox = Math.floor(y / 13) % 2 ? 7 : 0;
+          const colors = ['#f472b6', '#fb7185', '#f9a8d4', '#ec4899'];
+          drawHeart(x + ox, y, 4, colors[(Math.floor(x / 14) + Math.floor(y / 13)) % colors.length]);
         }
       }
       ctx.globalAlpha = 1;
     },
   },
+  // 3. Flowers on warm yellow
   {
-    id: 'floral-pink', name: 'Cherry Blossom', color: '#f9a8d4', bgColor: '#fce7f3',
+    id: 'flowers-yellow', name: 'Flower Garden', color: '#fde68a', bgColor: '#fef9c3',
     draw: (ctx, w, h) => {
-      const grad = ctx.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, '#fdf2f8'); grad.addColorStop(0.5, '#fce7f3'); grad.addColorStop(1, '#fbcfe8');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
-      for (let x = 8; x < w; x += 18) {
-        for (let y = 7; y < h; y += 16) {
-          const ox = Math.floor(y / 16) % 2 ? 9 : 0;
+      ctx.fillStyle = '#fef3c4'; ctx.fillRect(0, 0, w, h);
+      for (let x = 10; x < w; x += 20) {
+        for (let y = 8; y < h; y += 18) {
+          const ox = Math.floor(y / 18) % 2 ? 10 : 0;
           const fx = x + ox, fy = y;
-          ctx.globalAlpha = 0.05; ctx.fillStyle = '#831843';
-          ctx.beginPath(); ctx.arc(fx + 0.5, fy + 1, 5, 0, Math.PI * 2); ctx.fill();
+          // Petals
+          const petalColors = ['#fb923c', '#f87171', '#fdba74', '#fca5a5'];
           for (let a = 0; a < 5; a++) {
             const ang = (a / 5) * Math.PI * 2 - Math.PI / 2;
-            const px = fx + Math.cos(ang) * 3.5, py = fy + Math.sin(ang) * 3.5;
-            ctx.globalAlpha = 0.75;
-            const pg = ctx.createRadialGradient(px, py, 0, px, py, 2.5);
-            pg.addColorStop(0, '#fce7f3'); pg.addColorStop(0.5, '#f9a8d4'); pg.addColorStop(1, '#ec4899');
-            ctx.fillStyle = pg;
-            ctx.beginPath(); ctx.arc(px, py, 2.5, 0, Math.PI * 2); ctx.fill();
+            const px = fx + Math.cos(ang) * 3.8, py = fy + Math.sin(ang) * 3.8;
+            ctx.fillStyle = petalColors[a % petalColors.length]; ctx.globalAlpha = 0.85;
+            ctx.beginPath(); ctx.arc(px, py, 2.8, 0, Math.PI * 2); ctx.fill();
           }
-          ctx.globalAlpha = 0.9;
-          const cg = ctx.createRadialGradient(fx, fy, 0, fx, fy, 2);
-          cg.addColorStop(0, '#fef3c7'); cg.addColorStop(0.6, '#fbbf24'); cg.addColorStop(1, '#f59e0b');
-          ctx.fillStyle = cg;
-          ctx.beginPath(); ctx.arc(fx, fy, 1.8, 0, Math.PI * 2); ctx.fill();
-          ctx.globalAlpha = 0.6; ctx.fillStyle = '#fff';
-          ctx.beginPath(); ctx.arc(fx - 0.4, fy - 0.4, 0.5, 0, Math.PI * 2); ctx.fill();
+          // Center
+          ctx.fillStyle = '#fbbf24'; ctx.globalAlpha = 0.95;
+          ctx.beginPath(); ctx.arc(fx, fy, 2, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+      // Small leaves
+      ctx.fillStyle = '#86efac'; ctx.globalAlpha = 0.7;
+      for (let x = 20; x < w; x += 20) {
+        for (let y = 14; y < h; y += 18) {
+          ctx.save(); ctx.translate(x, y); ctx.rotate(0.5);
+          ctx.beginPath(); ctx.ellipse(0, 0, 3, 1.5, 0, 0, Math.PI * 2); ctx.fill();
+          ctx.restore();
         }
       }
       ctx.globalAlpha = 1;
     },
   },
+  // 4. Stars on green
   {
-    id: 'checker-purple', name: 'Royal Checker', color: '#c084fc', bgColor: '#e9d5ff',
+    id: 'stars-green', name: 'Starry Meadow', color: '#86efac', bgColor: '#bbf7d0',
     draw: (ctx, w, h) => {
-      const grad = ctx.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, '#f5f3ff'); grad.addColorStop(0.5, '#ede9fe'); grad.addColorStop(1, '#ddd6fe');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
-      const s = 7;
-      for (let x = 0; x < w; x += s) {
-        for (let y = 0; y < h; y += s) {
-          if ((Math.floor(x / s) + Math.floor(y / s)) % 2 === 0) {
-            const cg = ctx.createLinearGradient(x, y, x + s, y + s);
-            cg.addColorStop(0, '#c4b5fd'); cg.addColorStop(1, '#a78bfa');
-            ctx.globalAlpha = 0.55; ctx.fillStyle = cg; ctx.fillRect(x, y, s, s);
+      ctx.fillStyle = '#86cba0'; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#ffffff'; ctx.globalAlpha = 0.9;
+      const drawStar = (cx: number, cy: number, r: number) => {
+        ctx.beginPath();
+        for (let i = 0; i < 5; i++) {
+          const outerAngle = (i * 2 * Math.PI) / 5 - Math.PI / 2;
+          const innerAngle = outerAngle + Math.PI / 5;
+          ctx.lineTo(cx + Math.cos(outerAngle) * r, cy + Math.sin(outerAngle) * r);
+          ctx.lineTo(cx + Math.cos(innerAngle) * r * 0.45, cy + Math.sin(innerAngle) * r * 0.45);
+        }
+        ctx.closePath(); ctx.fill();
+      };
+      for (let x = 8; x < w; x += 15) {
+        for (let y = 7; y < h; y += 14) {
+          const ox = Math.floor(y / 14) % 2 ? 7.5 : 0;
+          drawStar(x + ox, y, 4.5);
+        }
+      }
+      ctx.globalAlpha = 1;
+    },
+  },
+  // 5. Sparkles/snowflakes on coral
+  {
+    id: 'sparkles-coral', name: 'Coral Sparkles', color: '#fca5a5', bgColor: '#fecaca',
+    draw: (ctx, w, h) => {
+      ctx.fillStyle = '#f0a0a0'; ctx.fillRect(0, 0, w, h);
+      ctx.strokeStyle = '#fecdd3'; ctx.fillStyle = '#fecdd3';
+      ctx.globalAlpha = 0.9; ctx.lineWidth = 1.5; ctx.lineCap = 'round';
+      const drawSparkle = (cx: number, cy: number, s: number) => {
+        // 4-pointed sparkle
+        ctx.beginPath(); ctx.moveTo(cx, cy - s); ctx.lineTo(cx, cy + s); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx - s, cy); ctx.lineTo(cx + s, cy); ctx.stroke();
+        // Diagonal smaller
+        const ds = s * 0.6;
+        ctx.beginPath(); ctx.moveTo(cx - ds, cy - ds); ctx.lineTo(cx + ds, cy + ds); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx + ds, cy - ds); ctx.lineTo(cx - ds, cy + ds); ctx.stroke();
+        // Center dot
+        ctx.beginPath(); ctx.arc(cx, cy, 1, 0, Math.PI * 2); ctx.fill();
+      };
+      for (let x = 10; x < w; x += 18) {
+        for (let y = 8; y < h; y += 16) {
+          const ox = Math.floor(y / 16) % 2 ? 9 : 0;
+          drawSparkle(x + ox, y, 4);
+        }
+      }
+      ctx.globalAlpha = 1;
+    },
+  },
+  // 6. Suns on light blue
+  {
+    id: 'suns-blue', name: 'Sunny Day', color: '#93c5fd', bgColor: '#bfdbfe',
+    draw: (ctx, w, h) => {
+      ctx.fillStyle = '#bdd4ee'; ctx.fillRect(0, 0, w, h);
+      const drawSun = (cx: number, cy: number, r: number) => {
+        // Rays
+        ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 1.5; ctx.lineCap = 'round';
+        ctx.globalAlpha = 0.8;
+        for (let a = 0; a < 8; a++) {
+          const angle = (a / 8) * Math.PI * 2;
+          ctx.beginPath();
+          ctx.moveTo(cx + Math.cos(angle) * (r + 1), cy + Math.sin(angle) * (r + 1));
+          ctx.lineTo(cx + Math.cos(angle) * (r + 3.5), cy + Math.sin(angle) * (r + 3.5));
+          ctx.stroke();
+        }
+        // Center circle
+        ctx.fillStyle = '#fbbf24'; ctx.globalAlpha = 0.9;
+        ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
+      };
+      for (let x = 12; x < w; x += 22) {
+        for (let y = 9; y < h; y += 18) {
+          const ox = Math.floor(y / 18) % 2 ? 11 : 0;
+          drawSun(x + ox, y, 3);
+        }
+      }
+      ctx.globalAlpha = 1;
+    },
+  },
+  // 7. Small flowers on sage green
+  {
+    id: 'flowers-sage', name: 'Sage Blossoms', color: '#86efac', bgColor: '#a8d5ba',
+    draw: (ctx, w, h) => {
+      ctx.fillStyle = '#a8d5ba'; ctx.fillRect(0, 0, w, h);
+      for (let x = 10; x < w; x += 18) {
+        for (let y = 8; y < h; y += 16) {
+          const ox = Math.floor(y / 16) % 2 ? 9 : 0;
+          const fx = x + ox, fy = y;
+          // Petals (cream/yellow)
+          ctx.fillStyle = '#fef3c7'; ctx.globalAlpha = 0.9;
+          for (let a = 0; a < 5; a++) {
+            const ang = (a / 5) * Math.PI * 2 - Math.PI / 2;
+            const px = fx + Math.cos(ang) * 3, py = fy + Math.sin(ang) * 3;
+            ctx.beginPath(); ctx.arc(px, py, 2.2, 0, Math.PI * 2); ctx.fill();
+          }
+          // Center
+          ctx.fillStyle = '#fbbf24'; ctx.globalAlpha = 0.95;
+          ctx.beginPath(); ctx.arc(fx, fy, 1.5, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+      ctx.globalAlpha = 1;
+    },
+  },
+  // 8. Rainbows on warm yellow
+  {
+    id: 'rainbows-yellow', name: 'Rainbow Dreams', color: '#fde68a', bgColor: '#fef9c3',
+    draw: (ctx, w, h) => {
+      ctx.fillStyle = '#f5e6b8'; ctx.fillRect(0, 0, w, h);
+      const drawRainbow = (cx: number, cy: number, s: number) => {
+        const colors = ['#ef4444', '#f97316', '#eab308', '#22c55e', '#3b82f6', '#8b5cf6'];
+        for (let i = 0; i < colors.length; i++) {
+          ctx.strokeStyle = colors[i]; ctx.lineWidth = 1.2; ctx.globalAlpha = 0.75;
+          const r = s - i * 1.2;
+          if (r > 0) {
+            ctx.beginPath(); ctx.arc(cx, cy + s * 0.5, r, Math.PI, 0); ctx.stroke();
           }
         }
-      }
-      ctx.globalAlpha = 1;
-      const glass = ctx.createLinearGradient(0, 0, 0, h * 0.4);
-      glass.addColorStop(0, 'rgba(255,255,255,0.15)'); glass.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = glass; ctx.fillRect(0, 0, w, h * 0.4);
-    },
-  },
-  {
-    id: 'galaxy', name: 'Galaxy', color: '#6366f1', bgColor: '#312e81',
-    draw: (ctx, w, h) => {
-      const grad = ctx.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, '#0f0a2e'); grad.addColorStop(0.25, '#1e1b4b');
-      grad.addColorStop(0.5, '#312e81'); grad.addColorStop(0.75, '#3730a3'); grad.addColorStop(1, '#1e1b4b');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
-      ctx.globalAlpha = 0.15;
-      for (let i = 0; i < 6; i++) {
-        const nx = Math.random() * w, ny = Math.random() * h, nr = 8 + Math.random() * 15;
-        const nebula = ctx.createRadialGradient(nx, ny, 0, nx, ny, nr);
-        const colors = ['#a78bfa', '#c084fc', '#818cf8', '#f472b6', '#38bdf8'];
-        nebula.addColorStop(0, colors[i % colors.length]); nebula.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.fillStyle = nebula; ctx.fillRect(nx - nr, ny - nr, nr * 2, nr * 2);
-      }
-      for (let i = 0; i < Math.min(w * h * 0.008, 120); i++) {
-        const sx = Math.random() * w, sy = Math.random() * h;
-        const sr = 0.3 + Math.random() * 1.2;
-        ctx.globalAlpha = 0.5 + Math.random() * 0.5;
-        const sg = ctx.createRadialGradient(sx, sy, 0, sx, sy, sr);
-        sg.addColorStop(0, '#ffffff'); sg.addColorStop(0.4, '#e0e7ff'); sg.addColorStop(1, 'rgba(255,255,255,0)');
-        ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(sx, sy, sr, 0, Math.PI * 2); ctx.fill();
-      }
-      ctx.globalAlpha = 0.35; ctx.strokeStyle = '#e0e7ff'; ctx.lineWidth = 0.4;
-      for (let i = 0; i < 8; i++) {
-        const fx = Math.random() * w, fy = Math.random() * h, fl = 2 + Math.random() * 4;
-        ctx.beginPath(); ctx.moveTo(fx - fl, fy); ctx.lineTo(fx + fl, fy); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(fx, fy - fl); ctx.lineTo(fx, fy + fl); ctx.stroke();
-      }
-      ctx.globalAlpha = 1;
-      const shimmer = ctx.createLinearGradient(0, 0, w * 0.6, h * 0.3);
-      shimmer.addColorStop(0, 'rgba(139,92,246,0.12)'); shimmer.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = shimmer; ctx.fillRect(0, 0, w, h);
-    },
-  },
-  {
-    id: 'watercolor-splash', name: 'Watercolor Splash', color: '#67e8f9', bgColor: '#ecfeff',
-    draw: (ctx, w, h) => {
-      const base = ctx.createLinearGradient(0, 0, w, h);
-      base.addColorStop(0, '#f0fdfa'); base.addColorStop(0.5, '#ecfeff'); base.addColorStop(1, '#f0f9ff');
-      ctx.fillStyle = base; ctx.fillRect(0, 0, w, h);
-      ctx.globalAlpha = 0.04;
-      for (let i = 0; i < w * h * 0.015; i++) { const gx = Math.random() * w, gy = Math.random() * h; ctx.fillStyle = '#334155'; ctx.fillRect(gx, gy, 1, 1); }
-      const splashColors = [
-        { c: '#22d3ee', a: 0.25 }, { c: '#a78bfa', a: 0.2 }, { c: '#fb923c', a: 0.18 },
-        { c: '#34d399', a: 0.22 }, { c: '#f472b6', a: 0.2 }, { c: '#60a5fa', a: 0.18 },
-      ];
-      for (const splash of splashColors) {
-        const bx = Math.random() * w, by = Math.random() * h;
-        const br = 6 + Math.random() * 12;
-        ctx.globalAlpha = splash.a;
-        const bg = ctx.createRadialGradient(bx, by, 0, bx, by, br);
-        bg.addColorStop(0, splash.c); bg.addColorStop(0.6, splash.c + '88'); bg.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.fillStyle = bg; ctx.beginPath(); ctx.arc(bx, by, br, 0, Math.PI * 2); ctx.fill();
-        ctx.globalAlpha = splash.a * 0.4;
-        for (let d = 0; d < 4; d++) {
-          const dx = bx + (Math.random() - 0.5) * br * 1.5;
-          const dy = by + (Math.random() - 0.5) * br * 1.2;
-          const dr = 2 + Math.random() * 5;
-          const dg = ctx.createRadialGradient(dx, dy, 0, dx, dy, dr);
-          dg.addColorStop(0, splash.c + 'aa'); dg.addColorStop(1, 'rgba(0,0,0,0)');
-          ctx.fillStyle = dg; ctx.beginPath(); ctx.arc(dx, dy, dr, 0, Math.PI * 2); ctx.fill();
+        // Small clouds at base
+        ctx.fillStyle = '#ffffff'; ctx.globalAlpha = 0.8;
+        ctx.beginPath(); ctx.arc(cx - s + 1, cy + s * 0.5, 2, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + s - 1, cy + s * 0.5, 2, 0, Math.PI * 2); ctx.fill();
+      };
+      for (let x = 12; x < w; x += 24) {
+        for (let y = 8; y < h; y += 18) {
+          const ox = Math.floor(y / 18) % 2 ? 12 : 0;
+          drawRainbow(x + ox, y, 8);
         }
       }
       ctx.globalAlpha = 1;
-      const shine = ctx.createLinearGradient(0, 0, 0, h * 0.35);
-      shine.addColorStop(0, 'rgba(255,255,255,0.15)'); shine.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = shine; ctx.fillRect(0, 0, w, h * 0.35);
     },
   },
+  // 9. Leaves on pink
   {
-    id: 'gold-foil', name: 'Gold Foil', color: '#fbbf24', bgColor: '#fef3c7',
+    id: 'leaves-pink', name: 'Pink Leaves', color: '#f9a8d4', bgColor: '#fce7f3',
     draw: (ctx, w, h) => {
-      const grad = ctx.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, '#fef9c3'); grad.addColorStop(0.2, '#fde68a'); grad.addColorStop(0.4, '#fbbf24');
-      grad.addColorStop(0.6, '#f59e0b'); grad.addColorStop(0.8, '#fbbf24'); grad.addColorStop(1, '#fde68a');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
-      ctx.globalAlpha = 0.12; ctx.strokeStyle = '#92400e'; ctx.lineWidth = 0.3;
-      for (let i = 0; i < 40; i++) {
-        const sy = Math.random() * h;
-        ctx.beginPath(); ctx.moveTo(0, sy);
-        ctx.bezierCurveTo(w * 0.3, sy + (Math.random() - 0.5) * 3, w * 0.7, sy + (Math.random() - 0.5) * 3, w, sy);
-        ctx.stroke();
+      ctx.fillStyle = '#f8d5e0'; ctx.fillRect(0, 0, w, h);
+      const drawLeaf = (cx: number, cy: number, s: number, angle: number, color: string) => {
+        ctx.save(); ctx.translate(cx, cy); ctx.rotate(angle);
+        ctx.fillStyle = color; ctx.globalAlpha = 0.8;
+        ctx.beginPath();
+        ctx.moveTo(0, -s);
+        ctx.bezierCurveTo(s * 0.7, -s * 0.5, s * 0.5, s * 0.5, 0, s);
+        ctx.bezierCurveTo(-s * 0.5, s * 0.5, -s * 0.7, -s * 0.5, 0, -s);
+        ctx.fill();
+        // Vein
+        ctx.strokeStyle = color === '#86efac' ? '#22c55e' : '#059669'; ctx.lineWidth = 0.6; ctx.globalAlpha = 0.4;
+        ctx.beginPath(); ctx.moveTo(0, -s * 0.8); ctx.lineTo(0, s * 0.8); ctx.stroke();
+        ctx.restore();
+      };
+      for (let x = 8; x < w; x += 14) {
+        for (let y = 7; y < h; y += 13) {
+          const ox = Math.floor(y / 13) % 2 ? 7 : 0;
+          const angle = ((x + y) * 0.7) % (Math.PI * 2);
+          const colors = ['#86efac', '#6ee7b7', '#4ade80'];
+          drawLeaf(x + ox, y, 5, angle, colors[(Math.floor(x / 14) + Math.floor(y / 13)) % colors.length]);
+        }
       }
-      ctx.globalAlpha = 0.06;
+      ctx.globalAlpha = 1;
+    },
+  },
+  // 10. Diagonal stripes (coral + orange)
+  {
+    id: 'stripes-coral', name: 'Coral Stripes', color: '#fb923c', bgColor: '#fed7aa',
+    draw: (ctx, w, h) => {
+      ctx.fillStyle = '#f0a682'; ctx.fillRect(0, 0, w, h);
+      ctx.lineCap = 'butt'; ctx.lineWidth = 5;
+      for (let x = -h * 2; x < w + h * 2; x += 10) {
+        ctx.strokeStyle = '#c47a5a'; ctx.globalAlpha = 0.45;
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x + h, h); ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+    },
+  },
+  // 11. White polka dots on blue
+  {
+    id: 'polka-blue-white', name: 'Blue Polka', color: '#93c5fd', bgColor: '#7daed0',
+    draw: (ctx, w, h) => {
+      ctx.fillStyle = '#7daed0'; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#ffffff'; ctx.globalAlpha = 0.85;
+      for (let x = 6; x < w; x += 12) {
+        for (let y = 5; y < h; y += 11) {
+          const ox = Math.floor(y / 11) % 2 ? 6 : 0;
+          ctx.beginPath(); ctx.arc(x + ox, y, 2.5, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+      ctx.globalAlpha = 1;
+    },
+  },
+  // 12. Yellow vertical stripes
+  {
+    id: 'stripes-yellow', name: 'Butter Stripes', color: '#fde68a', bgColor: '#fef9c3',
+    draw: (ctx, w, h) => {
+      ctx.fillStyle = '#fef9c3'; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#fde68a'; ctx.globalAlpha = 0.6;
+      for (let x = 0; x < w; x += 8) {
+        ctx.fillRect(x, 0, 4, h);
+      }
+      ctx.globalAlpha = 1;
+    },
+  },
+  // 13. Scallop edge on cream/yellow
+  {
+    id: 'scallop-cream', name: 'Cream Scallop', color: '#fde68a', bgColor: '#fef3c7',
+    draw: (ctx, w, h) => {
+      ctx.fillStyle = '#fce9a8'; ctx.fillRect(0, 0, w, h);
+      // Scallop pattern along top and bottom
+      ctx.fillStyle = '#fbbf24'; ctx.globalAlpha = 0.35;
+      const scW = 10;
+      for (let x = 0; x < w + scW; x += scW) {
+        ctx.beginPath(); ctx.arc(x, 0, scW / 2, 0, Math.PI); ctx.fill();
+        ctx.beginPath(); ctx.arc(x, h, scW / 2, Math.PI, 0); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    },
+  },
+  // 14. Pink grid/plaid
+  {
+    id: 'grid-pink', name: 'Pink Plaid', color: '#f9a8d4', bgColor: '#fce7f3',
+    draw: (ctx, w, h) => {
+      ctx.fillStyle = '#fce7f3'; ctx.fillRect(0, 0, w, h);
+      const spacing = 6;
+      ctx.strokeStyle = '#f9a8d4'; ctx.lineWidth = 1.5; ctx.globalAlpha = 0.5;
+      for (let y = 0; y < h; y += spacing) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+      for (let x = 0; x < w; x += spacing) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+      ctx.globalAlpha = 1;
+    },
+  },
+  // 15. Green + pink vertical stripes
+  {
+    id: 'stripes-green-pink', name: 'Garden Stripes', color: '#86efac', bgColor: '#d1fae5',
+    draw: (ctx, w, h) => {
+      ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h);
+      const colors = ['#86cba0', '#f9a8d4', '#86cba0'];
+      const stripeW = 6;
+      for (let x = 0; x < w; x += stripeW) {
+        ctx.fillStyle = colors[(Math.floor(x / stripeW)) % colors.length]; ctx.globalAlpha = 0.55;
+        ctx.fillRect(x, 0, stripeW, h);
+      }
+      ctx.globalAlpha = 1;
+    },
+  },
+  // 16. Lavender solid with subtle texture
+  {
+    id: 'solid-lavender', name: 'Soft Lavender', color: '#c4b5fd', bgColor: '#ddd6fe',
+    draw: (ctx, w, h) => {
+      ctx.fillStyle = '#d5ccf5'; ctx.fillRect(0, 0, w, h);
+      ctx.globalAlpha = 0.08;
       for (let i = 0; i < w * h * 0.01; i++) {
-        const cx = Math.random() * w, cy = Math.random() * h;
-        const cl = 1 + Math.random() * 4; const ca = Math.random() * Math.PI;
-        ctx.strokeStyle = Math.random() > 0.5 ? '#ffffff' : '#78350f'; ctx.lineWidth = 0.3;
-        ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.cos(ca) * cl, cy + Math.sin(ca) * cl); ctx.stroke();
-      }
-      ctx.globalAlpha = 0.25;
-      for (let i = 0; i < 10; i++) {
-        const hx = Math.random() * w, hy = Math.random() * h, hr = 1 + Math.random() * 4;
-        const hg = ctx.createRadialGradient(hx, hy, 0, hx, hy, hr);
-        hg.addColorStop(0, '#ffffff'); hg.addColorStop(1, 'rgba(255,255,255,0)');
-        ctx.fillStyle = hg; ctx.beginPath(); ctx.arc(hx, hy, hr, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath(); ctx.arc(Math.random() * w, Math.random() * h, 0.8, 0, Math.PI * 2); ctx.fill();
       }
       ctx.globalAlpha = 1;
-      const glass = ctx.createLinearGradient(0, 0, w * 0.8, h * 0.3);
-      glass.addColorStop(0, 'rgba(255,255,255,0.3)'); glass.addColorStop(0.5, 'rgba(255,255,255,0.08)');
-      glass.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = glass; ctx.fillRect(0, 0, w, h * 0.4);
     },
   },
+  // 17. Peach solid
   {
-    id: 'sakura-leaves', name: 'Sakura Leaves', color: '#fda4af', bgColor: '#fff1f2',
+    id: 'solid-peach', name: 'Soft Peach', color: '#fdba74', bgColor: '#fed7aa',
     draw: (ctx, w, h) => {
-      const grad = ctx.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, '#fff1f2'); grad.addColorStop(0.4, '#ffe4e6'); grad.addColorStop(0.7, '#fecdd3'); grad.addColorStop(1, '#fff1f2');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
-      for (let i = 0; i < Math.min(w * h * 0.004, 50); i++) {
+      ctx.fillStyle = '#f5c9a0'; ctx.fillRect(0, 0, w, h);
+      ctx.globalAlpha = 1;
+    },
+  },
+  // 18. Mint solid
+  {
+    id: 'solid-mint', name: 'Fresh Mint', color: '#6ee7b7', bgColor: '#a7f3d0',
+    draw: (ctx, w, h) => {
+      ctx.fillStyle = '#a0dfc4'; ctx.fillRect(0, 0, w, h);
+      ctx.globalAlpha = 1;
+    },
+  },
+  // 19. Cherry blossom petals
+  {
+    id: 'sakura', name: 'Cherry Blossom', color: '#fda4af', bgColor: '#fff1f2',
+    draw: (ctx, w, h) => {
+      ctx.fillStyle = '#f8d5da'; ctx.fillRect(0, 0, w, h);
+      for (let i = 0; i < Math.min(w * h * 0.005, 50); i++) {
         const px = Math.random() * w, py = Math.random() * h;
         const angle = Math.random() * Math.PI * 2;
-        const size = 2 + Math.random() * 3;
+        const size = 2 + Math.random() * 2.5;
         ctx.save(); ctx.translate(px, py); ctx.rotate(angle);
-        ctx.globalAlpha = 0.5 + Math.random() * 0.3;
-        const pg = ctx.createRadialGradient(0, 0, 0, 0, 0, size);
-        pg.addColorStop(0, '#fecdd3'); pg.addColorStop(0.5, '#fda4af'); pg.addColorStop(1, '#fb7185');
-        ctx.fillStyle = pg;
+        ctx.fillStyle = ['#fda4af', '#fb7185', '#f9a8d4'][Math.floor(Math.random() * 3)];
+        ctx.globalAlpha = 0.7;
         ctx.beginPath();
         ctx.moveTo(0, -size);
         ctx.bezierCurveTo(size * 0.8, -size * 0.6, size * 0.8, size * 0.6, 0, size * 0.5);
         ctx.bezierCurveTo(-size * 0.8, size * 0.6, -size * 0.8, -size * 0.6, 0, -size);
         ctx.fill();
-        ctx.globalAlpha = 0.3; ctx.fillStyle = '#ffffff';
-        ctx.beginPath(); ctx.arc(-size * 0.2, -size * 0.3, size * 0.25, 0, Math.PI * 2); ctx.fill();
         ctx.restore();
       }
-      ctx.globalAlpha = 0.06; ctx.strokeStyle = '#9f1239'; ctx.lineWidth = 0.3;
-      for (let i = 0; i < 15; i++) {
-        const lx = Math.random() * w, ly = Math.random() * h;
-        ctx.beginPath(); ctx.moveTo(lx, ly); ctx.lineTo(lx + (Math.random() - 0.5) * 4, ly + 3); ctx.stroke();
-      }
       ctx.globalAlpha = 1;
-      const light = ctx.createLinearGradient(0, 0, 0, h * 0.3);
-      light.addColorStop(0, 'rgba(255,255,255,0.18)'); light.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = light; ctx.fillRect(0, 0, w, h * 0.3);
     },
   },
+  // 20. Diagonal stripes blue + white
   {
-    id: 'rainbow-gradient', name: 'Rainbow Gradient', color: '#f472b6', bgColor: '#fdf2f8',
+    id: 'stripes-blue-diag', name: 'Ocean Stripes', color: '#93c5fd', bgColor: '#bfdbfe',
     draw: (ctx, w, h) => {
-      const rainbow = ctx.createLinearGradient(0, 0, w, 0);
-      rainbow.addColorStop(0, '#ef4444'); rainbow.addColorStop(0.17, '#f97316'); rainbow.addColorStop(0.33, '#eab308');
-      rainbow.addColorStop(0.5, '#22c55e'); rainbow.addColorStop(0.67, '#3b82f6'); rainbow.addColorStop(0.83, '#8b5cf6');
-      rainbow.addColorStop(1, '#ec4899');
-      ctx.fillStyle = rainbow; ctx.fillRect(0, 0, w, h);
-      ctx.globalAlpha = 0.25; ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h);
-      ctx.globalAlpha = 0.05;
-      for (let i = 0; i < w * h * 0.012; i++) {
-        const fx = Math.random() * w, fy = Math.random() * h;
-        const fl = 2 + Math.random() * 5; const fa = Math.random() * Math.PI;
-        ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 0.4;
-        ctx.beginPath(); ctx.moveTo(fx, fy); ctx.lineTo(fx + Math.cos(fa) * fl, fy + Math.sin(fa) * fl); ctx.stroke();
-      }
-      ctx.globalAlpha = 0.08;
-      for (let x = 0; x < w; x += 12) {
-        const band = ctx.createLinearGradient(x, 0, x + 6, 0);
-        band.addColorStop(0, 'rgba(255,255,255,0)'); band.addColorStop(0.5, 'rgba(255,255,255,0.3)'); band.addColorStop(1, 'rgba(255,255,255,0)');
-        ctx.fillStyle = band; ctx.fillRect(x, 0, 6, h);
-      }
-      ctx.globalAlpha = 1;
-      const glass = ctx.createLinearGradient(0, 0, 0, h * 0.35);
-      glass.addColorStop(0, 'rgba(255,255,255,0.22)'); glass.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = glass; ctx.fillRect(0, 0, w, h * 0.35);
-    },
-  },
-  {
-    id: 'polka-red', name: 'Red Polka', color: '#ef4444', bgColor: '#dc2626',
-    draw: (ctx, w, h) => {
-      ctx.fillStyle = '#dc2626'; ctx.fillRect(0, 0, w, h);
-      const grad = ctx.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, 'rgba(0,0,0,0)'); grad.addColorStop(0.5, 'rgba(0,0,0,0.05)'); grad.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
-      for (let x = 5; x < w; x += 10) {
-        for (let y = 5; y < h; y += 10) {
-          const ox = Math.floor(y / 10) % 2 ? 5 : 0;
-          ctx.globalAlpha = 0.9; ctx.fillStyle = '#ffffff';
-          ctx.beginPath(); ctx.arc(x + ox, y, 2.2, 0, Math.PI * 2); ctx.fill();
-          ctx.globalAlpha = 0.3; ctx.fillStyle = '#ffffff';
-          ctx.beginPath(); ctx.arc(x + ox - 0.6, y - 0.6, 0.7, 0, Math.PI * 2); ctx.fill();
-        }
-      }
-      ctx.globalAlpha = 1;
-      const shine = ctx.createLinearGradient(0, 0, 0, h * 0.3);
-      shine.addColorStop(0, 'rgba(255,255,255,0.12)'); shine.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = shine; ctx.fillRect(0, 0, w, h * 0.3);
-    },
-  },
-  {
-    id: 'stripes-red-diag', name: 'Red Diagonal', color: '#ef4444', bgColor: '#dc2626',
-    draw: (ctx, w, h) => {
-      ctx.fillStyle = '#dc2626'; ctx.fillRect(0, 0, w, h);
-      ctx.strokeStyle = '#b91c1c'; ctx.lineWidth = 2.5; ctx.lineCap = 'butt';
-      ctx.globalAlpha = 0.5;
-      for (let x = -h * 2; x < w + h * 2; x += 7) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x + h, h); ctx.stroke(); }
-      ctx.globalAlpha = 1;
-      ctx.strokeStyle = '#fca5a5'; ctx.lineWidth = 0.8; ctx.globalAlpha = 0.2;
-      for (let x = -h * 2; x < w + h * 2; x += 7) { ctx.beginPath(); ctx.moveTo(x + 1, 0); ctx.lineTo(x + h + 1, h); ctx.stroke(); }
-      ctx.globalAlpha = 1;
-      const shine = ctx.createLinearGradient(0, 0, 0, h * 0.25);
-      shine.addColorStop(0, 'rgba(255,255,255,0.1)'); shine.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = shine; ctx.fillRect(0, 0, w, h * 0.25);
-    },
-  },
-  {
-    id: 'grid-red', name: 'Red Grid', color: '#ef4444', bgColor: '#dc2626',
-    draw: (ctx, w, h) => {
-      ctx.fillStyle = '#dc2626'; ctx.fillRect(0, 0, w, h);
-      const spacing = 6;
-      ctx.strokeStyle = '#b91c1c'; ctx.lineWidth = 1.8; ctx.lineCap = 'butt'; ctx.globalAlpha = 0.5;
-      for (let y = 0; y < h; y += spacing) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
-      for (let x = 0; x < w; x += spacing) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
-      ctx.globalAlpha = 0.08; ctx.fillStyle = '#ffffff';
-      for (let x = 0; x < w; x += spacing) { for (let y = 0; y < h; y += spacing) { ctx.beginPath(); ctx.arc(x, y, 1, 0, Math.PI * 2); ctx.fill(); } }
-      ctx.globalAlpha = 1;
-      const shine = ctx.createLinearGradient(0, 0, 0, h * 0.25);
-      shine.addColorStop(0, 'rgba(255,255,255,0.1)'); shine.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = shine; ctx.fillRect(0, 0, w, h * 0.25);
-    },
-  },
-  {
-    id: 'polka-blue', name: 'Blue Polka', color: '#3b82f6', bgColor: '#2563eb',
-    draw: (ctx, w, h) => {
-      const grad = ctx.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, '#3b82f6'); grad.addColorStop(0.5, '#2563eb'); grad.addColorStop(1, '#1d4ed8');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
-      for (let x = 6; x < w; x += 12) {
-        for (let y = 4; y < h; y += 12) {
-          const ox = Math.floor(y / 12) % 2 ? 6 : 0;
-          const dx = x + ox, dy = y;
-          ctx.globalAlpha = 0.9; ctx.fillStyle = '#ffffff';
-          ctx.beginPath(); ctx.arc(dx, dy, 2.5, 0, Math.PI * 2); ctx.fill();
-          ctx.globalAlpha = 0.4; ctx.fillStyle = '#bfdbfe';
-          ctx.beginPath(); ctx.arc(dx - 0.6, dy - 0.6, 0.7, 0, Math.PI * 2); ctx.fill();
-        }
-      }
-      ctx.globalAlpha = 1;
-      const shine = ctx.createLinearGradient(0, 0, 0, h * 0.25);
-      shine.addColorStop(0, 'rgba(255,255,255,0.15)'); shine.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = shine; ctx.fillRect(0, 0, w, h * 0.25);
-    },
-  },
-  {
-    id: 'stripes-green-diag', name: 'Green Diagonal', color: '#22c55e', bgColor: '#16a34a',
-    draw: (ctx, w, h) => {
-      const grad = ctx.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, '#22c55e'); grad.addColorStop(0.5, '#16a34a'); grad.addColorStop(1, '#15803d');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
-      ctx.lineCap = 'round'; ctx.lineWidth = 3;
-      for (let x = -h * 2; x < w + h * 2; x += 8) {
-        ctx.strokeStyle = '#15803d'; ctx.globalAlpha = 0.5;
+      ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h);
+      ctx.lineCap = 'butt'; ctx.lineWidth = 5;
+      for (let x = -h * 2; x < w + h * 2; x += 10) {
+        ctx.strokeStyle = '#93c5fd'; ctx.globalAlpha = 0.6;
         ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x + h, h); ctx.stroke();
       }
       ctx.globalAlpha = 1;
-      const shine = ctx.createLinearGradient(0, 0, 0, h * 0.25);
-      shine.addColorStop(0, 'rgba(255,255,255,0.15)'); shine.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = shine; ctx.fillRect(0, 0, w, h * 0.25);
-    },
-  },
-  {
-    id: 'grid-purple', name: 'Purple Grid', color: '#a855f7', bgColor: '#9333ea',
-    draw: (ctx, w, h) => {
-      const grad = ctx.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, '#a855f7'); grad.addColorStop(0.5, '#9333ea'); grad.addColorStop(1, '#7e22ce');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
-      const spacing = 6;
-      ctx.strokeStyle = '#7e22ce'; ctx.lineWidth = 1.8; ctx.globalAlpha = 0.5;
-      for (let y = 0; y < h; y += spacing) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
-      for (let x = 0; x < w; x += spacing) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
-      ctx.globalAlpha = 0.08; ctx.fillStyle = '#ffffff';
-      for (let x = 0; x < w; x += spacing) { for (let y = 0; y < h; y += spacing) { ctx.beginPath(); ctx.arc(x, y, 1, 0, Math.PI * 2); ctx.fill(); } }
-      ctx.globalAlpha = 1;
-      const shine = ctx.createLinearGradient(0, 0, 0, h * 0.25);
-      shine.addColorStop(0, 'rgba(255,255,255,0.12)'); shine.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = shine; ctx.fillRect(0, 0, w, h * 0.25);
-    },
-  },
-  {
-    id: 'chevron-yellow', name: 'Yellow Chevron', color: '#eab308', bgColor: '#ca8a04',
-    draw: (ctx, w, h) => {
-      const grad = ctx.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, '#fef08a'); grad.addColorStop(0.5, '#facc15'); grad.addColorStop(1, '#eab308');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
-      ctx.strokeStyle = '#a16207'; ctx.lineWidth = 2.2; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.globalAlpha = 0.45;
-      const cw = 10, ch = 6;
-      for (let x = -cw; x < w + cw; x += cw) {
-        for (let y = -ch; y < h + ch; y += ch * 2) {
-          const oy = (Math.floor(x / cw) % 2) * ch;
-          ctx.beginPath(); ctx.moveTo(x, y + oy); ctx.lineTo(x + cw / 2, y + ch + oy); ctx.lineTo(x + cw, y + oy); ctx.stroke();
-        }
-      }
-      ctx.globalAlpha = 0.2; ctx.strokeStyle = '#fef9c3'; ctx.lineWidth = 0.8;
-      for (let x = -cw; x < w + cw; x += cw) {
-        for (let y = -ch; y < h + ch; y += ch * 2) {
-          const oy = (Math.floor(x / cw) % 2) * ch;
-          ctx.beginPath(); ctx.moveTo(x + 1, y + oy + 1); ctx.lineTo(x + cw / 2 + 1, y + ch + oy + 1); ctx.lineTo(x + cw + 1, y + oy + 1); ctx.stroke();
-        }
-      }
-      ctx.globalAlpha = 1;
-      const shine = ctx.createLinearGradient(0, 0, 0, h * 0.25);
-      shine.addColorStop(0, 'rgba(255,255,255,0.15)'); shine.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = shine; ctx.fillRect(0, 0, w, h * 0.25);
-    },
-  },
-  {
-    id: 'waves-teal', name: 'Teal Waves', color: '#14b8a6', bgColor: '#0d9488',
-    draw: (ctx, w, h) => {
-      const grad = ctx.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, '#5eead4'); grad.addColorStop(0.5, '#14b8a6'); grad.addColorStop(1, '#0d9488');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
-      ctx.strokeStyle = '#0f766e'; ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.globalAlpha = 0.5;
-      const waveH = 4, waveW = 14;
-      for (let y = 3; y < h + waveH; y += waveH * 2) {
-        ctx.beginPath();
-        for (let x = 0; x <= w; x += 1) {
-          const yy = y + Math.sin((x / waveW) * Math.PI * 2) * waveH;
-          if (x === 0) ctx.moveTo(x, yy); else ctx.lineTo(x, yy);
-        }
-        ctx.stroke();
-      }
-      ctx.strokeStyle = '#99f6e4'; ctx.lineWidth = 0.8; ctx.globalAlpha = 0.3;
-      for (let y = 3 + waveH; y < h + waveH; y += waveH * 2) {
-        ctx.beginPath();
-        for (let x = 0; x <= w; x += 1) {
-          const yy = y + Math.sin((x / waveW) * Math.PI * 2 + Math.PI * 0.5) * (waveH * 0.6);
-          if (x === 0) ctx.moveTo(x, yy); else ctx.lineTo(x, yy);
-        }
-        ctx.stroke();
-      }
-      ctx.globalAlpha = 1;
-      const shine = ctx.createLinearGradient(0, 0, 0, h * 0.25);
-      shine.addColorStop(0, 'rgba(255,255,255,0.15)'); shine.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = shine; ctx.fillRect(0, 0, w, h * 0.25);
-    },
-  },
-  {
-    id: 'zigzag-orange', name: 'Orange Zigzag', color: '#f97316', bgColor: '#ea580c',
-    draw: (ctx, w, h) => {
-      const grad = ctx.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, '#fdba74'); grad.addColorStop(0.5, '#f97316'); grad.addColorStop(1, '#ea580c');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
-      ctx.strokeStyle = '#9a3412'; ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.globalAlpha = 0.45;
-      const zw = 8, zh = 5;
-      for (let y = zh; y < h; y += zh * 2.5) {
-        ctx.beginPath(); ctx.moveTo(0, y);
-        for (let x = 0; x < w + zw; x += zw) {
-          const peak = (Math.floor(x / zw) % 2 === 0) ? y - zh : y + zh;
-          ctx.lineTo(x, peak);
-        }
-        ctx.stroke();
-      }
-      ctx.strokeStyle = '#fed7aa'; ctx.lineWidth = 0.8; ctx.globalAlpha = 0.25;
-      for (let y = zh; y < h; y += zh * 2.5) {
-        ctx.beginPath(); ctx.moveTo(1, y + 1);
-        for (let x = 0; x < w + zw; x += zw) {
-          const peak = (Math.floor(x / zw) % 2 === 0) ? y - zh + 1 : y + zh + 1;
-          ctx.lineTo(x + 1, peak);
-        }
-        ctx.stroke();
-      }
-      ctx.globalAlpha = 1;
-      const shine = ctx.createLinearGradient(0, 0, 0, h * 0.25);
-      shine.addColorStop(0, 'rgba(255,255,255,0.15)'); shine.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = shine; ctx.fillRect(0, 0, w, h * 0.25);
     },
   },
 ];
