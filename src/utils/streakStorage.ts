@@ -337,6 +337,6 @@ export const checkAndUpdateStreak = async (storageKey: string): Promise<StreakDa
 };
 
 // Storage key constants
-export const TASK_STREAK_KEY = 'npd_task_streak';
-export const NOTES_STREAK_KEY = 'npd_notes_streak';
-export const HABITS_STREAK_KEY = 'npd_habits_streak';
+export const TASK_STREAK_KEY = 'flowist_task_streak';
+export const NOTES_STREAK_KEY = 'flowist_notes_streak';
+export const HABITS_STREAK_KEY = 'flowist_habits_streak';

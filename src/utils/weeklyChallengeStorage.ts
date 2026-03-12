@@ -22,7 +22,7 @@ export interface WeeklyChallengesData {
   allCompleted: boolean;
 }
 
-const STORAGE_KEY = 'npd_weekly_challenges';
+const STORAGE_KEY = 'flowist_weekly_challenges';
 
 const WEEKLY_CHALLENGE_TEMPLATES = [
   { type: 'complete_tasks', title: 'Task Conqueror', description: 'Complete {target} tasks this week', targets: [15, 20, 25, 30], xpBase: [0, 0, 0, 0], icon: '🎯' },

@@ -21,7 +21,7 @@ export interface WeeklyGoalsData {
   totalGoalsCompleted: number;
 }
 
-const WEEKLY_GOALS_KEY = 'npd_weekly_goals';
+const WEEKLY_GOALS_KEY = 'flowist_weekly_goals';
 
 const getDefaultWeeklyGoalsData = (): WeeklyGoalsData => {
   const weekStart = format(startOfWeek(new Date(), { weekStartsOn: 6 }), 'yyyy-MM-dd'); // Start on Saturday

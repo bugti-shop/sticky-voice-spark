@@ -247,9 +247,9 @@ export interface NoteProtection {
   useBiometric: boolean;
 }
 
-const getNoteProtectionKey = (noteId: string) => `npd_note_protection_${noteId}`;
-const getNotePasswordKey = (noteId: string) => `npd_note_password_${noteId}`;
-const getNoteSaltKey = (noteId: string) => `npd_note_salt_${noteId}`;
+const getNoteProtectionKey = (noteId: string) => `flowist_note_protection_${noteId}`;
+const getNotePasswordKey = (noteId: string) => `flowist_note_password_${noteId}`;
+const getNoteSaltKey = (noteId: string) => `flowist_note_salt_${noteId}`;
 
 export const getNoteProtection = async (noteId: string): Promise<NoteProtection> => {
   const data = await getSetting<NoteProtection | null>(getNoteProtectionKey(noteId), null);
