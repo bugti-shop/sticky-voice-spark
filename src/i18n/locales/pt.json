@@ -845,7 +845,7 @@
     "title": "Web Clipper",
     "description": "Salve páginas da web diretamente em suas notas com um clique",
     "dragOption": "Opção 1: Arrastar para a Barra de Favoritos",
-    "clipToNpd": "📎 Salvar no Npd",
+    "clipToNpd": "📎 Salvar no Flowist",
     "dragInstructions": "Arraste este botão para a barra de favoritos do seu navegador",
     "manualOption": "Opção 2: Configuração Manual",
     "copyCode": "Copiar Código",
