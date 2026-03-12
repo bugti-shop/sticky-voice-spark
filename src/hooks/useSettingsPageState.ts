@@ -103,7 +103,7 @@ export const useSettingsPageState = () => {
             const hours = Math.floor((totalMinutesRemaining % (24 * 60)) / 60);
             const minutes = totalMinutesRemaining % 60;
             setTrialRemaining({ days, hours, minutes });
-            const sessionWarningShown = sessionStorage.getItem('npd_trial_warning_shown');
+            const sessionWarningShown = sessionStorage.getItem('flowist_trial_warning_shown');
             if (days === 0 && !sessionWarningShown && !hasShownTrialWarning) {
               toast({ title: `⏰ ${t('trial.endingSoon')}`, description: t('trial.expiresIn', { hours, minutes }), duration: 10000 });
               sessionStorage.setItem('npd_trial_warning_shown', 'true');
