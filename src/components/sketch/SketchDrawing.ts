@@ -644,7 +644,7 @@ export const drawStroke = (ctx: CanvasRenderingContext2D, stroke: Stroke, asClip
     case 'washi': {
       if (stroke.points.length < 2) break;
       const washiWidth = stroke.width;
-      const patternId = (stroke as any).washiPatternId;
+      const patternId = stroke.washiPatternId;
       const pattern = WASHI_PATTERNS.find(p => p.id === patternId) || WASHI_PATTERNS[0];
 
       // Calculate bounding box of the stroke path
