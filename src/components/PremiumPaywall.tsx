@@ -225,19 +225,19 @@ export const PremiumPaywall = () => {
 
           {/* Terms & Privacy links — Apple required */}
           <div className="flex items-center justify-center gap-4 mt-2">
-            <button 
-              onClick={() => { closePaywall(); navigate('/terms'); }} 
+            <a 
+              href="/terms"
               className="text-[11px] text-muted-foreground underline"
             >
               Terms of Use
-            </button>
+            </a>
             <span className="text-muted-foreground text-[10px]">•</span>
-            <button 
-              onClick={() => { closePaywall(); navigate('/privacy'); }}
+            <a 
+              href="/privacy"
               className="text-[11px] text-muted-foreground underline"
             >
               Privacy Policy
-            </button>
+            </a>
           </div>
 
           {/* Access Code */}
