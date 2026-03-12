@@ -239,12 +239,8 @@ export const useTodayActions = (props: UseTodayActionsProps) => {
     const now = new Date();
     const updatesWithTimestamp: Partial<TodoItem> = { ...updates, modifiedAt: now };
 
-    // Get the current item from items
-    let currentItem: TodoItem | undefined;
-    setItems(prev => {
-      currentItem = prev.find(i => i.id === itemId);
-      return prev; // Don't modify yet
-    });
+    // Get the current item from ref (reliable in async contexts)
+    const currentItem = itemsRef.current.find(i => i.id === itemId);
 
     if (updates.completed === true && currentItem && !currentItem.completed) {
       updatesWithTimestamp.completedAt = now;
