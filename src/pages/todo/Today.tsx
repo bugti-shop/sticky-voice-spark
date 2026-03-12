@@ -35,6 +35,8 @@ import { PriorityView } from '@/components/todo/PriorityView';
 import { HistoryView } from '@/components/todo/HistoryView';
 import { GroupedView } from '@/components/todo/GroupedView';
 import { FlatView } from '@/components/todo/FlatView';
+import { TaskSectionHeader } from '@/components/todo/TaskSectionHeader';
+import { TaskSubtasksInline } from '@/components/todo/TaskSubtasksInline';
 
 const Today = () => {
   const { t } = useTranslation();
