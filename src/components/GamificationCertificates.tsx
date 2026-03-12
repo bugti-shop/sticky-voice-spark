@@ -63,8 +63,8 @@ const CERTIFICATE_LEVELS: CertificateLevel[] = [
     subtitle: 'First Steps',
     icon: Shield,
     requirements: { tasksCompleted: 10, streakDays: 3, notesCreated: 3, foldersUsed: 1 },
-    certificateText: 'This certifies that the holder has demonstrated initiative in personal productivity by completing their first milestones on Npd. By establishing early habits of task management and note-taking, they have laid the foundation for sustained productivity excellence.',
-    linkedInDescription: '🏅 Just earned my Npd Beginner Certificate!\n\nI completed 10+ tasks, maintained a 3-day streak, and started organizing my workflow with Npd task manager.\n\nSmall wins compound into big results. The journey of a thousand tasks starts with one ✅\n\n#Productivity #TaskManagement #Npd #PersonalGrowth',
+    certificateText: 'This certifies that the holder has demonstrated initiative in personal productivity by completing their first milestones on Flowist. By establishing early habits of task management and note-taking, they have laid the foundation for sustained productivity excellence.',
+    linkedInDescription: '🏅 Just earned my Flowist Beginner Certificate!\n\nI completed 10+ tasks, maintained a 3-day streak, and started organizing my workflow with Flowist task manager.\n\nSmall wins compound into big results. The journey of a thousand tasks starts with one ✅\n\n#Productivity #TaskManagement #Flowist #PersonalGrowth',
     colors: {
       bg: 'linear-gradient(160deg, hsl(200, 25%, 12%), hsl(210, 30%, 16%))',
       accent: 'hsl(200, 70%, 55%)',
