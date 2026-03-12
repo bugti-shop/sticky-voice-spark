@@ -495,7 +495,7 @@ export const performIncrementalSync = async (): Promise<SyncResult> => {
       const meta = await getLastSyncInfo();
       if (meta) {
         meta.changeToken = newStartPageToken;
-        await setSetting('npd_last_sync', meta);
+        await setSetting('flowist_last_sync', meta);
       }
     }
 
