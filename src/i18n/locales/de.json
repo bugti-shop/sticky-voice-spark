@@ -846,7 +846,7 @@
     "title": "Web Clipper",
     "description": "Speichern Sie Webseiten mit einem Klick direkt in Ihren Notizen",
     "dragOption": "Option 1: Zur Lesezeichen-Leiste Ziehen",
-    "clipToNpd": "📎 Zu Npd Speichern",
+    "clipToNpd": "📎 Zu Flowist Speichern",
     "dragInstructions": "Ziehen Sie diese Schaltfläche in die Lesezeichen-Leiste Ihres Browsers",
     "manualOption": "Option 2: Manuelle Einrichtung",
     "copyCode": "Code Kopieren",
