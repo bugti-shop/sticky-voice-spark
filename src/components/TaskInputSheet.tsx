@@ -1049,6 +1049,18 @@ export const TaskInputSheet = ({ isOpen, onClose, onAddTask, folders, selectedFo
             </div>
           )}
 
+          {/* Urgent indicator */}
+          {isUrgent && (
+            <div className="px-4 py-2 bg-destructive/10 dark:bg-destructive/20 rounded-lg flex items-center gap-2 mb-4 border border-destructive/30">
+              <AlertTriangle className="h-4 w-4 text-destructive animate-pulse" />
+              <span className="text-sm text-destructive font-medium">
+                {t('taskInput.urgentEnabled', 'Urgent — Full-screen reminder will trigger')}
+              </span>
+              <button onClick={() => setIsUrgent(false)} className="ml-auto">
+                <X className="h-4 w-4 text-destructive hover:text-destructive/70" />
+              </button>
+            </div>
+          )}
 
           <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {/* Template button - always first */}
