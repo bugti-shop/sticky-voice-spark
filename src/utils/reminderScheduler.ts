@@ -198,6 +198,16 @@ export const createReminderChannels = async (): Promise<void> => {
       sound: 'default',
     });
 
+    await LocalNotifications.createChannel({
+      id: 'urgent-reminders',
+      name: 'Urgent Reminders',
+      description: 'Full-screen urgent task reminders',
+      importance: 5, // MAX
+      visibility: 1,
+      vibration: true,
+      sound: 'default',
+    });
+
     console.log('[Reminder] Notification channels created');
   } catch (e) {
     console.warn('[Reminder] Channel creation failed:', e);
@@ -216,4 +226,32 @@ export const initializeReminders = async (): Promise<void> => {
   setTimeout(async () => {
     await requestReminderPermission();
   }, 1500);
+
+  // Listen for notification actions (when user taps notification)
+  try {
+    await LocalNotifications.addListener('localNotificationActionPerformed', (notification) => {
+      const extra = notification.notification.extra;
+      if (extra?.isUrgent && extra?.taskId) {
+        // Trigger full-screen reminder when urgent notification is tapped
+        try {
+          const { storePendingUrgentReminder } = require('@/components/FullScreenReminderOverlay');
+          storePendingUrgentReminder(extra.taskId, notification.notification.body || 'Urgent Task');
+        } catch {}
+      }
+    });
+
+    // Also listen for when notification is received while app is open
+    await LocalNotifications.addListener('localNotificationReceived', (notification) => {
+      const extra = notification.extra;
+      if (extra?.isUrgent && extra?.taskId) {
+        // Show full-screen overlay immediately
+        try {
+          const { triggerUrgentReminder } = require('@/components/FullScreenReminderOverlay');
+          triggerUrgentReminder(extra.taskId, notification.body || 'Urgent Task');
+        } catch {}
+      }
+    });
+  } catch (e) {
+    console.warn('[Reminder] Listener setup failed:', e);
+  }
 };
