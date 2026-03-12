@@ -39,7 +39,7 @@ export const LocationDisclosureDialog = ({
         <div className="flex-1 overflow-y-auto min-h-0 pr-1">
           <div className="space-y-3 text-sm text-muted-foreground">
             <p className="text-foreground font-semibold text-base">
-              Npd collects location data to enable location-based task reminders even when the app is closed or not in use.
+              Flowist collects location data to enable location-based task reminders even when the app is closed or not in use.
             </p>
             <div className="bg-muted/50 rounded-lg p-3 space-y-2">
               <p className="font-medium text-foreground flex items-center gap-2">

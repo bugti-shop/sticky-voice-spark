@@ -107,7 +107,7 @@ export const SmartReviewPrompt = () => {
             >
               <Heart className="h-5 w-5 text-destructive fill-destructive mx-auto mb-2" />
               <h3 className="text-lg font-bold text-foreground mb-1">
-                Loving Npd?
+                Loving Flowist?
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
                 You just hit a <span className="font-semibold text-foreground">{milestone}-day streak!</span>

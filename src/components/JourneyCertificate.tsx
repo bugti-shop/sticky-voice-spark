@@ -58,7 +58,7 @@ const JOURNEY_COLORS: Record<string, { bg: string; accent: string; text: string;
 };
 
 const getLinkedInText = (journey: Journey, userName: string, totalTasks: number, totalDays: number) => {
-  return `🏆 Journey Complete: ${journey.name}!\n\nI just completed the "${journey.name}" virtual journey on Npd by finishing ${totalTasks} tasks in ${totalDays} days! ${journey.emoji}\n\n${journey.description}\n\nMilestones conquered:\n${journey.milestones.map(m => `${m.icon} ${m.name} (${m.tasksRequired} tasks)`).join('\n')}\n\nProductivity meets adventure! Every task completed brought me closer to the finish line. 🎯\n\n${userName ? `— ${userName}` : ''}\n#Productivity #VirtualJourney #Npd #TaskManagement #Achievement`;
+  return `🏆 Journey Complete: ${journey.name}!\n\nI just completed the "${journey.name}" virtual journey on Flowist by finishing ${totalTasks} tasks in ${totalDays} days! ${journey.emoji}\n\n${journey.description}\n\nMilestones conquered:\n${journey.milestones.map(m => `${m.icon} ${m.name} (${m.tasksRequired} tasks)`).join('\n')}\n\nProductivity meets adventure! Every task completed brought me closer to the finish line. 🎯\n\n${userName ? `— ${userName}` : ''}\n#Productivity #VirtualJourney #Flowist #TaskManagement #Achievement`;
 };
 
 export const JourneyCertificate = ({ open, onClose, journey, progress }: JourneyCertificateProps) => {
@@ -336,7 +336,7 @@ export const JourneyCertificate = ({ open, onClose, journey, progress }: Journey
               <div style={{ textAlign: 'left' }}>
                 <div data-export-brand-row="true" style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 3 }}>
                   <span data-export-brand-name="true" style={{ color: '#ffffff', fontSize: 13, fontWeight: 600 }}>
-                    Npd: Notepad & To Do List
+                    Flowist
                   </span>
                 </div>
                 <p style={{ color: colors.text, fontSize: 7, opacity: 0.45, margin: 0 }}>
