@@ -60,8 +60,8 @@ export const CardBrandingFooterLarge = ({
       </div>
     )}
     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-      <img src={npdLogo} alt="Npd" style={{ width: '48px', height: '48px', borderRadius: '12px' }} />
-      <span style={{ fontSize: '32px', fontWeight: 700, color, letterSpacing: '4px' }}>Npd</span>
+      <img src={npdLogo} alt="Flowist" style={{ width: '48px', height: '48px', borderRadius: '12px' }} />
+      <span style={{ fontSize: '32px', fontWeight: 700, color, letterSpacing: '4px' }}>Flowist</span>
     </div>
   </div>
 );
