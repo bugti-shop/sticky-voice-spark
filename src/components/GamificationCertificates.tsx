@@ -97,8 +97,8 @@ const CERTIFICATE_LEVELS: CertificateLevel[] = [
     subtitle: 'Proven Discipline',
     icon: Award,
     requirements: { tasksCompleted: 200, streakDays: 14, notesCreated: 30, foldersUsed: 3 },
-    certificateText: 'This certifies that the holder has achieved Expert-level mastery in personal productivity with Npd. By completing 200+ tasks, maintaining a 14-day streak, and creating a comprehensive knowledge base of 30+ notes, they have proven their ability to sustain disciplined, organized work habits over time.',
-    linkedInDescription: '🏆 Npd Expert Certificate — Unlocked!\n\n200+ tasks completed. 14-day streak. 30+ notes captured.\n\nProductivity isn\'t about doing more — it\'s about consistently doing what matters. Npd helped me build that system.\n\nHere\'s what changed:\n→ Clearer priorities\n→ Fewer missed deadlines\n→ Better idea capture\n\n#ProductivityExpert #Npd #TimeManagement #SystemsThinking #ProfessionalDevelopment',
+    certificateText: 'This certifies that the holder has achieved Expert-level mastery in personal productivity with Flowist. By completing 200+ tasks, maintaining a 14-day streak, and creating a comprehensive knowledge base of 30+ notes, they have proven their ability to sustain disciplined, organized work habits over time.',
+    linkedInDescription: '🏆 Flowist Expert Certificate — Unlocked!\n\n200+ tasks completed. 14-day streak. 30+ notes captured.\n\nProductivity isn\'t about doing more — it\'s about consistently doing what matters. Flowist helped me build that system.\n\nHere\'s what changed:\n→ Clearer priorities\n→ Fewer missed deadlines\n→ Better idea capture\n\n#ProductivityExpert #Flowist #TimeManagement #SystemsThinking #ProfessionalDevelopment',
     colors: {
       bg: 'linear-gradient(160deg, hsl(220, 30%, 10%), hsl(230, 35%, 15%))',
       accent: 'hsl(220, 85%, 60%)',
