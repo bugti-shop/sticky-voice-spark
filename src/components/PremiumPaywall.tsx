@@ -1,21 +1,23 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { X, Crown, Unlock, Bell, Loader2, MapPin, Check } from 'lucide-react';
+import { X, Crown, Unlock, Bell, Check, Shield, Sparkles } from 'lucide-react';
 import { useSubscription, ProductType } from '@/contexts/SubscriptionContext';
 import { Capacitor } from '@capacitor/core';
 import { Purchases } from '@revenuecat/purchases-capacitor';
 import { triggerHaptic } from '@/utils/haptics';
 import { useHardwareBackButton } from '@/hooks/useHardwareBackButton';
 import { setSetting } from '@/utils/settingsStorage';
+import { useNavigate } from 'react-router-dom';
 
 const PLANS = [
-  { id: 'weekly' as ProductType, label: 'Weekly', price: '$1.99/wk', badge: null },
-  { id: 'monthly' as ProductType, label: 'Monthly', price: '$5.99/mo', badge: 'Popular' },
-  { id: 'yearly' as ProductType, label: 'Yearly', price: '$39.99/yr', badge: 'Best Value' },
+  { id: 'weekly' as ProductType, label: 'Weekly', price: '$1.99', period: '/wk', badge: null },
+  { id: 'monthly' as ProductType, label: 'Monthly', price: '$5.99', period: '/mo', badge: 'Popular' },
+  { id: 'yearly' as ProductType, label: 'Yearly', price: '$39.99', period: '/yr', badge: 'Best Value', savings: 'Save 45%' },
 ] as const;
 
 export const PremiumPaywall = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { showPaywall, closePaywall, unlockPro, purchase } = useSubscription();
   const [selectedPlan, setSelectedPlan] = useState<ProductType>('monthly');
   const [isPurchasing, setIsPurchasing] = useState(false);
@@ -97,62 +99,78 @@ export const PremiumPaywall = () => {
     }
   };
 
+  const getSubscriptionDescription = () => {
+    switch (selectedPlan) {
+      case 'weekly':
+        return 'Payment of $1.99 will be charged to your Apple ID account at confirmation of purchase. Subscription automatically renews every week unless canceled at least 24 hours before the end of the current period. Your account will be charged for renewal within 24 hours prior to the end of the current period.';
+      case 'monthly':
+        return 'Payment of $5.99 will be charged to your Apple ID account at confirmation of purchase. Subscription automatically renews every month unless canceled at least 24 hours before the end of the current period. Your account will be charged for renewal within 24 hours prior to the end of the current period.';
+      case 'yearly':
+        return 'Payment of $39.99 will be charged to your Apple ID account at confirmation of purchase. Subscription automatically renews every year unless canceled at least 24 hours before the end of the current period. Your account will be charged for renewal within 24 hours prior to the end of the current period.';
+    }
+  };
+
   return (
-    <div className="fixed inset-0 z-[200] bg-white flex flex-col" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 12px)', paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 24px)' }}>
+    <div className="fixed inset-0 z-[200] bg-background flex flex-col" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 8px)', paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 16px)' }}>
       {/* Close button */}
       <div className="flex justify-end px-4 py-2">
-        <button onClick={closePaywall} className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
-          <X className="h-5 w-5 text-gray-600" />
+        <button onClick={closePaywall} className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
+          <X className="h-5 w-5 text-muted-foreground" />
         </button>
       </div>
 
       <div className="flex-1 overflow-y-auto px-6">
-        <h1 className="text-3xl font-bold text-center mb-6">{t('onboarding.paywall.upgradeTitle')}</h1>
+        {/* Title */}
+        <div className="text-center mb-6">
+          <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-3">
+            <Crown className="h-8 w-8 text-primary" />
+          </div>
+          <h1 className="text-2xl font-bold text-foreground">{t('onboarding.paywall.upgradeTitle')}</h1>
+          <p className="text-sm text-muted-foreground mt-1">Unlock the full Flowist experience</p>
+        </div>
         
-        {/* Feature timeline */}
-        <div className="flex flex-col items-start mx-auto w-80 relative">
-          <div className="absolute left-[10.5px] top-[20px] bottom-[20px] w-[11px] bg-primary/20 rounded-b-full"></div>
-
-           <div className="flex items-start gap-3 mb-6 relative">
-             <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground z-10 flex-shrink-0">
-               <Unlock size={16} strokeWidth={2} />
-             </div>
-             <div>
-               <p className="font-semibold">{t('onboarding.paywall.unlockAllFeatures')}</p>
-               <p className="text-muted-foreground text-sm">{t('onboarding.paywall.unlockAllFeaturesDesc')}</p>
-             </div>
-           </div>
-           <div className="flex items-start gap-3 mb-6 relative">
-             <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground z-10 flex-shrink-0">
-               <Bell size={16} strokeWidth={2} />
-             </div>
-             <div>
-               <p className="font-semibold">{t('onboarding.paywall.unlimitedEverything')}</p>
-               <p className="text-muted-foreground text-sm">{t('onboarding.paywall.unlimitedEverythingDesc')}</p>
-             </div>
-           </div>
-           <div className="flex items-start gap-3 mb-6 relative">
-             <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground z-10 flex-shrink-0">
-               <Crown size={16} strokeWidth={2} />
-             </div>
-             <div>
-               <p className="font-semibold">{t('onboarding.paywall.proMember')}</p>
-               <p className="text-muted-foreground text-sm">{t('onboarding.paywall.proMemberDesc')}</p>
-             </div>
-           </div>
+        {/* Features */}
+        <div className="space-y-4 max-w-sm mx-auto mb-8">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <Unlock size={18} className="text-primary" />
+            </div>
+            <div>
+              <p className="font-semibold text-sm text-foreground">{t('onboarding.paywall.unlockAllFeatures')}</p>
+              <p className="text-muted-foreground text-xs">{t('onboarding.paywall.unlockAllFeaturesDesc')}</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <Sparkles size={18} className="text-primary" />
+            </div>
+            <div>
+              <p className="font-semibold text-sm text-foreground">{t('onboarding.paywall.unlimitedEverything')}</p>
+              <p className="text-muted-foreground text-xs">{t('onboarding.paywall.unlimitedEverythingDesc')}</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <Shield size={18} className="text-primary" />
+            </div>
+            <div>
+              <p className="font-semibold text-sm text-foreground">{t('onboarding.paywall.proMember')}</p>
+              <p className="text-muted-foreground text-xs">{t('onboarding.paywall.proMemberDesc')}</p>
+            </div>
+          </div>
         </div>
 
         {/* Plan selection */}
-        <div className="mt-10 flex flex-col items-center gap-4">
+        <div className="flex flex-col items-center gap-4">
           <div className="flex gap-3 w-full max-w-sm">
             {PLANS.map((plan) => (
               <button
                 key={plan.id}
-                onClick={() => setSelectedPlan(plan.id)}
+                onClick={() => { setSelectedPlan(plan.id); triggerHaptic('light'); }}
                 className={`flex-1 relative rounded-xl p-3 text-center border-2 transition-all ${
                   selectedPlan === plan.id 
-                    ? 'border-primary bg-secondary' 
-                    : 'border-muted bg-white'
+                    ? 'border-primary bg-primary/5' 
+                    : 'border-border bg-card'
                 }`}
               >
                 {plan.badge && (
@@ -160,8 +178,11 @@ export const PremiumPaywall = () => {
                     {plan.badge}
                   </span>
                 )}
-                <p className="font-bold text-sm">{plan.label}</p>
-                <p className="text-muted-foreground text-xs mt-1">{plan.price}</p>
+                <p className="font-bold text-sm text-foreground">{plan.label}</p>
+                <p className="text-muted-foreground text-xs mt-0.5">{plan.price}{plan.period}</p>
+                {'savings' in plan && plan.savings && (
+                  <p className="text-[10px] text-primary font-semibold mt-0.5">{plan.savings}</p>
+                )}
                 {selectedPlan === plan.id && (
                   <div className="absolute top-1 right-1 w-4 h-4 rounded-full bg-primary flex items-center justify-center">
                     <Check size={10} className="text-primary-foreground" />
@@ -171,60 +192,87 @@ export const PremiumPaywall = () => {
             ))}
           </div>
 
-          <div className="flex flex-col items-center gap-2">
+          {/* Purchase button */}
+          <button 
+            onClick={handlePurchase}
+            disabled={isPurchasing}
+            className="w-full max-w-sm mt-2 btn-duo disabled:opacity-50"
+          >
+            {isPurchasing ? t('onboarding.paywall.processing') : `Subscribe — ${currentPlan.price}${currentPlan.period}`}
+          </button>
+
+          {/* Restore */}
+          <button 
+            onClick={handleRestore}
+            disabled={isRestoring}
+            className="text-primary font-medium text-sm disabled:opacity-50"
+          >
+            {isRestoring ? t('onboarding.paywall.restoring') : t('onboarding.paywall.restorePurchase')}
+          </button>
+
+          {adminError && (
+            <p className="text-destructive text-xs">{adminError}</p>
+          )}
+
+          {/* Apple-required subscription disclosure */}
+          <div className="mt-4 px-2 max-w-sm">
+            <p className="text-[10px] text-muted-foreground text-center leading-relaxed">
+              {getSubscriptionDescription()}
+            </p>
+            <p className="text-[10px] text-muted-foreground text-center leading-relaxed mt-2">
+              You can manage and cancel your subscription in your device's Settings → Apple ID → Subscriptions. Any unused portion of a free trial period will be forfeited when you purchase a subscription.
+            </p>
+          </div>
+
+          {/* Terms & Privacy links — Apple required */}
+          <div className="flex items-center justify-center gap-4 mt-2">
             <button 
-              onClick={handlePurchase}
-              disabled={isPurchasing}
-              className="w-80 mt-4 btn-duo disabled:opacity-50"
+              onClick={() => { closePaywall(); navigate('/terms'); }} 
+              className="text-[11px] text-muted-foreground underline"
             >
-              {isPurchasing ? t('onboarding.paywall.processing') : `Continue with ${currentPlan.label} — ${currentPlan.price}`}
+              Terms of Use
             </button>
-
+            <span className="text-muted-foreground text-[10px]">•</span>
             <button 
-              onClick={handleRestore}
-              disabled={isRestoring}
-              className="text-primary font-medium text-sm mt-2 disabled:opacity-50"
+              onClick={() => { closePaywall(); navigate('/privacy'); }}
+              className="text-[11px] text-muted-foreground underline"
             >
-              {isRestoring ? t('onboarding.paywall.restoring') : t('onboarding.paywall.restorePurchase')}
+              Privacy Policy
             </button>
+          </div>
 
-            {adminError && (
-              <p className="text-destructive text-xs mt-1">{adminError}</p>
-            )}
-
-            {/* Access Code */}
-            <div className="mt-6 w-full">
-              {!showAdminInput ? (
-                <button 
-                  onClick={() => setShowAdminInput(true)}
-                  className="text-muted-foreground text-xs underline"
-                >
-                  {t('onboarding.paywall.accessCode')}
-                </button>
-              ) : (
-                <div className="flex flex-col items-center gap-2">
-                  <div className="flex gap-2 w-full max-w-xs">
-                    <input
-                      type="password"
-                      value={adminCode}
-                      onChange={(e) => {
-                        setAdminCode(e.target.value.slice(0, 20));
-                        setAdminError('');
-                      }}
-                      placeholder={t('onboarding.paywall.enterAccessCode')}
-                      className="flex-1 px-4 py-2 border border-muted rounded-lg text-center text-sm focus:outline-none focus:border-primary"
-                      maxLength={20}
-                    />
-                    <button
-                      onClick={handleAccessCode}
-                      className="px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium"
-                    >
-                      {t('onboarding.paywall.apply')}
-                    </button>
-                  </div>
+          {/* Access Code */}
+          <div className="mt-4 w-full max-w-sm pb-4">
+            {!showAdminInput ? (
+              <button 
+                onClick={() => setShowAdminInput(true)}
+                className="text-muted-foreground text-xs underline mx-auto block"
+              >
+                {t('onboarding.paywall.accessCode')}
+              </button>
+            ) : (
+              <div className="flex flex-col items-center gap-2">
+                <div className="flex gap-2 w-full">
+                  <input
+                    type="password"
+                    value={adminCode}
+                    onChange={(e) => {
+                      setAdminCode(e.target.value.slice(0, 20));
+                      setAdminError('');
+                    }}
+                    placeholder={t('onboarding.paywall.enterAccessCode')}
+                    className="flex-1 px-4 py-2 border border-border rounded-lg text-center text-sm bg-card text-foreground focus:outline-none focus:border-primary"
+                    maxLength={20}
+                  />
+                  <button
+                    onClick={handleAccessCode}
+                    className="px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium"
+                  >
+                    {t('onboarding.paywall.apply')}
+                  </button>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
