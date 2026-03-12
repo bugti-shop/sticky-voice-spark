@@ -446,7 +446,7 @@ export const performSync = async (): Promise<SyncResult> => {
 // ── Get last sync info ─────────────────────────────────────────────────────
 
 export const getLastSyncInfo = async (): Promise<SyncMeta | null> => {
-  return getSetting<SyncMeta | null>('npd_last_sync', null);
+  return getSetting<SyncMeta | null>('flowist_last_sync', null);
 };
 
 // ── Check if sync is available ─────────────────────────────────────────────
