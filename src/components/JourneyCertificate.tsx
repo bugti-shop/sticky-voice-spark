@@ -125,7 +125,7 @@ export const JourneyCertificate = ({ open, onClose, journey, progress }: Journey
 
       await shareImageBlob({
         blob,
-        fileName: `npd-journey-${journey.id}.png`,
+        fileName: `flowist-journey-${journey.id}.png`,
         title: `${journey.name} - Journey Complete!`,
         text: getLinkedInText(journey, displayName, totalTasks, totalDays),
         dialogTitle: 'Share Journey Certificate',

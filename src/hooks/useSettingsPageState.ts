@@ -85,13 +85,13 @@ export const useSettingsPageState = () => {
 
   // Admin bypass check
   useEffect(() => {
-    getSetting<boolean>('npd_admin_bypass', false).then(setHasAdminAccess);
+    getSetting<boolean>('flowist_admin_bypass', false).then(setHasAdminAccess);
   }, []);
 
   // Trial countdown
   useEffect(() => {
     const loadTrialData = async () => {
-      const trialStartStr = await getSetting<string | null>('npd_trial_start', null);
+      const trialStartStr = await getSetting<string | null>('flowist_trial_start', null);
       if (trialStartStr && isProUser && !hasAdminAccess) {
         const trialStart = new Date(trialStartStr);
         const trialEnd = addDays(trialStart, 3);
@@ -103,10 +103,10 @@ export const useSettingsPageState = () => {
             const hours = Math.floor((totalMinutesRemaining % (24 * 60)) / 60);
             const minutes = totalMinutesRemaining % 60;
             setTrialRemaining({ days, hours, minutes });
-            const sessionWarningShown = sessionStorage.getItem('npd_trial_warning_shown');
+            const sessionWarningShown = sessionStorage.getItem('flowist_trial_warning_shown');
             if (days === 0 && !sessionWarningShown && !hasShownTrialWarning) {
               toast({ title: `⏰ ${t('trial.endingSoon')}`, description: t('trial.expiresIn', { hours, minutes }), duration: 10000 });
-              sessionStorage.setItem('npd_trial_warning_shown', 'true');
+              sessionStorage.setItem('flowist_trial_warning_shown', 'true');
               setHasShownTrialWarning(true);
             }
           } else {
@@ -125,7 +125,7 @@ export const useSettingsPageState = () => {
 
   const handleLanguageChange = async (langCode: string) => {
     i18n.changeLanguage(langCode);
-    await setSetting('npd_language', langCode);
+    await setSetting('flowist_language', langCode);
     const lang = languages.find(l => l.code === langCode);
     toast({ title: t('settings.languageChanged', { language: lang?.nativeName || langCode }) });
     setShowLanguageDialog(false);

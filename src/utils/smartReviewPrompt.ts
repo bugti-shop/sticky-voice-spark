@@ -6,7 +6,7 @@
 import { getSetting, setSetting } from './settingsStorage';
 import { Capacitor } from '@capacitor/core';
 
-const STORAGE_KEY = 'npd_review_prompt';
+const STORAGE_KEY = 'flowist_review_prompt';
 
 interface ReviewPromptData {
   lastPromptDate: string | null;   // ISO date

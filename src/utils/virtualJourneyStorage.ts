@@ -165,7 +165,7 @@ export const ALL_JOURNEYS: Journey[] = [
   },
 ];
 
-const STORAGE_KEY = 'npd_virtual_journey';
+const STORAGE_KEY = 'flowist_virtual_journey';
 
 export const loadJourneyData = (): VirtualJourneyData => {
   try {

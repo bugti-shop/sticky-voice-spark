@@ -53,7 +53,7 @@ const tourSteps: TourStep[] = [
   },
 ];
 
-const LAST_SEEN_VERSION_KEY = 'npd_last_seen_version';
+const LAST_SEEN_VERSION_KEY = 'flowist_last_seen_version';
 
 export const WhatsNewSheet = () => {
   const { t } = useTranslation();

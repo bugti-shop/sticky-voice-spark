@@ -40,9 +40,9 @@ export const useCertificateToasts = () => {
           loadTodoItems(),
           loadNotesFromDB(),
           loadFolders(),
-          getSetting<string[]>('npd_seen_certificates', []),
-          getSetting<any>('npd_streak_data', null),
-          getSetting<boolean>('npd_admin_bypass', false),
+          getSetting<string[]>('flowist_seen_certificates', []),
+          getSetting<any>('flowist_streak_data', null),
+          getSetting<boolean>('flowist_admin_bypass', false),
         ]);
 
         const completedTasks = tasks.filter((t: any) => t.completed).length;
@@ -89,7 +89,7 @@ export const useCertificateToasts = () => {
 
         if (newlyUnlocked.length > 0) {
           // Mark as seen
-          await setSetting('npd_seen_certificates', [...seenCerts, ...newlyUnlocked]);
+          await setSetting('flowist_seen_certificates', [...seenCerts, ...newlyUnlocked]);
 
           // Show toast for the highest level unlocked
           const sorted = newlyUnlocked.sort((a, b) => {

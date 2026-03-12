@@ -34,8 +34,8 @@ export interface MonthlyChallengesData {
   badge: MonthlyBadge;
 }
 
-const STORAGE_KEY = 'npd_monthly_challenges';
-const BADGES_KEY = 'npd_monthly_badges';
+const STORAGE_KEY = 'flowist_monthly_challenges';
+const BADGES_KEY = 'flowist_monthly_badges';
 
 // Month themes rotate based on the month number
 const MONTH_THEMES: Record<number, { theme: string; emoji: string; badgeIcon: string }> = {

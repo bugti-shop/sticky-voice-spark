@@ -25,7 +25,7 @@ export const useProfileStats = () => {
         const [notes, tasks, streak, folders] = await Promise.all([
           loadNotesFromDB(),
           loadTodoItems(),
-          loadStreakData('npd_streak'),
+          loadStreakData('flowist_streak'),
           loadFolders(),
         ]);
 

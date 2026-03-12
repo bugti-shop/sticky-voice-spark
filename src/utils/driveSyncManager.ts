@@ -41,16 +41,16 @@ interface SyncDataFile<T> {
 
 // File names in Google Drive
 const FILES = {
-  NOTES: 'npd-notes.json',
-  TASKS: 'npd-tasks.json',
-  SETTINGS: 'npd-settings.json',
-  META: 'npd-sync-meta.json',
+  NOTES: 'flowist-notes.json',
+  TASKS: 'flowist-tasks.json',
+  SETTINGS: 'flowist-settings.json',
+  META: 'flowist-sync-meta.json',
 } as const;
 
 // Settings keys to sync
 const SYNC_SETTING_KEYS = [
   'folders', 'todoFolders', 'todoSections',
-  'theme', 'darkMode', 'npd_language', 'haptic_intensity',
+  'theme', 'darkMode', 'flowist_language', 'haptic_intensity',
   'todoShowCompleted', 'todoViewMode', 'todoSortBy',
   'todoCompactMode', 'todoGroupByOption',
   'todoSelectedFolder', 'todoDefaultSectionId',
@@ -60,10 +60,10 @@ const SYNC_SETTING_KEYS = [
 // ── Device ID ──────────────────────────────────────────────────────────────
 
 const getDeviceId = async (): Promise<string> => {
-  let deviceId = await getSetting<string>('npd_device_id', '');
+  let deviceId = await getSetting<string>('flowist_device_id', '');
   if (!deviceId) {
     deviceId = `device_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
-    await setSetting('npd_device_id', deviceId);
+    await setSetting('flowist_device_id', deviceId);
   }
   return deviceId;
 };
@@ -410,7 +410,7 @@ export const performSync = async (): Promise<SyncResult> => {
       setSetting('sync_notes_version', notesVersion),
       setSetting('sync_tasks_version', tasksVersion),
       setSetting('sync_settings_version', settingsVersion),
-      setSetting('npd_last_sync', meta),
+      setSetting('flowist_last_sync', meta),
     ]);
 
     // Surface conflicts to UI
@@ -446,7 +446,7 @@ export const performSync = async (): Promise<SyncResult> => {
 // ── Get last sync info ─────────────────────────────────────────────────────
 
 export const getLastSyncInfo = async (): Promise<SyncMeta | null> => {
-  return getSetting<SyncMeta | null>('npd_last_sync', null);
+  return getSetting<SyncMeta | null>('flowist_last_sync', null);
 };
 
 // ── Check if sync is available ─────────────────────────────────────────────
@@ -495,7 +495,7 @@ export const performIncrementalSync = async (): Promise<SyncResult> => {
       const meta = await getLastSyncInfo();
       if (meta) {
         meta.changeToken = newStartPageToken;
-        await setSetting('npd_last_sync', meta);
+        await setSetting('flowist_last_sync', meta);
       }
     }
 

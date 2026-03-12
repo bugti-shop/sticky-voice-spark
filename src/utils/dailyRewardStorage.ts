@@ -1,7 +1,7 @@
 import { getSetting, setSetting } from './settingsStorage';
 import { format, differenceInCalendarDays, startOfDay } from 'date-fns';
 
-const STORAGE_KEY = 'npd_daily_login_reward';
+const STORAGE_KEY = 'flowist_daily_login_reward';
 
 export interface DailyRewardData {
   currentDay: number;       // 1-7

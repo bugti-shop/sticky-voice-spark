@@ -21,7 +21,7 @@ export interface AchievementsData {
   achievementDates: Record<string, string>;
 }
 
-const ACHIEVEMENTS_STORAGE_KEY = 'npd_achievements';
+const ACHIEVEMENTS_STORAGE_KEY = 'flowist_achievements';
 
 export const ALL_ACHIEVEMENTS: Achievement[] = [
   // Streak achievements
@@ -170,7 +170,7 @@ export interface DailyChallengesData {
   refreshCount: number;
 }
 
-const CHALLENGES_STORAGE_KEY = 'npd_daily_challenges';
+const CHALLENGES_STORAGE_KEY = 'flowist_daily_challenges';
 
 const CHALLENGE_TEMPLATES = [
   { type: 'complete_tasks', title: 'Task Blitz', description: 'Complete {target} tasks today', targets: [3, 5, 7, 10], xpRewards: [0, 0, 0, 0], icon: '🎯' },

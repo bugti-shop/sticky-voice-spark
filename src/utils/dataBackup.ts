@@ -29,7 +29,7 @@ const BACKUP_SETTING_KEYS = [
   'todoSections',
   'theme',
   'darkMode',
-  'npd_language',
+  'flowist_language',
   'haptic_intensity',
   'onboardingAnswers',
   'todoShowCompleted',
@@ -99,7 +99,7 @@ export const downloadBackup = async (filename?: string): Promise<void> => {
   
   const a = document.createElement('a');
   a.href = url;
-  a.download = filename || `npd-backup-${Date.now()}.json`;
+  a.download = filename || `flowist-backup-${Date.now()}.json`;
   a.click();
   
   URL.revokeObjectURL(url);
@@ -127,7 +127,7 @@ export const downloadData = async (filename?: string): Promise<void> => {
   
   const a = document.createElement('a');
   a.href = url;
-  a.download = filename || `npd-data-${Date.now()}.json`;
+  a.download = filename || `flowist-data-${Date.now()}.json`;
   a.click();
   
   URL.revokeObjectURL(url);

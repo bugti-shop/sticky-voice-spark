@@ -215,7 +215,7 @@ export const hasNewCertificates = async (longestStreak: number): Promise<boolean
       loadTodoItems(),
       loadNotesFromDB(),
       loadFolders(),
-      getSetting<string[]>('npd_seen_certificates', []),
+      getSetting<string[]>('flowist_seen_certificates', []),
     ]);
     const completedTasks = tasks.filter(t => t.completed).length;
     const usedFolderIds = new Set([
@@ -277,7 +277,7 @@ export const GamificationCertificates = ({ isOpen, onClose, streakData }: Certif
           loadTodoItems(),
           loadNotesFromDB(),
           loadFolders(),
-          getSetting<string[]>('npd_seen_certificates', []),
+          getSetting<string[]>('flowist_seen_certificates', []),
         ]);
 
         const completedTasks = tasks.filter(t => t.completed).length;
@@ -304,7 +304,7 @@ export const GamificationCertificates = ({ isOpen, onClose, streakData }: Certif
           triggerNotificationHaptic('success').catch(() => {});
 
           const updatedSeen = [...seenCerts, ...newlyUnlocked.map(c => c.id)];
-          await setSetting('npd_seen_certificates', updatedSeen);
+          await setSetting('flowist_seen_certificates', updatedSeen);
         }
       } catch (e) {
         console.error('Failed to load certificate data:', e);
@@ -400,7 +400,7 @@ export const GamificationCertificates = ({ isOpen, onClose, streakData }: Certif
 
       await shareImageBlob({
         blob,
-        fileName: `npd-certificate-${selectedCert.id}.png`,
+        fileName: `flowist-certificate-${selectedCert.id}.png`,
         title: `Flowist ${getCertTitle(selectedCert)} Certificate`,
         text: selectedCert.linkedInDescription,
         dialogTitle: t('certificates.shareCertificate', 'Share Certificate'),

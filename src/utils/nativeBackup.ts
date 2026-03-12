@@ -19,7 +19,7 @@ export const isNativePlatform = (): boolean => {
  * Get the backup directory path based on platform
  */
 const getBackupDirectory = (): string => {
-  return 'Npd/backup';
+  return 'Flowist/backup';
 };
 
 /**
@@ -31,7 +31,7 @@ const generateBackupFilename = (): string => {
     .replace(/[-:]/g, '')
     .replace('T', '')
     .split('.')[0];
-  return `npd_backup_${timestamp}.json`;
+  return `flowist_backup_${timestamp}.json`;
 };
 
 /**
