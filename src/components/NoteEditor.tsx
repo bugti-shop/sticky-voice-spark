@@ -1906,12 +1906,6 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
         </div>
       )}
 
-      {/* Template Selector */}
-      <TemplateSelector
-        isOpen={showTemplateSelector}
-        onClose={() => setShowTemplateSelector(false)}
-        onSelectTemplate={(templateContent) => setContent(templateContent)}
-      />
 
       {/* New Folder Dialog */}
       <Dialog open={isNewFolderDialogOpen} onOpenChange={setIsNewFolderDialogOpen}>

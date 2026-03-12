@@ -666,11 +666,6 @@ export const WordToolbar = ({
           </OrderedItem>
         )}
 
-        {onVoiceRecord && (
-          <div style={{ order: 999 }} className="flex items-center flex-shrink-0">
-            <IconBtn onClick={onVoiceRecord} title={t('wordToolbar.voiceRecording')}><Mic className="h-5 w-5" strokeWidth={2} /></IconBtn>
-          </div>
-        )}
 
         {onTextDirection && isToolbarItemVisible('textDirection') && (
           <OrderedItem id="textDirection">

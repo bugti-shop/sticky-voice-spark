@@ -1381,16 +1381,6 @@ const Index = () => {
                   {!isPro && <Crown className="h-3.5 w-3.5 ml-auto" style={{ color: '#3c78f0' }} />}
                 </DropdownMenuItem>
               )}
-              {showNoteTemplates && (
-                <>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => { if (!requireFeature('note_templates')) return; triggerHaptic('medium'); setNoteTypeSelectorOpen(false); setIsNoteTemplateOpen(true); }} className="gap-2">
-                    <LayoutTemplate className="h-4 w-4 text-primary" />
-                    Note Templates
-                    {!isPro && <Crown className="h-3.5 w-3.5 ml-auto" style={{ color: '#3c78f0' }} />}
-                  </DropdownMenuItem>
-                </>
-              )}
             </DropdownMenuContent>
           </DropdownMenu>
         )

@@ -7413,58 +7413,6 @@ export const SketchEditor = memo(({ initialData, onChange, onImageExport, classN
           <Video className="h-5 w-5" strokeWidth={showVideoPanel || videoUrl ? 2.5 : 1.8} />
         </button>
 
-        {/* Audio-Sync Recording */}
-        <Popover>
-          <PopoverTrigger asChild>
-            <button
-              className={cn(
-                'h-10 w-10 flex-shrink-0 rounded-xl flex items-center justify-center transition-all duration-200',
-                isAudioRecording
-                  ? 'bg-destructive/20 text-destructive animate-pulse'
-                  : hasAudioRecording
-                    ? 'bg-primary/15 text-primary scale-105'
-                    : 'text-foreground/70 hover:bg-muted/80 hover:text-foreground active:scale-95'
-              )}
-              title={t('sketch.audioSyncRecording')}
-            >
-              <Mic className="h-5 w-5" strokeWidth={isAudioRecording || hasAudioRecording ? 2.5 : 1.8} />
-            </button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-3 bg-card" align="center" side="top">
-            <p className="text-[10px] font-medium text-foreground mb-2">🎙️ {t('sketch.audioSync')}</p>
-            {isAudioRecording ? (
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-destructive animate-pulse" />
-                  <span className="text-xs font-mono text-destructive font-bold">
-                    {Math.floor(audioRecordingTime / 60)}:{(audioRecordingTime % 60).toString().padStart(2, '0')}
-                  </span>
-                </div>
-                 <p className="text-[10px] text-muted-foreground">{t('sketch.drawingWhileRecording')}</p>
-                 <Button variant="destructive" size="sm" className="h-7 text-xs" onClick={stopAudioRecording}>
-                   <StopSquare className="h-3.5 w-3.5 mr-1 fill-current" />{t('sketch.stopRecording')}
-                 </Button>
-              </div>
-            ) : hasAudioRecording ? (
-              <div className="flex flex-col gap-2">
-                 <p className="text-[10px] text-muted-foreground">{t('sketch.audioRecordingSaved')}</p>
-                 <Button variant="default" size="sm" className="h-7 text-xs" onClick={handleAudioSyncPlayback}>
-                   {isAudioSyncPlaying ? <><Pause className="h-3.5 w-3.5 mr-1" />{t('sketch.stopPlayback')}</> : <><Play className="h-3.5 w-3.5 mr-1" />{t('sketch.playSynced')}</>}
-                 </Button>
-                 <Button variant="ghost" size="sm" className="h-7 text-xs text-destructive" onClick={discardAudioRecording}>
-                   <Trash2 className="h-3.5 w-3.5 mr-1" />{t('sketch.discard')}
-                 </Button>
-              </div>
-            ) : (
-              <div className="flex flex-col gap-2">
-                 <p className="text-[10px] text-muted-foreground">{t('sketch.recordAudioHint')}</p>
-                 <Button variant="default" size="sm" className="h-7 text-xs" onClick={startAudioRecording}>
-                   <Mic className="h-3.5 w-3.5 mr-1" />{t('sketch.startRecording')}
-                 </Button>
-              </div>
-            )}
-          </PopoverContent>
-        </Popover>
 
         <div className="flex-1" />
 
