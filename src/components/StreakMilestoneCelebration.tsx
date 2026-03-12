@@ -118,7 +118,7 @@ export const StreakMilestoneCelebration = () => {
 
       canvas.toBlob(async (blob) => {
         if (!blob) { setIsSharing(false); return; }
-        const file = new File([blob], `npd-streak-${milestone}.png`, { type: 'image/png' });
+        const file = new File([blob], `flowist-streak-${milestone}.png`, { type: 'image/png' });
 
         if (navigator.share && navigator.canShare?.({ files: [file] })) {
           try {
