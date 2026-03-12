@@ -21,6 +21,7 @@ export const ProfileAchievements = ({ onViewCertificate }: { onViewCertificate?:
   const { t } = useTranslation();
   const [unlockedAchievements, setUnlockedAchievements] = useState<typeof ALL_ACHIEVEMENTS>([]);
   const [journeyBadges, setJourneyBadges] = useState<JourneyBadge[]>([]);
+  const [journeyCompletionBadges, setJourneyCompletionBadges] = useState<JourneyBadge[]>([]);
   const [unlockedCerts, setUnlockedCerts] = useState<CertMilestone[]>([]);
   const [selectedItem, setSelectedItem] = useState<{ icon: string; name: string; description: string; rarity?: string; earnedAt?: string; type: 'achievement' | 'journey' } | null>(null);
 
