@@ -288,6 +288,10 @@ export default function Profile() {
       {coverCropSrc && (
         <ProfileImageCropper
           imageSrc={coverCropSrc}
+          aspect={16 / 5}
+          cropShape="rect"
+          outputWidth={800}
+          outputHeight={250}
           onCropComplete={async (croppedUrl) => {
             await updateProfile({ coverUrl: croppedUrl });
             setCoverCropSrc(null);

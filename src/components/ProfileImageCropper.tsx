@@ -9,20 +9,25 @@ interface ProfileImageCropperProps {
   imageSrc: string;
   onCropComplete: (croppedDataUrl: string) => void;
   onCancel: () => void;
+  aspect?: number;
+  cropShape?: 'round' | 'rect';
+  outputWidth?: number;
+  outputHeight?: number;
 }
 
 const createCroppedImage = async (
   imageSrc: string,
-  pixelCrop: Area
+  pixelCrop: Area,
+  outputWidth = 400,
+  outputHeight = 400
 ): Promise<string> => {
   const image = new Image();
   image.src = imageSrc;
-  await new Promise((resolve) => { image.onload = resolve; });
+  await new Promise((resolve, reject) => { image.onload = resolve; image.onerror = reject; });
 
   const canvas = document.createElement('canvas');
-  const size = Math.min(pixelCrop.width, pixelCrop.height);
-  canvas.width = 400;
-  canvas.height = 400;
+  canvas.width = outputWidth;
+  canvas.height = outputHeight;
   const ctx = canvas.getContext('2d')!;
 
   ctx.drawImage(
@@ -33,14 +38,14 @@ const createCroppedImage = async (
     pixelCrop.height,
     0,
     0,
-    400,
-    400
+    outputWidth,
+    outputHeight
   );
 
   return canvas.toDataURL('image/jpeg', 0.85);
 };
 
-export const ProfileImageCropper = ({ imageSrc, onCropComplete, onCancel }: ProfileImageCropperProps) => {
+export const ProfileImageCropper = ({ imageSrc, onCropComplete, onCancel, aspect = 1, cropShape = 'round', outputWidth = 400, outputHeight = 400 }: ProfileImageCropperProps) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [rotation, setRotation] = useState(0);
@@ -55,7 +60,7 @@ export const ProfileImageCropper = ({ imageSrc, onCropComplete, onCancel }: Prof
     if (!croppedAreaPixels) return;
     setIsSaving(true);
     try {
-      const croppedUrl = await createCroppedImage(imageSrc, croppedAreaPixels);
+      const croppedUrl = await createCroppedImage(imageSrc, croppedAreaPixels, outputWidth, outputHeight);
       onCropComplete(croppedUrl);
     } catch (e) {
       console.error('Crop failed:', e);
@@ -96,8 +101,8 @@ export const ProfileImageCropper = ({ imageSrc, onCropComplete, onCancel }: Prof
             crop={crop}
             zoom={zoom}
             rotation={rotation}
-            aspect={1}
-            cropShape="round"
+            aspect={aspect}
+            cropShape={cropShape}
             showGrid={false}
             onCropChange={setCrop}
             onZoomChange={setZoom}
