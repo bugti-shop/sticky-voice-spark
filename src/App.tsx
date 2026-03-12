@@ -27,6 +27,7 @@ import { StreakTierCelebration } from "@/components/StreakTierCelebration";
 import { SmartReviewPrompt } from "@/components/SmartReviewPrompt";
 
 import { ComboOverlay } from "@/components/ComboOverlay";
+import { UrgentReminderOverlay } from "@/components/UrgentReminderOverlay";
 // Eager load only the two most critical pages for instant first render
 import Index from "./pages/Index";
 import Today from "./pages/todo/Today";
