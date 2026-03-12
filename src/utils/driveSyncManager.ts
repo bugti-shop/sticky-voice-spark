@@ -50,7 +50,7 @@ const FILES = {
 // Settings keys to sync
 const SYNC_SETTING_KEYS = [
   'folders', 'todoFolders', 'todoSections',
-  'theme', 'darkMode', 'npd_language', 'haptic_intensity',
+  'theme', 'darkMode', 'flowist_language', 'haptic_intensity',
   'todoShowCompleted', 'todoViewMode', 'todoSortBy',
   'todoCompactMode', 'todoGroupByOption',
   'todoSelectedFolder', 'todoDefaultSectionId',
