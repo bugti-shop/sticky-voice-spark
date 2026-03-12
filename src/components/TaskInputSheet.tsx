@@ -363,6 +363,7 @@ export const TaskInputSheet = ({ isOpen, onClose, onAddTask, folders, selectedFo
       setAttachments([]);
       setEstimatedHours(undefined);
       setVoiceRecording(undefined);
+      setIsUrgent(false);
       inputRef.current?.focus();
     }, 0);
   };
