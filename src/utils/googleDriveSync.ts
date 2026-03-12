@@ -3,7 +3,7 @@ import { getValidAccessToken, refreshGoogleToken } from './googleAuth';
 
 const DRIVE_API = 'https://www.googleapis.com/drive/v3';
 const DRIVE_UPLOAD_API = 'https://www.googleapis.com/upload/drive/v3';
-const APP_FOLDER_NAME = 'NPD_Sync_Data';
+const APP_FOLDER_NAME = 'Flowist_Sync_Data';
 
 const RETRIABLE_STATUS = new Set([429, 500, 502, 503, 504]);
 
