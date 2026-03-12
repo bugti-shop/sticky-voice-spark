@@ -133,7 +133,7 @@ export const SubscriptionProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const loadLocal = async () => {
       try {
-        const adminBypass = await getSetting<boolean>('npd_admin_bypass', false);
+        const adminBypass = await getSetting<boolean>('flowist_admin_bypass', false);
         setLocalProAccess(!!adminBypass);
       } catch (e) {
         console.error('Failed to load subscription:', e);
