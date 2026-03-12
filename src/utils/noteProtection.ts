@@ -2,12 +2,12 @@ import { Capacitor } from '@capacitor/core';
 import i18n from '@/i18n';
 import { getSetting, setSetting, removeSetting } from './settingsStorage';
 
-const HIDDEN_NOTES_PASSWORD_KEY = 'npd_hidden_notes_password';
-const HIDDEN_NOTES_SALT_KEY = 'npd_hidden_notes_salt';
-const HIDDEN_NOTES_USE_BIOMETRIC_KEY = 'npd_hidden_notes_use_biometric';
-const SECURITY_QUESTION_KEY = 'npd_security_question';
-const SECURITY_ANSWER_KEY = 'npd_security_answer';
-const SECURITY_ANSWER_SALT_KEY = 'npd_security_answer_salt';
+const HIDDEN_NOTES_PASSWORD_KEY = 'flowist_hidden_notes_password';
+const HIDDEN_NOTES_SALT_KEY = 'flowist_hidden_notes_salt';
+const HIDDEN_NOTES_USE_BIOMETRIC_KEY = 'flowist_hidden_notes_use_biometric';
+const SECURITY_QUESTION_KEY = 'flowist_security_question';
+const SECURITY_ANSWER_KEY = 'flowist_security_answer';
+const SECURITY_ANSWER_SALT_KEY = 'flowist_security_answer_salt';
 
 // In-memory cache for sync access to settings
 let settingsCache: Record<string, any> = {};
