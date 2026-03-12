@@ -69,6 +69,10 @@ export const useTodayActions = (props: UseTodayActionsProps) => {
     requireFeature, isPro, tasksSettings, setOrderVersion,
   } = props;
 
+  // Keep a ref to items for reliable access in async callbacks
+  const itemsRef = useRef(items);
+  itemsRef.current = items;
+
   // ── Folder Actions ──
   const handleCreateFolder = useCallback((name: string, color: string) => {
     if (!isPro && folders.length >= FREE_LIMITS.maxTaskFolders) {
