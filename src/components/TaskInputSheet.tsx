@@ -1049,9 +1049,40 @@ export const TaskInputSheet = ({ isOpen, onClose, onAddTask, folders, selectedFo
             </div>
           )}
 
+          {/* Urgent indicator */}
+          {isUrgent && (
+            <div className="px-4 py-2 bg-destructive/10 rounded-lg flex items-center gap-2 mb-4">
+              <Zap className="h-4 w-4 text-destructive fill-destructive" />
+              <span className="text-sm text-destructive font-bold">
+                {t('taskInput.urgentEnabled', '⚡ Urgent — Full-screen reminder will appear')}
+              </span>
+              <button onClick={() => setIsUrgent(false)} className="ml-auto">
+                <X className="h-4 w-4 text-destructive hover:text-destructive/70" />
+              </button>
+            </div>
+          )}
 
           <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-            {/* Template button - always first */}
+            {/* Urgent button - always first */}
+            <button
+              onClick={() => {
+                setIsUrgent(!isUrgent);
+                Haptics.impact({ style: ImpactStyle.Heavy }).catch(() => {});
+              }}
+              className={cn(
+                "flex items-center gap-1.5 px-3 py-2 rounded-md border transition-all whitespace-nowrap",
+                isUrgent 
+                  ? "border-destructive bg-destructive text-white" 
+                  : "border-destructive/30 bg-destructive/5 hover:bg-destructive/10"
+              )}
+            >
+              <Zap className={cn("h-4 w-4 flex-shrink-0", isUrgent ? "text-white fill-white" : "text-destructive")} />
+              <span className={cn("text-sm font-semibold", isUrgent ? "text-white" : "text-destructive")}>
+                {t('taskInput.urgent', 'Urgent')}
+              </span>
+            </button>
+
+            {/* Template button */}
             <button
               onClick={() => setShowTemplateSheet(true)}
               className="flex items-center gap-1.5 px-3 py-2 rounded-md border border-primary/30 bg-primary/5 hover:bg-primary/10 transition-all whitespace-nowrap"
