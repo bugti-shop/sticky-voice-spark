@@ -682,13 +682,12 @@ export const drawStroke = (ctx: CanvasRenderingContext2D, stroke: Stroke, asClip
       patternMatrix.scaleSelf(bw / cachedCanvas.width, bh / cachedCanvas.height);
       canvasPattern.setTransform(patternMatrix);
 
-      // Draw the thick stroke with washi pattern fill
-      ctx.strokeStyle = canvasPattern;
-      ctx.lineWidth = washiWidth;
+      // Draw subtle shadow/edge first (behind)
+      ctx.globalAlpha = 0.12;
+      ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+      ctx.lineWidth = washiWidth + 2;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
-      ctx.globalAlpha = 0.85;
-
       ctx.beginPath();
       ctx.moveTo(stroke.points[0].x, stroke.points[0].y);
       for (let i = 1; i < stroke.points.length - 1; i++) {
@@ -699,10 +698,11 @@ export const drawStroke = (ctx: CanvasRenderingContext2D, stroke: Stroke, asClip
       ctx.lineTo(stroke.points[stroke.points.length - 1].x, stroke.points[stroke.points.length - 1].y);
       ctx.stroke();
 
-      // Add a subtle torn-edge effect via semi-transparent border
-      ctx.globalAlpha = 0.15;
-      ctx.strokeStyle = 'rgba(0,0,0,0.2)';
-      ctx.lineWidth = washiWidth + 2;
+      // Draw the thick stroke with washi pattern fill on top
+      ctx.strokeStyle = canvasPattern;
+      ctx.lineWidth = washiWidth;
+      ctx.globalAlpha = 0.85;
+
       ctx.beginPath();
       ctx.moveTo(stroke.points[0].x, stroke.points[0].y);
       for (let i = 1; i < stroke.points.length - 1; i++) {
