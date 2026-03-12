@@ -2112,7 +2112,7 @@
     "title": "ウェブクリッパー",
     "description": "ワンクリックでウェブページを直接ノートに保存",
     "dragOption": "オプション1：ブックマークバーにドラッグ",
-    "clipToNpd": "📎 Npdに保存",
+    "clipToNpd": "📎 Flowistに保存",
     "dragInstructions": "このボタンをブラウザのブックマークバーにドラッグしてください",
     "manualOption": "オプション2：手動設定",
     "copyCode": "コードをコピー",
