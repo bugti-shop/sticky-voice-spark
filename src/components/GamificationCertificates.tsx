@@ -215,7 +215,7 @@ export const hasNewCertificates = async (longestStreak: number): Promise<boolean
       loadTodoItems(),
       loadNotesFromDB(),
       loadFolders(),
-      getSetting<string[]>('npd_seen_certificates', []),
+      getSetting<string[]>('flowist_seen_certificates', []),
     ]);
     const completedTasks = tasks.filter(t => t.completed).length;
     const usedFolderIds = new Set([
