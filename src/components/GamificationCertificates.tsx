@@ -148,8 +148,8 @@ const CERTIFICATE_LEVELS: CertificateLevel[] = [
     subtitle: 'Year-Long Discipline',
     icon: Crown,
     requirements: { tasksCompleted: 2000, streakDays: 365, notesCreated: 300, foldersUsed: 10 },
-    certificateText: 'This certifies that the holder has maintained an extraordinary 365-day unbroken streak on Npd — one full year of daily productivity without a single missed day. Combined with 2,000+ tasks completed and 300+ notes, this achievement represents unparalleled dedication to personal excellence and systematic productivity mastery.',
-    linkedInDescription: '🏆✨ Npd 365-Day Legend Certificate — UNLOCKED!\n\n📊 One full year of daily productivity:\n• 365-day streak — zero days missed\n• 2,000+ tasks completed\n• 300+ notes in my knowledge base\n• 10+ organized workflows\n\n365 days. Every single day. No excuses, no breaks, no skipping.\n\nThis isn\'t motivation — this is identity. Npd helped me build a system that became second nature.\n\n#365DayStreak #ProductivityLegend #Npd #DailyDiscipline #YearOfExcellence',
+    certificateText: 'This certifies that the holder has maintained an extraordinary 365-day unbroken streak on Flowist — one full year of daily productivity without a single missed day. Combined with 2,000+ tasks completed and 300+ notes, this achievement represents unparalleled dedication to personal excellence and systematic productivity mastery.',
+    linkedInDescription: '🏆✨ Flowist 365-Day Legend Certificate — UNLOCKED!\n\n📊 One full year of daily productivity:\n• 365-day streak — zero days missed\n• 2,000+ tasks completed\n• 300+ notes in my knowledge base\n• 10+ organized workflows\n\n365 days. Every single day. No excuses, no breaks, no skipping.\n\nThis isn\'t motivation — this is identity. Flowist helped me build a system that became second nature.\n\n#365DayStreak #ProductivityLegend #Flowist #DailyDiscipline #YearOfExcellence',
     colors: {
       bg: 'linear-gradient(160deg, hsl(15, 50%, 8%), hsl(25, 60%, 12%))',
       accent: 'hsl(20, 100%, 55%)',
