@@ -91,7 +91,7 @@ export const useSettingsPageState = () => {
   // Trial countdown
   useEffect(() => {
     const loadTrialData = async () => {
-      const trialStartStr = await getSetting<string | null>('npd_trial_start', null);
+      const trialStartStr = await getSetting<string | null>('flowist_trial_start', null);
       if (trialStartStr && isProUser && !hasAdminAccess) {
         const trialStart = new Date(trialStartStr);
         const trialEnd = addDays(trialStart, 3);
