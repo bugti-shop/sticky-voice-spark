@@ -165,8 +165,8 @@ const CERTIFICATE_LEVELS: CertificateLevel[] = [
     subtitle: 'Immortal Productivity',
     icon: Gem,
     requirements: { tasksCompleted: 5000, streakDays: 1000, notesCreated: 500, foldersUsed: 15 },
-    certificateText: 'This certifies that the holder has achieved the ultimate pinnacle of productivity — a 1,000-day unbroken streak on Npd. Nearly three years of daily commitment, 5,000+ tasks completed, and 500+ notes created. This legendary achievement places them among the most disciplined individuals on the planet. Their consistency is not just a habit — it is a way of life.',
-    linkedInDescription: '💎🔥 Npd 1000-Day IMMORTAL Certificate — The ultimate achievement.\n\n📊 The impossible, achieved:\n• 1,000-day streak — nearly 3 YEARS, zero days missed\n• 5,000+ tasks completed\n• 500+ notes in my second brain\n• 15+ structured workflows\n\n1,000 consecutive days of showing up. Rain or shine. Sick or healthy. Busy or free.\n\nThis is beyond discipline. This is identity forged through relentless consistency.\n\n#1000DayStreak #Immortal #Npd #UltimateProductivity #LegendaryDiscipline',
+    certificateText: 'This certifies that the holder has achieved the ultimate pinnacle of productivity — a 1,000-day unbroken streak on Flowist. Nearly three years of daily commitment, 5,000+ tasks completed, and 500+ notes created. This legendary achievement places them among the most disciplined individuals on the planet. Their consistency is not just a habit — it is a way of life.',
+    linkedInDescription: '💎🔥 Flowist 1000-Day IMMORTAL Certificate — The ultimate achievement.\n\n📊 The impossible, achieved:\n• 1,000-day streak — nearly 3 YEARS, zero days missed\n• 5,000+ tasks completed\n• 500+ notes in my second brain\n• 15+ structured workflows\n\n1,000 consecutive days of showing up. Rain or shine. Sick or healthy. Busy or free.\n\nThis is beyond discipline. This is identity forged through relentless consistency.\n\n#1000DayStreak #Immortal #Flowist #UltimateProductivity #LegendaryDiscipline',
     colors: {
       bg: 'linear-gradient(160deg, hsl(340, 45%, 8%), hsl(350, 50%, 12%))',
       accent: 'hsl(345, 100%, 60%)',
