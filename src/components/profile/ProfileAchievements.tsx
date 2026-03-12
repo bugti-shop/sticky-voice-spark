@@ -173,6 +173,27 @@ export const ProfileAchievements = ({ onViewCertificate }: { onViewCertificate?:
                   </div>
                 </motion.div>
               ))}
+              {journeyCompletionBadges.map((badge, i) => {
+                const rarityConf = RARITY_CONFIG[badge.rarity];
+                return (
+                  <motion.div
+                    key={badge.id}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: (unlockedCerts.length + i) * 0.06 }}
+                    onClick={() => setSelectedItem({ icon: badge.icon, name: badge.label, description: badge.description, rarity: rarityConf.label, earnedAt: badge.earnedAt, type: 'journey' })}
+                    className="flex flex-col items-center p-3 rounded-2xl border bg-card border-warning/30 cursor-pointer relative overflow-hidden w-[110px] shrink-0"
+                  >
+                    <motion.div className="absolute inset-0 bg-gradient-to-b from-warning/10 to-transparent" initial={{ opacity: 0 }} animate={{ opacity: 1 }} />
+                    <div className="w-14 h-14 rounded-xl flex items-center justify-center text-2xl shrink-0 relative z-10 bg-gradient-to-br from-warning/25 to-warning/10">
+                      {badge.icon}
+                      <Sparkles className="absolute -top-1 -right-1 h-3 w-3 text-warning" />
+                    </div>
+                    <p className="text-[11px] font-semibold mt-2 text-center relative z-10 text-foreground">{badge.label}</p>
+                    <p className={cn("text-[8px] font-medium mt-0.5 relative z-10", rarityConf.color)}>{rarityConf.label}</p>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </>
