@@ -829,7 +829,7 @@ const CertificateCard = ({ cert, unlocked, userName, userAvatar }: { cert: Certi
                     whiteSpace: 'nowrap',
                   }}
                 >
-                  Npd: Notepad & To Do List
+                  Flowist: Notepad & To Do List
                 </span>
               </div>
               <p style={{ color: cert.colors.text, fontSize: 7, opacity: 0.45, margin: 0 }}>
