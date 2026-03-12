@@ -85,7 +85,7 @@ export const useSettingsPageState = () => {
 
   // Admin bypass check
   useEffect(() => {
-    getSetting<boolean>('npd_admin_bypass', false).then(setHasAdminAccess);
+    getSetting<boolean>('flowist_admin_bypass', false).then(setHasAdminAccess);
   }, []);
 
   // Trial countdown
