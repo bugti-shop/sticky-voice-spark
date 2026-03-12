@@ -187,7 +187,39 @@ export default function Profile() {
         {/* Name & Info */}
         <div className="mt-3">
           <div className="flex items-center gap-2">
-            <h2 className="text-2xl font-extrabold text-foreground">{displayName}</h2>
+            {editingName ? (
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  value={nameInput}
+                  onChange={(e) => setNameInput(e.target.value)}
+                  placeholder={t('profile.enterName', 'Enter your name')}
+                  className="text-xl font-extrabold text-foreground bg-muted/50 border border-border rounded-lg px-3 py-1 outline-none focus:ring-1 focus:ring-primary w-48"
+                  autoFocus
+                  maxLength={30}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      updateProfile({ name: nameInput });
+                      setEditingName(false);
+                    }
+                  }}
+                />
+                <button
+                  onClick={() => { updateProfile({ name: nameInput }); setEditingName(false); }}
+                  className="p-1.5 rounded-lg bg-primary/10 text-primary"
+                >
+                  <Check className="h-4 w-4" />
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => { setNameInput(profile.name || user?.name || ''); setEditingName(true); }}
+                className="flex items-center gap-2 group"
+              >
+                <h2 className="text-2xl font-extrabold text-foreground">{displayName}</h2>
+                <Edit3 className="h-3.5 w-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+              </button>
+            )}
             <span className="text-lg">🌍</span>
           </div>
           {user?.email && (
