@@ -483,7 +483,7 @@
   "privacy": {
     "title": "隐私政策",
     "infoCollect": "我们收集的信息",
-    "infoCollectDesc": "NPD 将您的所有笔记和数据本地存储在您的设备上。我们不收集、传输或在外部服务器上存储任何个人信息。",
+    "infoCollectDesc": "Flowist 将您的所有笔记和数据本地存储在您的设备上。我们不收集、传输或在外部服务器上存储任何个人信息。",
     "localStorage": "本地存储",
     "localStorageDesc": "您的笔记、文件夹和设置使用设备的本地存储。这些数据保留在您的设备上，我们无法访问。",
     "dataSecurity": "数据安全",
