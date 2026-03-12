@@ -140,17 +140,6 @@ const Today = () => {
   const { subtaskSwipeState, handleSubtaskSwipeStart, handleSubtaskSwipeMove, handleSubtaskSwipeEnd } = swipe;
 
   // ── Render helpers ──
-  const getViewModeIcon = () => {
-    switch (viewMode) {
-      case 'kanban': return <Columns3 className="h-3.5 w-3.5" />;
-      case 'kanban-status': return <ListChecks className="h-3.5 w-3.5" />;
-      case 'timeline': return <GitBranch className="h-3.5 w-3.5" />;
-      case 'progress': return <TrendingUp className="h-3.5 w-3.5" />;
-      case 'priority': return <Flag className="h-3.5 w-3.5" />;
-      case 'history': return <History className="h-3.5 w-3.5" />;
-      default: return <LayoutList className="h-3.5 w-3.5" />;
-    }
-  };
 
   // Render task item in flat layout style for ALL view modes
   const renderTaskItem = (item: TodoItem) => {
