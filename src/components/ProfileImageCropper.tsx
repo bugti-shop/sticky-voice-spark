@@ -45,7 +45,7 @@ const createCroppedImage = async (
   return canvas.toDataURL('image/jpeg', 0.85);
 };
 
-export const ProfileImageCropper = ({ imageSrc, onCropComplete, onCancel }: ProfileImageCropperProps) => {
+export const ProfileImageCropper = ({ imageSrc, onCropComplete, onCancel, aspect = 1, cropShape = 'round', outputWidth = 400, outputHeight = 400 }: ProfileImageCropperProps) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [rotation, setRotation] = useState(0);
