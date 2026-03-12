@@ -642,7 +642,78 @@ export const drawStroke = (ctx: CanvasRenderingContext2D, stroke: Stroke, asClip
       break;
     }
     case 'washi': {
-      // Handled by the washi tape system, not individual strokes
+      if (stroke.points.length < 2) break;
+      const washiWidth = stroke.width;
+      const patternId = (stroke as any).washiPatternId;
+      const pattern = WASHI_PATTERNS.find(p => p.id === patternId) || WASHI_PATTERNS[0];
+
+      // Calculate bounding box of the stroke path
+      let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+      for (const p of stroke.points) {
+        if (p.x - washiWidth < minX) minX = p.x - washiWidth;
+        if (p.y - washiWidth < minY) minY = p.y - washiWidth;
+        if (p.x + washiWidth > maxX) maxX = p.x + washiWidth;
+        if (p.y + washiWidth > maxY) maxY = p.y + washiWidth;
+      }
+      const bw = Math.max(4, Math.ceil(maxX - minX + washiWidth * 2));
+      const bh = Math.max(4, Math.ceil(maxY - minY + washiWidth * 2));
+
+      // Create or get cached washi pattern tile
+      const cacheKey = `washi_stroke_${pattern.id}_${bw}_${bh}`;
+      let cachedCanvas = washiPatternCache.get(cacheKey) as HTMLCanvasElement | undefined;
+      if (!cachedCanvas) {
+        cachedCanvas = document.createElement('canvas');
+        cachedCanvas.width = Math.min(bw * 2, 2048);
+        cachedCanvas.height = Math.min(bh * 2, 2048);
+        const offCtx = cachedCanvas.getContext('2d')!;
+        offCtx.scale(cachedCanvas.width / bw, cachedCanvas.height / bh);
+        pattern.draw(offCtx, bw, bh);
+        washiPatternCache.set(cacheKey, cachedCanvas);
+      }
+
+      // Create a canvas pattern from the cached tile
+      const canvasPattern = ctx.createPattern(cachedCanvas, 'no-repeat');
+      if (!canvasPattern) break;
+
+      ctx.save();
+      // Translate pattern so it aligns with the bounding box
+      const patternMatrix = new DOMMatrix();
+      patternMatrix.translateSelf(minX - washiWidth, minY - washiWidth);
+      patternMatrix.scaleSelf(bw / cachedCanvas.width, bh / cachedCanvas.height);
+      canvasPattern.setTransform(patternMatrix);
+
+      // Draw the thick stroke with washi pattern fill
+      ctx.strokeStyle = canvasPattern;
+      ctx.lineWidth = washiWidth;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.globalAlpha = 0.85;
+
+      ctx.beginPath();
+      ctx.moveTo(stroke.points[0].x, stroke.points[0].y);
+      for (let i = 1; i < stroke.points.length - 1; i++) {
+        const curr = stroke.points[i];
+        const next = stroke.points[i + 1];
+        ctx.quadraticCurveTo(curr.x, curr.y, (curr.x + next.x) / 2, (curr.y + next.y) / 2);
+      }
+      ctx.lineTo(stroke.points[stroke.points.length - 1].x, stroke.points[stroke.points.length - 1].y);
+      ctx.stroke();
+
+      // Add a subtle torn-edge effect via semi-transparent border
+      ctx.globalAlpha = 0.15;
+      ctx.strokeStyle = 'rgba(0,0,0,0.2)';
+      ctx.lineWidth = washiWidth + 2;
+      ctx.beginPath();
+      ctx.moveTo(stroke.points[0].x, stroke.points[0].y);
+      for (let i = 1; i < stroke.points.length - 1; i++) {
+        const curr = stroke.points[i];
+        const next = stroke.points[i + 1];
+        ctx.quadraticCurveTo(curr.x, curr.y, (curr.x + next.x) / 2, (curr.y + next.y) / 2);
+      }
+      ctx.lineTo(stroke.points[stroke.points.length - 1].x, stroke.points[stroke.points.length - 1].y);
+      ctx.stroke();
+
+      ctx.restore();
       break;
     }
   }
