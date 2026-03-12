@@ -400,7 +400,7 @@ export const GamificationCertificates = ({ isOpen, onClose, streakData }: Certif
 
       await shareImageBlob({
         blob,
-        fileName: `npd-certificate-${selectedCert.id}.png`,
+        fileName: `flowist-certificate-${selectedCert.id}.png`,
         title: `Flowist ${getCertTitle(selectedCert)} Certificate`,
         text: selectedCert.linkedInDescription,
         dialogTitle: t('certificates.shareCertificate', 'Share Certificate'),

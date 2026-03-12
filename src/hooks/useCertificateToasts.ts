@@ -89,7 +89,7 @@ export const useCertificateToasts = () => {
 
         if (newlyUnlocked.length > 0) {
           // Mark as seen
-          await setSetting('npd_seen_certificates', [...seenCerts, ...newlyUnlocked]);
+          await setSetting('flowist_seen_certificates', [...seenCerts, ...newlyUnlocked]);
 
           // Show toast for the highest level unlocked
           const sorted = newlyUnlocked.sort((a, b) => {
