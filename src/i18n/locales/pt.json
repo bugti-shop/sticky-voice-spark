@@ -483,7 +483,7 @@
   "privacy": {
     "title": "Política de Privacidade",
     "infoCollect": "Informações que Coletamos",
-    "infoCollectDesc": "O NPD armazena todas as suas notas e dados localmente no seu dispositivo. Não coletamos, transmitimos ou armazenamos nenhuma informação pessoal em servidores externos.",
+    "infoCollectDesc": "O Flowist armazena todas as suas notas e dados localmente no seu dispositivo. Não coletamos, transmitimos ou armazenamos nenhuma informação pessoal em servidores externos.",
     "localStorage": "Armazenamento Local",
     "localStorageDesc": "Suas notas, pastas e configurações são armazenadas usando o armazenamento local do seu dispositivo. Esses dados permanecem no seu dispositivo e não são acessíveis para nós.",
     "dataSecurity": "Segurança de Dados",
