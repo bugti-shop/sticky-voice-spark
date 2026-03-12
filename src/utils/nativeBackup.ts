@@ -19,7 +19,7 @@ export const isNativePlatform = (): boolean => {
  * Get the backup directory path based on platform
  */
 const getBackupDirectory = (): string => {
-  return 'Npd/backup';
+  return 'Flowist/backup';
 };
 
 /**
