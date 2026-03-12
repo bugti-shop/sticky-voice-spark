@@ -294,6 +294,7 @@ const AppContent = () => {
       <SmartReviewPrompt />
       
       <ComboOverlay />
+      <UrgentReminderOverlay />
       <DeferredSyncInit />
       <AppRoutes />
     </>

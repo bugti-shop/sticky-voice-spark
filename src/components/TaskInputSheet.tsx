@@ -1367,6 +1367,21 @@ export const TaskInputSheet = ({ isOpen, onClose, onAddTask, folders, selectedFo
               return null;
             })}
 
+            {/* Urgent Toggle Button */}
+            <button
+              onClick={() => setIsUrgent(!isUrgent)}
+              className={cn(
+                "relative flex items-center gap-1.5 px-3 py-2 rounded-md border transition-all whitespace-nowrap",
+                isUrgent ? "border-destructive bg-destructive/10 dark:bg-destructive/20" : "border-border bg-card hover:bg-muted"
+              )}
+            >
+              {isUrgent && <span className="absolute -top-1 -right-1 w-2 h-2 bg-destructive rounded-full animate-pulse" />}
+              <AlertTriangle className={cn("h-4 w-4 flex-shrink-0", isUrgent ? "text-destructive" : "text-muted-foreground")} />
+              <span className={cn("text-sm whitespace-nowrap", isUrgent ? "text-destructive font-medium" : "text-muted-foreground")}>
+                {t('taskInput.urgent', 'Urgent')}
+              </span>
+            </button>
+
             {/* Edit Actions Button - always last */}
             <button
               className="relative flex items-center gap-1.5 px-3 py-2 rounded-md border border-border bg-card hover:bg-muted transition-all whitespace-nowrap"
