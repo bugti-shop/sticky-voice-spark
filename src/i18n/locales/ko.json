@@ -468,7 +468,7 @@
   "terms": {
     "title": "서비스 약관",
     "acceptance": "약관 동의",
-    "acceptanceDesc": "NPD에 접속하고 사용함으로써 본 약관의 조항에 동의하고 이에 구속됩니다.",
+    "acceptanceDesc": "Flowist에 접속하고 사용함으로써 본 약관의 조항에 동의하고 이에 구속됩니다.",
     "license": "사용 라이선스",
     "licenseDesc": "개인적, 비상업적 일시적 열람 목적으로만 NPD를 임시 사용할 수 있는 권한이 부여됩니다.",
     "userData": "사용자 데이터",
