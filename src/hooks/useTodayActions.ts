@@ -69,6 +69,10 @@ export const useTodayActions = (props: UseTodayActionsProps) => {
     requireFeature, isPro, tasksSettings, setOrderVersion,
   } = props;
 
+  // Keep a ref to items for reliable access in async callbacks
+  const itemsRef = useRef(items);
+  itemsRef.current = items;
+
   // ── Folder Actions ──
   const handleCreateFolder = useCallback((name: string, color: string) => {
     if (!isPro && folders.length >= FREE_LIMITS.maxTaskFolders) {
@@ -235,12 +239,8 @@ export const useTodayActions = (props: UseTodayActionsProps) => {
     const now = new Date();
     const updatesWithTimestamp: Partial<TodoItem> = { ...updates, modifiedAt: now };
 
-    // Get the current item from items
-    let currentItem: TodoItem | undefined;
-    setItems(prev => {
-      currentItem = prev.find(i => i.id === itemId);
-      return prev; // Don't modify yet
-    });
+    // Get the current item from ref (reliable in async contexts)
+    const currentItem = itemsRef.current.find(i => i.id === itemId);
 
     if (updates.completed === true && currentItem && !currentItem.completed) {
       updatesWithTimestamp.completedAt = now;
