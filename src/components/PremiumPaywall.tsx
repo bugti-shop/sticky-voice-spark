@@ -7,7 +7,6 @@ import { Purchases } from '@revenuecat/purchases-capacitor';
 import { triggerHaptic } from '@/utils/haptics';
 import { useHardwareBackButton } from '@/hooks/useHardwareBackButton';
 import { setSetting } from '@/utils/settingsStorage';
-import { useNavigate } from 'react-router-dom';
 
 const PLANS = [
   { id: 'weekly' as ProductType, label: 'Weekly', price: '$1.99', period: '/wk', badge: null },
