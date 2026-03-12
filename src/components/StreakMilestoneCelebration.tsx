@@ -123,8 +123,8 @@ export const StreakMilestoneCelebration = () => {
         if (navigator.share && navigator.canShare?.({ files: [file] })) {
           try {
             await navigator.share({
-              title: `${milestone}-Day Streak on Npd!`,
-              text: `I'm on a ${milestone} day productivity streak on Npd! 🔥`,
+              title: `${milestone}-Day Streak on Flowist!`,
+              text: `I'm on a ${milestone} day productivity streak on Flowist! 🔥`,
               files: [file],
             });
           } catch { /* user cancelled */ }
@@ -197,7 +197,7 @@ export const StreakMilestoneCelebration = () => {
             {config.emoji}
           </motion.div>
 
-          {/* Animated Npd Logo */}
+          {/* Animated Flowist Logo */}
           <motion.div
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
@@ -213,7 +213,7 @@ export const StreakMilestoneCelebration = () => {
             />
             <motion.img
               src={appLogo}
-              alt="Npd"
+               alt="Flowist"
               className="w-24 h-24 rounded-3xl relative z-10 shadow-2xl"
               animate={{
                 y: [0, -8, 0],
@@ -352,7 +352,7 @@ const ShareCard = ({
       {/* Logo */}
       <img
         src={appLogo}
-        alt="Npd"
+        alt="Flowist"
         style={{
           width: '160px',
           height: '160px',

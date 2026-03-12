@@ -141,7 +141,7 @@ export const StreakChallengeDialog = ({ isOpen, onClose, currentStreak, weekData
               {/* Mascot */}
               <motion.img
                 src={appLogo}
-                alt="Npd Mascot"
+                alt="Flowist Mascot"
                 className="relative z-10 w-16 h-16 rounded-2xl shadow-lg"
                 initial={{ y: 10, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}

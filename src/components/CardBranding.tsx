@@ -1,6 +1,6 @@
 /**
  * Shared branding and user profile components for all shareable cards.
- * Includes Npd logo footer and user avatar + name strip.
+ * Includes Flowist logo footer and user avatar + name strip.
  * 
  * IMPORTANT: All styles use inline CSS for html2canvas compatibility.
  * Do NOT use Tailwind classes here — they can break when rendering to image.
@@ -15,7 +15,7 @@ interface CardBrandingFooterProps {
 }
 
 /**
- * Combined footer: user profile line + Npd branding
+ * Combined footer: user profile line + Flowist branding
  * For use inside shareable card designs (html2canvas-friendly).
  */
 export const CardBrandingFooter = ({

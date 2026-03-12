@@ -516,7 +516,7 @@ const JourneyBadges = () => {
                   </div>
                   <div className="text-left">
                     <div className="flex items-center gap-1.5 mb-0.5">
-                      <span className="text-[13px] font-semibold text-black dark:text-black">Npd: Notepad & To Do List</span>
+                      <span className="text-[13px] font-semibold text-black dark:text-black">Flowist: Notepad & To Do List</span>
                     </div>
                     <p className="text-[8px] text-muted-foreground/45">Scan to download the app</p>
                   </div>
