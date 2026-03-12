@@ -483,7 +483,7 @@
   "privacy": {
     "title": "Gizlilik Politikası",
     "infoCollect": "Topladığımız Bilgiler",
-    "infoCollectDesc": "NPD tüm notlarınızı ve verilerinizi cihazınızda yerel olarak depolar. Harici sunucularda herhangi bir kişisel bilgi toplamıyor, iletmiyor veya depolamıyoruz.",
+    "infoCollectDesc": "Flowist tüm notlarınızı ve verilerinizi cihazınızda yerel olarak depolar. Harici sunucularda herhangi bir kişisel bilgi toplamıyor, iletmiyor veya depolamıyoruz.",
     "localStorage": "Yerel Depolama",
     "localStorageDesc": "Notlarınız, klasörleriniz ve ayarlarınız cihazınızın yerel depolaması kullanılarak saklanır. Bu veriler cihazınızda kalır ve bize erişilemez.",
     "dataSecurity": "Veri Güvenliği",
