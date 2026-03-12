@@ -7,7 +7,7 @@ export interface UserProfile {
   coverUrl: string;
 }
 
-const PROFILE_KEY = 'npd_user_profile';
+const PROFILE_KEY = 'flowist_user_profile';
 
 const DEFAULT_PROFILE: UserProfile = { name: '', avatarUrl: '', coverUrl: '' };
 

@@ -46,7 +46,7 @@ i18n
     detection: {
       order: ['localStorage', 'navigator', 'htmlTag'],
       caches: ['localStorage'],
-      lookupLocalStorage: 'npd_language',
+      lookupLocalStorage: 'flowist_language',
     },
     interpolation: {
       escapeValue: false,

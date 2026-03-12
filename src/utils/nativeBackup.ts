@@ -31,7 +31,7 @@ const generateBackupFilename = (): string => {
     .replace(/[-:]/g, '')
     .replace('T', '')
     .split('.')[0];
-  return `npd_backup_${timestamp}.json`;
+  return `flowist_backup_${timestamp}.json`;
 };
 
 /**

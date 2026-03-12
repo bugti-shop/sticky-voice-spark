@@ -26,7 +26,7 @@ interface FeatureTourProps {
   onSkip?: () => void;
 }
 
-const TOUR_SEEN_PREFIX = 'npd_tour_seen_';
+const TOUR_SEEN_PREFIX = 'flowist_tour_seen_';
 
 export const FeatureTour = ({ steps, tourId, onComplete, onSkip }: FeatureTourProps) => {
   const { t } = useTranslation();

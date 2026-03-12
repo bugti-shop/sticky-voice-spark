@@ -35,7 +35,7 @@ export interface UserBehaviorData {
   lastAnalyzed: string | null;
 }
 
-const BEHAVIOR_KEY = 'npd_smart_notif_behavior';
+const BEHAVIOR_KEY = 'flowist_smart_notif_behavior';
 
 const getDefaultBehavior = (): UserBehaviorData => ({
   completionHours: {},
