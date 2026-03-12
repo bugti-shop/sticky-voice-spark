@@ -120,7 +120,7 @@ export default function Profile() {
         'Europe/Vienna': 'AT', 'Europe/Stockholm': 'SE', 'Europe/Oslo': 'NO',
         'Europe/Copenhagen': 'DK', 'Europe/Helsinki': 'FI', 'Europe/Athens': 'GR',
         'Europe/Bucharest': 'RO', 'Europe/Prague': 'CZ', 'Europe/Budapest': 'HU',
-        'Europe/Lisbon': 'PT', 'Europe/Dublin': 'IE', 'Asia/Colombo': 'LK',
+        'Europe/Lisbon': 'PT', 'Europe/Dublin': 'IE',
         'Asia/Tashkent': 'UZ', 'Asia/Almaty': 'KZ', 'Asia/Baku': 'AZ',
         'Asia/Tbilisi': 'GE', 'Asia/Yerevan': 'AM', 'Asia/Beirut': 'LB',
         'Asia/Jerusalem': 'IL', 'Asia/Amman': 'JO', 'Asia/Kuwait': 'KW',
