@@ -58,7 +58,7 @@ export interface NotesListWidgetData {
 }
 
 // SharedPreferences keys for native widgets
-const WIDGET_PREFS_PREFIX = 'npd_widget_';
+const WIDGET_PREFS_PREFIX = 'flowist_widget_';
 const WIDGET_TASKS_KEY = `${WIDGET_PREFS_PREFIX}tasks`;
 const WIDGET_NOTES_KEY = `${WIDGET_PREFS_PREFIX}notes`;
 const WIDGET_SECTIONS_KEY = `${WIDGET_PREFS_PREFIX}sections`;

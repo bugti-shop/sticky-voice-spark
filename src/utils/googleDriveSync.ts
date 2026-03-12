@@ -127,7 +127,7 @@ export const uploadJsonFile = async (
   }
 
   const jsonContent = JSON.stringify(data);
-  const boundary = '-------npd_boundary';
+  const boundary = '-------flowist_boundary';
 
   const body =
     `--${boundary}\r\n` +

@@ -191,7 +191,7 @@ export const migrateLocalStorageToIndexedDB = async (): Promise<boolean> => {
 
     // Also migrate encryption keys (dynamic keys)
     const allKeys = Object.keys(localStorage);
-    const encryptionKeys = allKeys.filter(k => k.startsWith('npd_enc_'));
+    const encryptionKeys = allKeys.filter(k => k.startsWith('flowist_enc_'));
     
     for (const key of [...keysToMigrate, ...encryptionKeys]) {
       try {

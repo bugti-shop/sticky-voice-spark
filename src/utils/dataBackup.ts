@@ -127,7 +127,7 @@ export const downloadData = async (filename?: string): Promise<void> => {
   
   const a = document.createElement('a');
   a.href = url;
-  a.download = filename || `npd-data-${Date.now()}.json`;
+  a.download = filename || `flowist-data-${Date.now()}.json`;
   a.click();
   
   URL.revokeObjectURL(url);

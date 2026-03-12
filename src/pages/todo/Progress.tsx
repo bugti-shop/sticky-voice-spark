@@ -69,7 +69,7 @@ const Progress = () => {
         // Check for personal best streak
         const currentStreak = data?.currentStreak || 0;
         const longestStreak = data?.longestStreak || 0;
-        const lastSharedBest = parseInt(localStorage.getItem('npd_last_shared_best_streak') || '0', 10);
+        const lastSharedBest = parseInt(localStorage.getItem('flowist_last_shared_best_streak') || '0', 10);
         setIsPersonalBest(currentStreak > 0 && currentStreak >= longestStreak && currentStreak > lastSharedBest);
       } catch (error) {
         console.error('Failed to load stats:', error);
