@@ -80,22 +80,30 @@ export const scheduleTaskReminder = async (
   reminderTime: Date,
   isUrgent?: boolean
 ): Promise<void> => {
-  if (!Capacitor.isNativePlatform()) {
-    console.log('[Reminder] Web: would schedule task reminder for', taskText, 'at', reminderTime, isUrgent ? '(URGENT)' : '');
-    return;
-  }
-
   const now = new Date();
   if (reminderTime <= now) {
     console.log('[Reminder] Skipping past reminder for task:', taskText);
     return;
   }
 
+  // For urgent reminders, ALWAYS set an in-app timer so it shows full-screen automatically
+  if (isUrgent) {
+    scheduleUrgentInAppTimer(taskId, taskText, reminderTime);
+  }
+
+  if (!Capacitor.isNativePlatform()) {
+    console.log('[Reminder] Web: would schedule task reminder for', taskText, 'at', reminderTime, isUrgent ? '(URGENT)' : '');
+    return;
+  }
+
   const notifId = hashStringToId(`task-${taskId}`);
 
   try {
-    // Cancel existing reminder for this task first
     await cancelTaskReminder(taskId);
+    // Re-set the in-app timer since cancelTaskReminder clears it
+    if (isUrgent) {
+      scheduleUrgentInAppTimer(taskId, taskText, reminderTime);
+    }
 
     await LocalNotifications.schedule({
       notifications: [{
