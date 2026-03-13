@@ -2029,6 +2029,57 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
           setTimeout(() => handleSaveRef.current?.(), 100);
         }}
       />
+
+      {/* Sketch Note Title + Meta Description Dialog */}
+      {showSketchMetaDialog && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4">
+          <div className="w-full max-w-sm bg-background rounded-2xl shadow-xl border border-border p-6 space-y-4">
+            <h2 className="text-lg font-bold text-foreground">{t('editor.sketchDetails', 'Sketch Details')}</h2>
+            <p className="text-sm text-muted-foreground">{t('editor.sketchDetailsDesc', 'Add a title and description for your sketch note.')}</p>
+            
+            <div className="space-y-2">
+              <Label htmlFor="sketch-title" className="text-sm font-medium">{t('editor.title', 'Title')} *</Label>
+              <Input
+                id="sketch-title"
+                value={sketchMetaTitle}
+                onChange={(e) => setSketchMetaTitle(e.target.value)}
+                placeholder={t('editor.sketchTitlePlaceholder', 'e.g., Meeting Notes Diagram')}
+                className="bg-muted/50"
+                autoFocus
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="sketch-desc" className="text-sm font-medium">{t('editor.description', 'Description')} *</Label>
+              <textarea
+                id="sketch-desc"
+                value={sketchMetaDesc}
+                onChange={(e) => setSketchMetaDesc(e.target.value)}
+                placeholder={t('editor.sketchDescPlaceholder', 'Briefly describe what this sketch is about...')}
+                rows={3}
+                className="w-full rounded-md border border-input bg-muted/50 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring resize-none"
+              />
+            </div>
+            
+            <div className="flex gap-3 pt-2">
+              <Button
+                variant="outline"
+                className="flex-1"
+                onClick={() => setShowSketchMetaDialog(false)}
+              >
+                {t('common.cancel', 'Cancel')}
+              </Button>
+              <Button
+                className="flex-1"
+                onClick={handleSketchMetaSave}
+                disabled={!sketchMetaTitle.trim() || !sketchMetaDesc.trim()}
+              >
+                {t('common.saveClose', 'Save & Close')}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
