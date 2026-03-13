@@ -192,6 +192,7 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
   const [isLinkInputOpen, setIsLinkInputOpen] = useState(false);
   const [isCommentInputOpen, setIsCommentInputOpen] = useState(false);
   const [isMetaDescInputOpen, setIsMetaDescInputOpen] = useState(false);
+  const [isTitleEditOpen, setIsTitleEditOpen] = useState(false);
   
   // Sketch meta dialog state - shown when closing a sketch note
   const [showSketchMetaDialog, setShowSketchMetaDialog] = useState(false);
@@ -1042,6 +1043,10 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
                     <span className="font-medium text-primary">{t('editor.copyWithFormatting', 'Copy with Formatting')}</span>
                   </DropdownMenuItem>
                 )}
+                <DropdownMenuItem onClick={() => setIsTitleEditOpen(true)}>
+                  <FileText className="h-4 w-4 mr-2" />
+                  {t('editor.editTitle', 'Edit Title')}
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setIsMetaDescInputOpen(true)}>
                   <FileText className="h-4 w-4 mr-2" />
                   {metaDescription ? t('editor.editMetaDescription') : t('editor.addMetaDescription')}
@@ -1931,6 +1936,19 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
         title={t('editor.addCommentTitle')}
         placeholder={t('editor.addCommentPlaceholder')}
         multiline
+      />
+
+      <InputSheetPage
+        isOpen={isTitleEditOpen}
+        onClose={() => setIsTitleEditOpen(false)}
+        onSave={(newTitle) => {
+          setTitle(newTitle);
+          toast.success(t('editor.titleUpdated', 'Title updated'));
+        }}
+        title={t('editor.editTitle', 'Edit Title')}
+        placeholder={t('editor.titlePlaceholder', 'Enter title...')}
+        defaultValue={title}
+        maxLength={200}
       />
 
       <InputSheetPage
