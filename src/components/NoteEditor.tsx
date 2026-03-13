@@ -576,7 +576,8 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
     window.history.back();
   }, []);
 
-  const handleClose = useCallback(async () => {
+  // The actual close logic (called after sketch meta dialog if needed)
+  const performClose = useCallback(async () => {
     // Mark as closing to prevent re-entry
     if (!isOpenRef.current) return;
     
@@ -601,6 +602,37 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
       }, 10);
     }
   }, [commitNote, navigate, onClose]);
+
+  const handleClose = useCallback(async () => {
+    if (!isOpenRef.current) return;
+    
+    // For sketch notes, show the compulsory title + meta description dialog
+    if (noteType === 'sketch') {
+      setSketchMetaTitle(title);
+      setSketchMetaDesc(metaDescription);
+      setShowSketchMetaDialog(true);
+      return;
+    }
+    
+    await performClose();
+  }, [noteType, title, metaDescription, performClose]);
+
+  // Called when user confirms sketch meta dialog
+  const handleSketchMetaSave = useCallback(async () => {
+    if (!sketchMetaTitle.trim()) {
+      toast.error(t('editor.sketchTitleRequired', 'Title is required for sketch notes'));
+      return;
+    }
+    if (!sketchMetaDesc.trim()) {
+      toast.error(t('editor.sketchDescRequired', 'Description is required for sketch notes'));
+      return;
+    }
+    setTitle(sketchMetaTitle.trim());
+    setMetaDescription(sketchMetaDesc.trim());
+    setShowSketchMetaDialog(false);
+    // Wait a tick for state to propagate before saving
+    setTimeout(() => performClose(), 50);
+  }, [sketchMetaTitle, sketchMetaDesc, performClose, t]);
 
   const handleCloseRef = useRef(handleClose);
   useEffect(() => {
