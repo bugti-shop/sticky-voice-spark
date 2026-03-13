@@ -142,6 +142,7 @@ export const scheduleTaskReminder = async (
 export const cancelTaskReminder = async (taskId: string): Promise<void> => {
   // Always cancel the in-app urgent timer
   cancelUrgentInAppTimer(taskId);
+  pendingUrgentReminders.delete(taskId);
 
   if (!Capacitor.isNativePlatform()) return;
 
