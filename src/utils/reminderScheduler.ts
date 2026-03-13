@@ -13,9 +13,44 @@ const hashStringToId = (str: string): number => {
   for (let i = 0; i < str.length; i++) {
     const char = str.charCodeAt(i);
     hash = ((hash << 5) - hash) + char;
-    hash |= 0; // Convert to 32bit integer
+    hash |= 0;
   }
-  return Math.abs(hash) % 2147483647; // Keep within safe int range
+  return Math.abs(hash) % 2147483647;
+};
+
+// In-app urgent reminder timers (fires overlay directly, no notification tap needed)
+const urgentTimers = new Map<string, ReturnType<typeof setTimeout>>();
+
+const scheduleUrgentInAppTimer = (taskId: string, taskText: string, reminderTime: Date) => {
+  // Clear any existing timer for this task
+  cancelUrgentInAppTimer(taskId);
+  
+  const delay = reminderTime.getTime() - Date.now();
+  if (delay <= 0) return;
+  
+  const timer = setTimeout(() => {
+    urgentTimers.delete(taskId);
+    console.log('[Reminder] Urgent in-app timer fired for:', taskText);
+    window.dispatchEvent(new CustomEvent('urgentReminderTriggered', {
+      detail: {
+        id: taskId,
+        taskName: taskText,
+        triggeredAt: new Date(),
+        reminderTime: reminderTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      }
+    }));
+  }, delay);
+  
+  urgentTimers.set(taskId, timer);
+  console.log('[Reminder] Urgent in-app timer set for', taskText, 'in', Math.round(delay / 1000), 'seconds');
+};
+
+const cancelUrgentInAppTimer = (taskId: string) => {
+  const existing = urgentTimers.get(taskId);
+  if (existing) {
+    clearTimeout(existing);
+    urgentTimers.delete(taskId);
+  }
 };
 
 /**
