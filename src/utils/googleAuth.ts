@@ -262,11 +262,18 @@ const webRefresh = (): Promise<GoogleUser> => {
 
 // Silent web refresh — tries prompt:'' with timeout, never shows UI
 const silentWebRefresh = (): Promise<GoogleUser | null> => {
+  // Back off after a failed silent attempt to prevent chooser loops
+  if (Date.now() < webSilentRefreshCooldownUntil) return Promise.resolve(null);
+
   // Deduplicate concurrent refresh calls
   if (refreshInProgress) return refreshInProgress;
 
   refreshInProgress = new Promise<GoogleUser | null>(async (resolve) => {
-    const timeout = setTimeout(() => resolve(null), 4000);
+    const timeout = setTimeout(() => {
+      webSilentRefreshCooldownUntil = Date.now() + REFRESH_RETRY_COOLDOWN_MS;
+      resolve(null);
+    }, 4000);
+
     try {
       await loadGoogleIdentityServices();
       initTokenClient(
@@ -284,13 +291,25 @@ const silentWebRefresh = (): Promise<GoogleUser | null> => {
               expiresAt: Date.now() + SESSION_TTL,
             };
             await setSetting('googleUser', user);
+            webSilentRefreshCooldownUntil = 0;
             resolve(user);
-          } catch { resolve(null); }
+          } catch {
+            webSilentRefreshCooldownUntil = Date.now() + REFRESH_RETRY_COOLDOWN_MS;
+            resolve(null);
+          }
         },
-        () => { clearTimeout(timeout); resolve(null); }
+        () => {
+          clearTimeout(timeout);
+          webSilentRefreshCooldownUntil = Date.now() + REFRESH_RETRY_COOLDOWN_MS;
+          resolve(null);
+        }
       );
       tokenClient.requestAccessToken({ prompt: '' });
-    } catch { clearTimeout(timeout); resolve(null); }
+    } catch {
+      clearTimeout(timeout);
+      webSilentRefreshCooldownUntil = Date.now() + REFRESH_RETRY_COOLDOWN_MS;
+      resolve(null);
+    }
   }).finally(() => { refreshInProgress = null; });
 
   return refreshInProgress;
