@@ -609,13 +609,13 @@ export const drawWashiTape = (ctx: CanvasRenderingContext2D, tape: WashiTapeData
   ctx.fillStyle = tiledPattern;
   ctx.fillRect(0, 0, tape.width, tape.height);
 
-  // Top glossy highlight
-  ctx.globalAlpha = 0.12;
-  const gloss = ctx.createLinearGradient(0, 0, 0, tape.height * 0.35);
-  gloss.addColorStop(0, 'rgba(255,255,255,0.5)');
+  // Top glossy highlight — very subtle to preserve color vibrancy
+  ctx.globalAlpha = 0.06;
+  const gloss = ctx.createLinearGradient(0, 0, 0, tape.height * 0.25);
+  gloss.addColorStop(0, 'rgba(255,255,255,0.4)');
   gloss.addColorStop(1, 'rgba(255,255,255,0)');
   ctx.fillStyle = gloss;
-  ctx.fillRect(0, 0, tape.width, tape.height * 0.35);
+  ctx.fillRect(0, 0, tape.width, tape.height * 0.25);
 
   ctx.restore();
 
