@@ -167,7 +167,16 @@ const NotesCalendar = () => {
           emptyStateSubMessage={t('calendar.clickToCreate', 'Click "+" to create your notes.')}
           calendarBackground={calendarBackground}
           onBackgroundSettingsClick={() => setIsBackgroundSheetOpen(true)}
+          showSyncCalendar
+          onSyncCalendarClick={() => setIsSyncOpen(true)}
         />
+
+        {/* Sync Calendar (hidden, triggered from menu) */}
+        {isSyncOpen && (
+          <div className="px-4 py-2">
+            <CalendarSyncBadge alwaysVisible />
+          </div>
+        )}
 
         {/* Notes for Selected Date - Scrollable */}
         {selectedDateNotes.length > 0 && (
