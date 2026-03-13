@@ -193,6 +193,11 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
   const [isCommentInputOpen, setIsCommentInputOpen] = useState(false);
   const [isMetaDescInputOpen, setIsMetaDescInputOpen] = useState(false);
   
+  // Sketch meta dialog state - shown when closing a sketch note
+  const [showSketchMetaDialog, setShowSketchMetaDialog] = useState(false);
+  const [sketchMetaTitle, setSketchMetaTitle] = useState('');
+  const [sketchMetaDesc, setSketchMetaDesc] = useState('');
+  
   // PDF export success dialog state
   const [pdfExportResult, setPdfExportResult] = useState<{ filename: string; base64Data: string } | null>(null);
   const [showPdfOptionsSheet, setShowPdfOptionsSheet] = useState(false);
