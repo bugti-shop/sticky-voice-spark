@@ -1367,37 +1367,31 @@ export const TaskInputSheet = ({ isOpen, onClose, onAddTask, folders, selectedFo
                 );
               }
 
-              if (action.id === 'effort') {
-                return null;
+              if (action.id === 'urgent') {
+                return (
+                  <button
+                    key={action.id}
+                    onClick={() => {
+                      if (!requireFeature('urgent_reminder')) return;
+                      setIsUrgent(!isUrgent);
+                    }}
+                    className={cn(
+                      "relative flex items-center gap-1.5 px-3 py-2 rounded-md border transition-all whitespace-nowrap",
+                      isUrgent ? "border-destructive bg-destructive/10 dark:bg-destructive/20" : "border-border bg-card hover:bg-muted"
+                    )}
+                  >
+                    {isUrgent && <span className="absolute -top-1 -right-1 w-2 h-2 bg-destructive rounded-full animate-pulse" />}
+                    <AlertTriangle className={cn("h-4 w-4 flex-shrink-0", isUrgent ? "text-destructive" : "text-muted-foreground")} />
+                    <span className={cn("text-sm whitespace-nowrap", isUrgent ? "text-destructive font-medium" : "text-muted-foreground")}>
+                      {t('taskInput.urgent', 'Urgent')}
+                    </span>
+                    {!isUrgent && <Crown className="h-3 w-3 text-amber-500 flex-shrink-0" />}
+                  </button>
+                );
               }
-
-              if (action.id === 'location') {
-                return null;
-              }
-
-              // Repeat section removed - now handled in TaskDateTimePage
 
               return null;
             })}
-
-            {/* Urgent Toggle Button (Premium) */}
-            <button
-              onClick={() => {
-                if (!requireFeature('urgent_reminder')) return;
-                setIsUrgent(!isUrgent);
-              }}
-              className={cn(
-                "relative flex items-center gap-1.5 px-3 py-2 rounded-md border transition-all whitespace-nowrap",
-                isUrgent ? "border-destructive bg-destructive/10 dark:bg-destructive/20" : "border-border bg-card hover:bg-muted"
-              )}
-            >
-              {isUrgent && <span className="absolute -top-1 -right-1 w-2 h-2 bg-destructive rounded-full animate-pulse" />}
-              <AlertTriangle className={cn("h-4 w-4 flex-shrink-0", isUrgent ? "text-destructive" : "text-muted-foreground")} />
-              <span className={cn("text-sm whitespace-nowrap", isUrgent ? "text-destructive font-medium" : "text-muted-foreground")}>
-                {t('taskInput.urgent', 'Urgent')}
-              </span>
-              {!isUrgent && <Crown className="h-3 w-3 text-amber-500 flex-shrink-0" />}
-            </button>
 
             {/* Edit Actions Button - always last */}
             <button
