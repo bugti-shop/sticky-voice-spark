@@ -659,7 +659,7 @@ export const drawStroke = (ctx: CanvasRenderingContext2D, stroke: Stroke, asClip
       const bh = Math.max(4, Math.ceil(maxY - minY + washiWidth * 2));
 
       // Create or get cached washi pattern tile at high resolution
-      const scaleFactor = 6; // Maximum HD quality
+      const scaleFactor = 10; // 10x Ultra HD quality
       const cacheKey = `washi_stroke_${pattern.id}_${bw}_${bh}_maxhd`;
       let cachedCanvas = washiPatternCache.get(cacheKey) as HTMLCanvasElement | undefined;
       if (!cachedCanvas) {

@@ -401,6 +401,149 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
       ctx.globalAlpha = 1;
     },
   },
+  // 21. Red diagonal lines
+  {
+    id: 'lines-red', name: 'Red Lines', color: '#ef4444', bgColor: '#fecaca',
+    draw: (ctx, w, h) => {
+      ctx.fillStyle = '#fecaca'; ctx.fillRect(0, 0, w, h);
+      ctx.lineCap = 'butt'; ctx.lineWidth = 2;
+      for (let x = -h * 2; x < w + h * 2; x += 7) {
+        ctx.strokeStyle = '#dc2626'; ctx.globalAlpha = 0.7;
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x + h, h); ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+    },
+  },
+  // 22. Red horizontal stripes
+  {
+    id: 'stripes-red', name: 'Red Stripes', color: '#ef4444', bgColor: '#fee2e2',
+    draw: (ctx, w, h) => {
+      ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#ef4444'; ctx.globalAlpha = 0.65;
+      for (let y = 0; y < h; y += 6) {
+        ctx.fillRect(0, y, w, 3);
+      }
+      ctx.globalAlpha = 1;
+    },
+  },
+  // 23. Red with hearts emoji pattern
+  {
+    id: 'red-hearts-emoji', name: 'Red Hearts', color: '#ef4444', bgColor: '#fee2e2',
+    draw: (ctx, w, h) => {
+      ctx.fillStyle = '#fee2e2'; ctx.fillRect(0, 0, w, h);
+      ctx.font = '8px serif'; ctx.globalAlpha = 0.9;
+      for (let x = 4; x < w; x += 14) {
+        for (let y = 9; y < h; y += 13) {
+          const ox = Math.floor(y / 13) % 2 ? 7 : 0;
+          const emojis = ['❤️', '💕', '♥️', '💗'];
+          ctx.fillText(emojis[(Math.floor(x / 14) + Math.floor(y / 13)) % emojis.length], x + ox, y);
+        }
+      }
+      ctx.globalAlpha = 1;
+    },
+  },
+  // 24. Red with star emojis
+  {
+    id: 'red-stars-emoji', name: 'Red Stars', color: '#dc2626', bgColor: '#fca5a5',
+    draw: (ctx, w, h) => {
+      ctx.fillStyle = '#fca5a5'; ctx.fillRect(0, 0, w, h);
+      ctx.font = '7px serif'; ctx.globalAlpha = 0.85;
+      for (let x = 4; x < w; x += 12) {
+        for (let y = 8; y < h; y += 11) {
+          const ox = Math.floor(y / 11) % 2 ? 6 : 0;
+          const emojis = ['⭐', '✨', '🌟', '💫'];
+          ctx.fillText(emojis[(Math.floor(x / 12) + Math.floor(y / 11)) % emojis.length], x + ox, y);
+        }
+      }
+      ctx.globalAlpha = 1;
+    },
+  },
+  // 25. Red with fire emojis
+  {
+    id: 'red-fire-emoji', name: 'Red Fire', color: '#dc2626', bgColor: '#fee2e2',
+    draw: (ctx, w, h) => {
+      ctx.fillStyle = '#f8d0d0'; ctx.fillRect(0, 0, w, h);
+      ctx.font = '8px serif'; ctx.globalAlpha = 0.9;
+      for (let x = 4; x < w; x += 14) {
+        for (let y = 9; y < h; y += 13) {
+          const ox = Math.floor(y / 13) % 2 ? 7 : 0;
+          const emojis = ['🔥', '❤️‍🔥', '💥', '🌹'];
+          ctx.fillText(emojis[(Math.floor(x / 14) + Math.floor(y / 13)) % emojis.length], x + ox, y);
+        }
+      }
+      ctx.globalAlpha = 1;
+    },
+  },
+  // 26. Red double border
+  {
+    id: 'border-red', name: 'Red Border', color: '#ef4444', bgColor: '#fee2e2',
+    draw: (ctx, w, h) => {
+      ctx.fillStyle = '#fee2e2'; ctx.fillRect(0, 0, w, h);
+      ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2; ctx.globalAlpha = 0.8;
+      ctx.strokeRect(2, 2, w - 4, h - 4);
+      ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 1; ctx.globalAlpha = 0.5;
+      ctx.strokeRect(5, 5, w - 10, h - 10);
+      ctx.globalAlpha = 1;
+    },
+  },
+  // 27. Red with dashed border
+  {
+    id: 'border-red-dashed', name: 'Red Dashed', color: '#ef4444', bgColor: '#fecaca',
+    draw: (ctx, w, h) => {
+      ctx.fillStyle = '#fecaca'; ctx.fillRect(0, 0, w, h);
+      ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2; ctx.globalAlpha = 0.75;
+      ctx.setLineDash([4, 3]);
+      ctx.strokeRect(3, 3, w - 6, h - 6);
+      ctx.setLineDash([]);
+      ctx.globalAlpha = 1;
+    },
+  },
+  // 28. Red with dotted border and center line
+  {
+    id: 'border-red-dotted', name: 'Red Dotted', color: '#ef4444', bgColor: '#fee2e2',
+    draw: (ctx, w, h) => {
+      ctx.fillStyle = '#fee2e2'; ctx.fillRect(0, 0, w, h);
+      // Dotted border
+      ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 1.5; ctx.globalAlpha = 0.7;
+      ctx.setLineDash([2, 2]);
+      ctx.strokeRect(2, 2, w - 4, h - 4);
+      ctx.setLineDash([]);
+      // Center horizontal line
+      ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 1; ctx.globalAlpha = 0.4;
+      ctx.beginPath(); ctx.moveTo(4, h / 2); ctx.lineTo(w - 4, h / 2); ctx.stroke();
+      ctx.globalAlpha = 1;
+    },
+  },
+  // 29. Red cross-hatch pattern
+  {
+    id: 'crosshatch-red', name: 'Red Crosshatch', color: '#ef4444', bgColor: '#fecaca',
+    draw: (ctx, w, h) => {
+      ctx.fillStyle = '#fecaca'; ctx.fillRect(0, 0, w, h);
+      ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 1; ctx.globalAlpha = 0.5;
+      for (let x = -h; x < w + h; x += 6) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x + h, h); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(x + h, 0); ctx.lineTo(x, h); ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+    },
+  },
+  // 30. Deep red solid with gold accent border
+  {
+    id: 'red-gold', name: 'Red & Gold', color: '#b91c1c', bgColor: '#f87171',
+    draw: (ctx, w, h) => {
+      ctx.fillStyle = '#dc2626'; ctx.fillRect(0, 0, w, h);
+      // Gold borders
+      ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 2; ctx.globalAlpha = 0.8;
+      ctx.beginPath(); ctx.moveTo(0, 2); ctx.lineTo(w, 2); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, h - 2); ctx.lineTo(w, h - 2); ctx.stroke();
+      // Subtle gold dots
+      ctx.fillStyle = '#fbbf24'; ctx.globalAlpha = 0.5;
+      for (let x = 6; x < w; x += 10) {
+        ctx.beginPath(); ctx.arc(x, h / 2, 1, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    },
+  },
 ];
 
 // --- Washi tape rendering ---
@@ -440,7 +583,7 @@ export const drawWashiTape = (ctx: CanvasRenderingContext2D, tape: WashiTapeData
 
   // Cached HD pattern
   // Cached HD pattern at 3x resolution for crisp rendering
-  const scaleFactor = 6;
+  const scaleFactor = 10;
   const legacyCacheKey = `legacy_${pattern.id}_${Math.round(tape.width)}_${Math.round(tape.height)}_maxhd`;
   let cachedLegacy = washiPatternCache.get(legacyCacheKey) as any;
   if (!cachedLegacy) {
