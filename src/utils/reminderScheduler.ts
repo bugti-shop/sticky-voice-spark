@@ -6,6 +6,10 @@
 
 import { Capacitor } from '@capacitor/core';
 import { LocalNotifications } from '@capacitor/local-notifications';
+import { App } from '@capacitor/app';
+
+// Track scheduled urgent reminders for resume-check
+const pendingUrgentReminders = new Map<string, { taskText: string; reminderTime: Date }>();
 
 // Generate a stable numeric ID from a string ID
 const hashStringToId = (str: string): number => {
@@ -105,16 +109,26 @@ export const scheduleTaskReminder = async (
       scheduleUrgentInAppTimer(taskId, taskText, reminderTime);
     }
 
-    await LocalNotifications.schedule({
-      notifications: [{
-        id: notifId,
-        title: isUrgent ? '🚨 URGENT Task Reminder' : '📋 Task Reminder',
-        body: taskText,
-        schedule: { at: reminderTime, allowWhileIdle: true },
-        channelId: isUrgent ? 'urgent-task-reminders' : 'task-reminders',
-        extra: { type: 'task', taskId, isUrgent: isUrgent ? 'true' : 'false' },
-      }],
-    });
+    // Track for resume-check
+    if (isUrgent) {
+      pendingUrgentReminders.set(taskId, { taskText, reminderTime });
+    }
+
+    const notificationConfig: any = {
+      id: notifId,
+      title: isUrgent ? '🚨 URGENT Task Reminder' : '📋 Task Reminder',
+      body: taskText,
+      schedule: { at: reminderTime, allowWhileIdle: true },
+      channelId: isUrgent ? 'urgent-task-reminders' : 'task-reminders',
+      extra: { type: 'task', taskId, isUrgent: isUrgent ? 'true' : 'false' },
+    };
+
+    // Android: fullScreenIntent wakes screen & shows app even from background
+    if (Capacitor.getPlatform() === 'android' && isUrgent) {
+      notificationConfig.fullScreenIntent = true;
+    }
+
+    await LocalNotifications.schedule({ notifications: [notificationConfig] });
 
     console.log('[Reminder] Scheduled task reminder:', taskText, 'at', reminderTime.toLocaleString(), isUrgent ? '(URGENT)' : '');
   } catch (e) {
@@ -128,6 +142,7 @@ export const scheduleTaskReminder = async (
 export const cancelTaskReminder = async (taskId: string): Promise<void> => {
   // Always cancel the in-app urgent timer
   cancelUrgentInAppTimer(taskId);
+  pendingUrgentReminders.delete(taskId);
 
   if (!Capacitor.isNativePlatform()) return;
 
@@ -272,8 +287,39 @@ export const initializeReminders = async (): Promise<void> => {
     }
   });
 
+  // Listen for app resume — check if any urgent reminders were missed while in background
+  App.addListener('appStateChange', ({ isActive }) => {
+    if (isActive) {
+      checkMissedUrgentReminders();
+    }
+  });
+
   // Request permission after a short delay
   setTimeout(async () => {
     await requestReminderPermission();
   }, 1500);
+};
+
+/**
+ * Check if any urgent reminders fired while app was in background
+ * If so, trigger the full-screen overlay immediately on resume
+ */
+const checkMissedUrgentReminders = () => {
+  const now = Date.now();
+  for (const [taskId, { taskText, reminderTime }] of pendingUrgentReminders) {
+    if (reminderTime.getTime() <= now) {
+      console.log('[Reminder] Missed urgent reminder detected on resume:', taskText);
+      pendingUrgentReminders.delete(taskId);
+      // Fire the full-screen overlay immediately
+      window.dispatchEvent(new CustomEvent('urgentReminderTriggered', {
+        detail: {
+          id: taskId,
+          taskName: taskText,
+          triggeredAt: new Date(),
+          reminderTime: reminderTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        }
+      }));
+      break; // Show one at a time
+    }
+  }
 };
