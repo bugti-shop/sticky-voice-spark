@@ -377,10 +377,16 @@ export const NoteCard = memo(({ note, onEdit, onDelete, onArchive, onTogglePin, 
 
           {/* Show metaDescription if available, otherwise show content preview */}
           {note.type === 'sketch' ? (
-            <div className="flex items-center gap-2 text-sm text-black/50 mb-3 italic">
-              <Pen className="h-4 w-4" />
-              <span>Sketch drawing</span>
-            </div>
+            note.metaDescription ? (
+              <p className="text-sm text-black/70 mb-3 line-clamp-2">
+                {note.metaDescription}
+              </p>
+            ) : (
+              <div className="flex items-center gap-2 text-sm text-black/50 mb-3 italic">
+                <Pen className="h-4 w-4" />
+                <span>Sketch drawing</span>
+              </div>
+            )
           ) : (note.metaDescription || note.content) && (
             <p className="text-sm text-black/70 mb-3 line-clamp-2 transition-all duration-300">
               {note.metaDescription || note.content.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').trim()}
