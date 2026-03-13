@@ -635,6 +635,14 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
     sketchMetaPendingCloseRef.current = true;
   }, [sketchMetaTitle, sketchMetaDesc, t]);
 
+  // Effect: close after sketch meta state has propagated
+  useEffect(() => {
+    if (sketchMetaPendingCloseRef.current && title.trim() && metaDescription.trim()) {
+      sketchMetaPendingCloseRef.current = false;
+      performClose();
+    }
+  }, [title, metaDescription, performClose]);
+
   const handleCloseRef = useRef(handleClose);
   useEffect(() => {
     handleCloseRef.current = handleClose;
