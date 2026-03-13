@@ -287,8 +287,39 @@ export const initializeReminders = async (): Promise<void> => {
     }
   });
 
+  // Listen for app resume — check if any urgent reminders were missed while in background
+  App.addListener('appStateChange', ({ isActive }) => {
+    if (isActive) {
+      checkMissedUrgentReminders();
+    }
+  });
+
   // Request permission after a short delay
   setTimeout(async () => {
     await requestReminderPermission();
   }, 1500);
+};
+
+/**
+ * Check if any urgent reminders fired while app was in background
+ * If so, trigger the full-screen overlay immediately on resume
+ */
+const checkMissedUrgentReminders = () => {
+  const now = Date.now();
+  for (const [taskId, { taskText, reminderTime }] of pendingUrgentReminders) {
+    if (reminderTime.getTime() <= now) {
+      console.log('[Reminder] Missed urgent reminder detected on resume:', taskText);
+      pendingUrgentReminders.delete(taskId);
+      // Fire the full-screen overlay immediately
+      window.dispatchEvent(new CustomEvent('urgentReminderTriggered', {
+        detail: {
+          id: taskId,
+          taskName: taskText,
+          triggeredAt: new Date(),
+          reminderTime: reminderTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        }
+      }));
+      break; // Show one at a time
+    }
+  }
 };
