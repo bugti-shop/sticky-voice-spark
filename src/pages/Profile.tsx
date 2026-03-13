@@ -438,6 +438,14 @@ export default function Profile() {
           onCancel={() => setCoverCropSrc(null)}
         />
       )}
+
+      <CountryFlagPickerSheet
+        open={showCountryPicker}
+        onOpenChange={setShowCountryPicker}
+        selectedCode={manualCountryCode}
+        onSelect={handleCountrySelect}
+        onReset={handleCountryReset}
+      />
     </div>
   );
 }
