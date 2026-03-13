@@ -35,6 +35,8 @@ export default function Profile() {
   const [coverCropSrc, setCoverCropSrc] = useState<string | null>(null);
   const [manualCountryCode, setManualCountryCode] = useState<string | null>(null);
   const [showCountryPicker, setShowCountryPicker] = useState(false);
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [editingName, setEditingName] = useState('');
 
   useEffect(() => {
     getSetting<string | null>('flowist_manual_country', null).then(setManualCountryCode);
