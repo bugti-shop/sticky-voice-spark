@@ -440,7 +440,7 @@ export const drawWashiTape = (ctx: CanvasRenderingContext2D, tape: WashiTapeData
 
   // Cached HD pattern
   // Cached HD pattern at 3x resolution for crisp rendering
-  const scaleFactor = 6;
+  const scaleFactor = 10;
   const legacyCacheKey = `legacy_${pattern.id}_${Math.round(tape.width)}_${Math.round(tape.height)}_maxhd`;
   let cachedLegacy = washiPatternCache.get(legacyCacheKey) as any;
   if (!cachedLegacy) {
