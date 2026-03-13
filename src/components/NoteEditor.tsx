@@ -193,6 +193,11 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
   const [isCommentInputOpen, setIsCommentInputOpen] = useState(false);
   const [isMetaDescInputOpen, setIsMetaDescInputOpen] = useState(false);
   
+  // Sketch meta dialog state - shown when closing a sketch note
+  const [showSketchMetaDialog, setShowSketchMetaDialog] = useState(false);
+  const [sketchMetaTitle, setSketchMetaTitle] = useState('');
+  const [sketchMetaDesc, setSketchMetaDesc] = useState('');
+  
   // PDF export success dialog state
   const [pdfExportResult, setPdfExportResult] = useState<{ filename: string; base64Data: string } | null>(null);
   const [showPdfOptionsSheet, setShowPdfOptionsSheet] = useState(false);
@@ -571,7 +576,8 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
     window.history.back();
   }, []);
 
-  const handleClose = useCallback(async () => {
+  // The actual close logic (called after sketch meta dialog if needed)
+  const performClose = useCallback(async () => {
     // Mark as closing to prevent re-entry
     if (!isOpenRef.current) return;
     
@@ -596,6 +602,37 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
       }, 10);
     }
   }, [commitNote, navigate, onClose]);
+
+  const handleClose = useCallback(async () => {
+    if (!isOpenRef.current) return;
+    
+    // For sketch notes, show the compulsory title + meta description dialog
+    if (noteType === 'sketch') {
+      setSketchMetaTitle(title);
+      setSketchMetaDesc(metaDescription);
+      setShowSketchMetaDialog(true);
+      return;
+    }
+    
+    await performClose();
+  }, [noteType, title, metaDescription, performClose]);
+
+  // Called when user confirms sketch meta dialog
+  const handleSketchMetaSave = useCallback(async () => {
+    if (!sketchMetaTitle.trim()) {
+      toast.error(t('editor.sketchTitleRequired', 'Title is required for sketch notes'));
+      return;
+    }
+    if (!sketchMetaDesc.trim()) {
+      toast.error(t('editor.sketchDescRequired', 'Description is required for sketch notes'));
+      return;
+    }
+    setTitle(sketchMetaTitle.trim());
+    setMetaDescription(sketchMetaDesc.trim());
+    setShowSketchMetaDialog(false);
+    // Wait a tick for state to propagate before saving
+    setTimeout(() => performClose(), 50);
+  }, [sketchMetaTitle, sketchMetaDesc, performClose, t]);
 
   const handleCloseRef = useRef(handleClose);
   useEffect(() => {
@@ -1992,6 +2029,57 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
           setTimeout(() => handleSaveRef.current?.(), 100);
         }}
       />
+
+      {/* Sketch Note Title + Meta Description Dialog */}
+      {showSketchMetaDialog && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4">
+          <div className="w-full max-w-sm bg-background rounded-2xl shadow-xl border border-border p-6 space-y-4">
+            <h2 className="text-lg font-bold text-foreground">{t('editor.sketchDetails', 'Sketch Details')}</h2>
+            <p className="text-sm text-muted-foreground">{t('editor.sketchDetailsDesc', 'Add a title and description for your sketch note.')}</p>
+            
+            <div className="space-y-2">
+              <Label htmlFor="sketch-title" className="text-sm font-medium">{t('editor.title', 'Title')} *</Label>
+              <Input
+                id="sketch-title"
+                value={sketchMetaTitle}
+                onChange={(e) => setSketchMetaTitle(e.target.value)}
+                placeholder={t('editor.sketchTitlePlaceholder', 'e.g., Meeting Notes Diagram')}
+                className="bg-muted/50"
+                autoFocus
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="sketch-desc" className="text-sm font-medium">{t('editor.description', 'Description')} *</Label>
+              <textarea
+                id="sketch-desc"
+                value={sketchMetaDesc}
+                onChange={(e) => setSketchMetaDesc(e.target.value)}
+                placeholder={t('editor.sketchDescPlaceholder', 'Briefly describe what this sketch is about...')}
+                rows={3}
+                className="w-full rounded-md border border-input bg-muted/50 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring resize-none"
+              />
+            </div>
+            
+            <div className="flex gap-3 pt-2">
+              <Button
+                variant="outline"
+                className="flex-1"
+                onClick={() => setShowSketchMetaDialog(false)}
+              >
+                {t('common.cancel', 'Cancel')}
+              </Button>
+              <Button
+                className="flex-1"
+                onClick={handleSketchMetaSave}
+                disabled={!sketchMetaTitle.trim() || !sketchMetaDesc.trim()}
+              >
+                {t('common.saveClose', 'Save & Close')}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
