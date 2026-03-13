@@ -623,7 +623,8 @@ export const drawWashiTape = (ctx: CanvasRenderingContext2D, tape: WashiTapeData
   ctx.clip();
 
   ctx.globalAlpha = tape.opacity;
-  ctx.drawImage(cachedLegacy, 0, 0, tape.width, tape.height);
+  ctx.fillStyle = tiledPattern;
+  ctx.fillRect(0, 0, tape.width, tape.height);
 
   // Top glossy highlight
   ctx.globalAlpha = 0.12;
