@@ -55,8 +55,14 @@ const ensureNativeInit = async () => {
 };
 
 const getNativeAccessToken = (result: any): string => {
-  const r = result?.result;
-  return r?.accessToken?.token || r?.accessToken || '';
+  const r = result?.result ?? result;
+  return (
+    r?.accessToken?.token ||
+    r?.accessToken ||
+    result?.accessToken?.token ||
+    result?.accessToken ||
+    ''
+  );
 };
 
 const extractNativeProfile = async (r: any, accessToken: string) => {
@@ -110,34 +116,27 @@ const nativeRefresh = async (): Promise<GoogleUser> => {
   const stored = await getStoredGoogleUser();
   if (!stored) throw new Error('No stored Google user');
 
+  // Prevent repeated refresh retries that can trigger chooser loops on some devices
+  if (Date.now() < nativeRefreshCooldownUntil) return stored;
+
   await ensureNativeInit();
   const { SocialLogin } = await import('@capgo/capacitor-social-login');
 
-  // 1) Try native refresh API (non-interactive)
   try {
-    await SocialLogin.refresh({
-      provider: 'google',
-      options: NATIVE_LOGIN_OPTIONS,
-    });
-  } catch (err) {
-    console.warn('Native refresh API failed, trying auto-select reauth:', err);
-  }
-
-  // 2) Re-auth with auto-select (usually no visible prompt)
-  try {
-    const result = await SocialLogin.login({
+    const refreshResult = await SocialLogin.refresh({
       provider: 'google',
       options: NATIVE_LOGIN_OPTIONS,
     });
 
-    const r = result.result as any;
-    const accessToken = getNativeAccessToken(result);
-    if (!accessToken) return stored;
+    const accessToken = getNativeAccessToken(refreshResult);
+    if (!accessToken) {
+      nativeRefreshCooldownUntil = Date.now() + REFRESH_RETRY_COOLDOWN_MS;
+      return stored;
+    }
 
+    nativeRefreshCooldownUntil = 0;
     const refreshedUser: GoogleUser = {
-      email: r.profile?.email || r.email || stored.email,
-      name: r.profile?.name || r.name || stored.name,
-      picture: r.profile?.imageUrl || r.profile?.picture || stored.picture,
+      ...stored,
       accessToken,
       accessTokenExpiresAt: Date.now() + ACCESS_TOKEN_TTL,
       expiresAt: Date.now() + SESSION_TTL,
@@ -146,7 +145,8 @@ const nativeRefresh = async (): Promise<GoogleUser> => {
     await setSetting('googleUser', refreshedUser);
     return refreshedUser;
   } catch (err) {
-    console.warn('Native reauth failed, keeping stored token:', err);
+    nativeRefreshCooldownUntil = Date.now() + REFRESH_RETRY_COOLDOWN_MS;
+    console.warn('Native silent refresh failed, keeping stored token:', err);
     return stored;
   }
 };
@@ -156,6 +156,10 @@ const nativeRefresh = async (): Promise<GoogleUser> => {
 let tokenClient: any = null;
 let gisLoaded = false;
 let refreshInProgress: Promise<GoogleUser | null> | null = null;
+let tokenRefreshInProgress: Promise<GoogleUser> | null = null;
+let nativeRefreshCooldownUntil = 0;
+let webSilentRefreshCooldownUntil = 0;
+const REFRESH_RETRY_COOLDOWN_MS = 2 * 60 * 1000;
 
 export const loadGoogleIdentityServices = (): Promise<void> => {
   if (isNative()) return Promise.resolve();
@@ -258,11 +262,18 @@ const webRefresh = (): Promise<GoogleUser> => {
 
 // Silent web refresh — tries prompt:'' with timeout, never shows UI
 const silentWebRefresh = (): Promise<GoogleUser | null> => {
+  // Back off after a failed silent attempt to prevent chooser loops
+  if (Date.now() < webSilentRefreshCooldownUntil) return Promise.resolve(null);
+
   // Deduplicate concurrent refresh calls
   if (refreshInProgress) return refreshInProgress;
 
   refreshInProgress = new Promise<GoogleUser | null>(async (resolve) => {
-    const timeout = setTimeout(() => resolve(null), 4000);
+    const timeout = setTimeout(() => {
+      webSilentRefreshCooldownUntil = Date.now() + REFRESH_RETRY_COOLDOWN_MS;
+      resolve(null);
+    }, 4000);
+
     try {
       await loadGoogleIdentityServices();
       initTokenClient(
@@ -280,13 +291,25 @@ const silentWebRefresh = (): Promise<GoogleUser | null> => {
               expiresAt: Date.now() + SESSION_TTL,
             };
             await setSetting('googleUser', user);
+            webSilentRefreshCooldownUntil = 0;
             resolve(user);
-          } catch { resolve(null); }
+          } catch {
+            webSilentRefreshCooldownUntil = Date.now() + REFRESH_RETRY_COOLDOWN_MS;
+            resolve(null);
+          }
         },
-        () => { clearTimeout(timeout); resolve(null); }
+        () => {
+          clearTimeout(timeout);
+          webSilentRefreshCooldownUntil = Date.now() + REFRESH_RETRY_COOLDOWN_MS;
+          resolve(null);
+        }
       );
       tokenClient.requestAccessToken({ prompt: '' });
-    } catch { clearTimeout(timeout); resolve(null); }
+    } catch {
+      clearTimeout(timeout);
+      webSilentRefreshCooldownUntil = Date.now() + REFRESH_RETRY_COOLDOWN_MS;
+      resolve(null);
+    }
   }).finally(() => { refreshInProgress = null; });
 
   return refreshInProgress;
@@ -330,14 +353,26 @@ export const isTokenValid = (user: GoogleUser): boolean =>
   isAccessTokenFresh(user);
 
 export const refreshGoogleToken = async (): Promise<GoogleUser> => {
-  if (isNative()) return nativeRefresh();
-  // Try silent refresh first (no popup)
-  const silent = await silentWebRefresh();
-  if (silent) return silent;
-  // If silent fails, return stored user with stale token rather than showing popup
-  const stored = await getStoredGoogleUser();
-  if (stored) return stored;
-  throw new Error('Token refresh failed');
+  if (tokenRefreshInProgress) return tokenRefreshInProgress;
+
+  tokenRefreshInProgress = (async () => {
+    if (isNative()) return nativeRefresh();
+
+    // Try silent refresh first (no popup)
+    const silent = await silentWebRefresh();
+    if (silent) return silent;
+
+    // If silent fails, return stored user with stale token rather than showing popup
+    const stored = await getStoredGoogleUser();
+    if (stored) return stored;
+    throw new Error('Token refresh failed');
+  })();
+
+  try {
+    return await tokenRefreshInProgress;
+  } finally {
+    tokenRefreshInProgress = null;
+  }
 };
 
 /**
