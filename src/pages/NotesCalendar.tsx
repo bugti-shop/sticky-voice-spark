@@ -37,6 +37,7 @@ const NotesCalendar = () => {
   const [folders, setFolders] = useState<Folder[]>([]);
   const [calendarBackground, setCalendarBackground] = useState<string>('none');
   const [isBackgroundSheetOpen, setIsBackgroundSheetOpen] = useState(false);
+  const [isSyncOpen, setIsSyncOpen] = useState(false);
   
   // Load folders and background preference
   useEffect(() => {
