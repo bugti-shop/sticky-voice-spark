@@ -353,14 +353,26 @@ export const isTokenValid = (user: GoogleUser): boolean =>
   isAccessTokenFresh(user);
 
 export const refreshGoogleToken = async (): Promise<GoogleUser> => {
-  if (isNative()) return nativeRefresh();
-  // Try silent refresh first (no popup)
-  const silent = await silentWebRefresh();
-  if (silent) return silent;
-  // If silent fails, return stored user with stale token rather than showing popup
-  const stored = await getStoredGoogleUser();
-  if (stored) return stored;
-  throw new Error('Token refresh failed');
+  if (tokenRefreshInProgress) return tokenRefreshInProgress;
+
+  tokenRefreshInProgress = (async () => {
+    if (isNative()) return nativeRefresh();
+
+    // Try silent refresh first (no popup)
+    const silent = await silentWebRefresh();
+    if (silent) return silent;
+
+    // If silent fails, return stored user with stale token rather than showing popup
+    const stored = await getStoredGoogleUser();
+    if (stored) return stored;
+    throw new Error('Token refresh failed');
+  })();
+
+  try {
+    return await tokenRefreshInProgress;
+  } finally {
+    tokenRefreshInProgress = null;
+  }
 };
 
 /**
