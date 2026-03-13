@@ -1,5 +1,5 @@
 import { format, isSameDay, startOfMonth, endOfMonth, eachDayOfInterval, getDay, addMonths, subMonths, isSameMonth } from "date-fns";
-import { ChevronLeft, ChevronRight, ChevronDown, MoreVertical, Image, Settings2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronDown, MoreVertical, Image, RefreshCw } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
 import { loadNotesFromDB } from '@/utils/noteStorage';
 import { useTranslation } from "react-i18next";
