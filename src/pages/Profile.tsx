@@ -361,9 +361,6 @@ export default function Profile() {
               {getCountryFlag()}
             </button>
           </div>
-          {user?.email && (
-            <p className="text-sm text-muted-foreground mt-0.5">{user.email}</p>
-          )}
           {user && (
             <p className="text-xs text-muted-foreground mt-1">{getJoinedDate()}</p>
           )}
