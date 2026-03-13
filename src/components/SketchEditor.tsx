@@ -3008,10 +3008,13 @@ export const SketchEditor = memo(({ initialData, onChange, onImageExport, classN
       ? { ...point, x: snapToGrid(point.x, GRID_SIZES[background]), y: snapToGrid(point.y, GRID_SIZES[background]) }
       : point;
 
+    // Washi tool uses a wider default width for better visual quality
+    const effectiveWidth = tool === 'washi' ? Math.max(strokeWidth, 40) : strokeWidth;
+
     currentStrokeRef.current = {
       points: [startPoint],
       color: strokeColor,
-      width: strokeWidth,
+      width: effectiveWidth,
       tool,
       ...(isShapeTool(tool) && fillEnabled ? { fillColor, fillOpacity, fillType, fillColor2, fillAngle } : {}),
       ...(tool === 'textHighlight' ? { fillOpacity: highlightOpacity } : {}),

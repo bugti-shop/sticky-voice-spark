@@ -439,14 +439,16 @@ export const drawWashiTape = (ctx: CanvasRenderingContext2D, tape: WashiTapeData
   ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0; ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0;
 
   // Cached HD pattern
-  const legacyCacheKey = `legacy_${pattern.id}_${Math.round(tape.width)}_${Math.round(tape.height)}`;
+  // Cached HD pattern at 3x resolution for crisp rendering
+  const scaleFactor = 3;
+  const legacyCacheKey = `legacy_${pattern.id}_${Math.round(tape.width)}_${Math.round(tape.height)}_hd`;
   let cachedLegacy = washiPatternCache.get(legacyCacheKey) as any;
   if (!cachedLegacy) {
     const offCanvas = document.createElement('canvas');
-    offCanvas.width = Math.max(4, Math.round(tape.width * 2));
-    offCanvas.height = Math.max(4, Math.round(tape.height * 2));
+    offCanvas.width = Math.max(4, Math.round(tape.width * scaleFactor));
+    offCanvas.height = Math.max(4, Math.round(tape.height * scaleFactor));
     const offCtx = offCanvas.getContext('2d')!;
-    offCtx.scale(2, 2);
+    offCtx.scale(scaleFactor, scaleFactor);
     pattern.draw(offCtx, tape.width, tape.height);
     (washiPatternCache as any).set(legacyCacheKey, offCanvas);
     cachedLegacy = offCanvas;
