@@ -3009,7 +3009,7 @@ export const SketchEditor = memo(({ initialData, onChange, onImageExport, classN
       : point;
 
     // Washi tool uses a wider default width for better visual quality
-    const effectiveWidth = tool === 'washi' ? Math.max(strokeWidth, 40) : strokeWidth;
+    const effectiveWidth = tool === 'washi' ? Math.max(strokeWidth, 30) : strokeWidth;
 
     currentStrokeRef.current = {
       points: [startPoint],
