@@ -21,9 +21,8 @@ import {
   ChevronDown,
   ListTodo,
   FileText,
-  MapPin,
   Paperclip,
-  Hourglass
+  AlertTriangle
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
