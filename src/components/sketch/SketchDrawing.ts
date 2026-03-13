@@ -684,9 +684,9 @@ export const drawStroke = (ctx: CanvasRenderingContext2D, stroke: Stroke, asClip
       canvasPattern.setTransform(patternMatrix);
 
       // Draw subtle shadow/edge first (behind)
-      ctx.globalAlpha = 0.12;
-      ctx.strokeStyle = 'rgba(0,0,0,0.3)';
-      ctx.lineWidth = washiWidth + 2;
+      ctx.globalAlpha = 0.18;
+      ctx.strokeStyle = 'rgba(0,0,0,0.35)';
+      ctx.lineWidth = washiWidth + 3;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       ctx.beginPath();
