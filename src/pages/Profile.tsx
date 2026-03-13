@@ -33,6 +33,12 @@ export default function Profile() {
   const coverInputRef = useRef<HTMLInputElement>(null);
   const [cropImageSrc, setCropImageSrc] = useState<string | null>(null);
   const [coverCropSrc, setCoverCropSrc] = useState<string | null>(null);
+  const [manualCountryCode, setManualCountryCode] = useState<string | null>(null);
+  const [showCountryPicker, setShowCountryPicker] = useState(false);
+
+  useEffect(() => {
+    getSetting<string | null>('flowist_manual_country', null).then(setManualCountryCode);
+  }, []);
 
   useEffect(() => {
     getLastSyncInfo().then(setLastSync);
