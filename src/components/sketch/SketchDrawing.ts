@@ -655,32 +655,30 @@ export const drawStroke = (ctx: CanvasRenderingContext2D, stroke: Stroke, asClip
         if (p.x + washiWidth > maxX) maxX = p.x + washiWidth;
         if (p.y + washiWidth > maxY) maxY = p.y + washiWidth;
       }
-      const bw = Math.max(4, Math.ceil(maxX - minX + washiWidth * 2));
-      const bh = Math.max(4, Math.ceil(maxY - minY + washiWidth * 2));
 
-      // Create or get cached washi pattern tile at high resolution
-      const scaleFactor = 10; // 10x Ultra HD quality
-      const cacheKey = `washi_stroke_${pattern.id}_${bw}_${bh}_maxhd`;
+      // Use a small fixed-size tile that repeats — much faster than per-bbox canvases
+      const tileSize = 128;
+      const scaleFactor = 3;
+      const cacheKey = `washi_tile_${pattern.id}`;
       let cachedCanvas = washiPatternCache.get(cacheKey) as HTMLCanvasElement | undefined;
       if (!cachedCanvas) {
         cachedCanvas = document.createElement('canvas');
-        cachedCanvas.width = Math.min(bw * scaleFactor, 8192);
-        cachedCanvas.height = Math.min(bh * scaleFactor, 8192);
+        cachedCanvas.width = tileSize * scaleFactor;
+        cachedCanvas.height = tileSize * scaleFactor;
         const offCtx = cachedCanvas.getContext('2d')!;
-        offCtx.scale(cachedCanvas.width / bw, cachedCanvas.height / bh);
-        pattern.draw(offCtx, bw, bh);
+        offCtx.scale(scaleFactor, scaleFactor);
+        pattern.draw(offCtx, tileSize, tileSize);
         washiPatternCache.set(cacheKey, cachedCanvas);
       }
 
-      // Create a canvas pattern from the cached tile
-      const canvasPattern = ctx.createPattern(cachedCanvas, 'no-repeat');
+      // Create a repeating canvas pattern from the cached tile
+      const canvasPattern = ctx.createPattern(cachedCanvas, 'repeat');
       if (!canvasPattern) break;
 
       ctx.save();
-      // Translate pattern so it aligns with the bounding box
+      // Scale pattern down to logical size
       const patternMatrix = new DOMMatrix();
-      patternMatrix.translateSelf(minX - washiWidth, minY - washiWidth);
-      patternMatrix.scaleSelf(bw / cachedCanvas.width, bh / cachedCanvas.height);
+      patternMatrix.scaleSelf(1 / scaleFactor, 1 / scaleFactor);
       canvasPattern.setTransform(patternMatrix);
 
       // Draw subtle shadow/edge first (behind)
