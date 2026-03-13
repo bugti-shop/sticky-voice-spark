@@ -1038,7 +1038,13 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
                   <FileText className="h-4 w-4 mr-2" />
                   {metaDescription ? t('editor.editMetaDescription') : t('editor.addMetaDescription')}
                 </DropdownMenuItem>
-                
+  // Effect: close after sketch meta state has propagated
+  useEffect(() => {
+    if (sketchMetaPendingCloseRef.current && title.trim() && metaDescription.trim()) {
+      sketchMetaPendingCloseRef.current = false;
+      performClose();
+    }
+  }, [title, metaDescription, performClose]);
 
                 
                 {/* Note Reminder */}
