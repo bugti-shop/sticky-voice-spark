@@ -606,8 +606,8 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
   const handleClose = useCallback(async () => {
     if (!isOpenRef.current) return;
     
-    // For sketch notes, show the compulsory title + meta description dialog
-    if (noteType === 'sketch') {
+    // For sketch notes, only show dialog if title or description is missing
+    if (noteType === 'sketch' && (!title.trim() || !metaDescription.trim())) {
       setSketchMetaTitle(title);
       setSketchMetaDesc(metaDescription);
       setShowSketchMetaDialog(true);
