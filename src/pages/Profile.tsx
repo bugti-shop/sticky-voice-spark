@@ -35,6 +35,8 @@ export default function Profile() {
   const [coverCropSrc, setCoverCropSrc] = useState<string | null>(null);
   const [manualCountryCode, setManualCountryCode] = useState<string | null>(null);
   const [showCountryPicker, setShowCountryPicker] = useState(false);
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [editingName, setEditingName] = useState('');
 
   useEffect(() => {
     getSetting<string | null>('flowist_manual_country', null).then(setManualCountryCode);
@@ -323,7 +325,34 @@ export default function Profile() {
         {/* Name & Info */}
         <div className="mt-3">
           <div className="flex items-center gap-2">
-            <h2 className="text-2xl font-extrabold text-foreground">{displayName}</h2>
+            {isEditingName ? (
+              <input
+                autoFocus
+                className="text-2xl font-extrabold text-foreground bg-transparent border-b-2 border-primary outline-none w-full max-w-[200px]"
+                value={editingName}
+                onChange={(e) => setEditingName(e.target.value)}
+                onBlur={async () => {
+                  const trimmed = editingName.trim();
+                  if (trimmed) {
+                    await updateProfile({ name: trimmed });
+                  }
+                  setIsEditingName(false);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') (e.target as HTMLInputElement).blur();
+                }}
+              />
+            ) : (
+              <h2
+                className="text-2xl font-extrabold text-foreground cursor-pointer active:opacity-70"
+                onClick={() => {
+                  setEditingName(profile.name || user?.name || '');
+                  setIsEditingName(true);
+                }}
+              >
+                {displayName}
+              </h2>
+            )}
             <button
               onClick={() => setShowCountryPicker(true)}
               className="text-lg hover:scale-110 transition-transform active:scale-95"
