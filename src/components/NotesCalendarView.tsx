@@ -60,6 +60,8 @@ export const NotesCalendarView = ({
   showEmptyState = false,
   calendarBackground = 'none',
   onBackgroundSettingsClick,
+  showSyncCalendar = true,
+  onSyncCalendarClick,
 }: NotesCalendarViewProps) => {
   const { t } = useTranslation();
   const resolvedEmptyMessage = emptyStateMessage || t('calendar.noNotes', 'No notes for the day.');
