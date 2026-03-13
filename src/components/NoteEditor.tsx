@@ -192,6 +192,7 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
   const [isLinkInputOpen, setIsLinkInputOpen] = useState(false);
   const [isCommentInputOpen, setIsCommentInputOpen] = useState(false);
   const [isMetaDescInputOpen, setIsMetaDescInputOpen] = useState(false);
+  const [isTitleEditOpen, setIsTitleEditOpen] = useState(false);
   
   // Sketch meta dialog state - shown when closing a sketch note
   const [showSketchMetaDialog, setShowSketchMetaDialog] = useState(false);
