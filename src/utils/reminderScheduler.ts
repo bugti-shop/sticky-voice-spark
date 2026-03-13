@@ -109,16 +109,26 @@ export const scheduleTaskReminder = async (
       scheduleUrgentInAppTimer(taskId, taskText, reminderTime);
     }
 
-    await LocalNotifications.schedule({
-      notifications: [{
-        id: notifId,
-        title: isUrgent ? '🚨 URGENT Task Reminder' : '📋 Task Reminder',
-        body: taskText,
-        schedule: { at: reminderTime, allowWhileIdle: true },
-        channelId: isUrgent ? 'urgent-task-reminders' : 'task-reminders',
-        extra: { type: 'task', taskId, isUrgent: isUrgent ? 'true' : 'false' },
-      }],
-    });
+    // Track for resume-check
+    if (isUrgent) {
+      pendingUrgentReminders.set(taskId, { taskText, reminderTime });
+    }
+
+    const notificationConfig: any = {
+      id: notifId,
+      title: isUrgent ? '🚨 URGENT Task Reminder' : '📋 Task Reminder',
+      body: taskText,
+      schedule: { at: reminderTime, allowWhileIdle: true },
+      channelId: isUrgent ? 'urgent-task-reminders' : 'task-reminders',
+      extra: { type: 'task', taskId, isUrgent: isUrgent ? 'true' : 'false' },
+    };
+
+    // Android: fullScreenIntent wakes screen & shows app even from background
+    if (Capacitor.getPlatform() === 'android' && isUrgent) {
+      notificationConfig.fullScreenIntent = true;
+    }
+
+    await LocalNotifications.schedule({ notifications: [notificationConfig] });
 
     console.log('[Reminder] Scheduled task reminder:', taskText, 'at', reminderTime.toLocaleString(), isUrgent ? '(URGENT)' : '');
   } catch (e) {
