@@ -1939,6 +1939,19 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
       />
 
       <InputSheetPage
+        isOpen={isTitleEditOpen}
+        onClose={() => setIsTitleEditOpen(false)}
+        onSave={(newTitle) => {
+          setTitle(newTitle);
+          toast.success(t('editor.titleUpdated', 'Title updated'));
+        }}
+        title={t('editor.editTitle', 'Edit Title')}
+        placeholder={t('editor.titlePlaceholder', 'Enter title...')}
+        defaultValue={title}
+        maxLength={200}
+      />
+
+      <InputSheetPage
         isOpen={isMetaDescInputOpen}
         onClose={() => setIsMetaDescInputOpen(false)}
         onSave={(desc) => {
