@@ -4,6 +4,7 @@ import { AlarmClock } from 'lucide-react';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { playRingtone, stopRingtone, RingtoneType } from '@/utils/urgentRingtones';
 import { getSetting } from '@/utils/settingsStorage';
+import { loadTodoItems, saveTodoItems } from '@/utils/todoItemsStorage';
 
 interface UrgentReminder {
   id: string;
@@ -25,7 +26,6 @@ export const UrgentReminderOverlay = () => {
       setReminder(e.detail);
       setSlideX(0);
       triggerUrgentHaptics();
-      // Play ringtone
       getSetting<RingtoneType>('urgentRingtone', 'alarm').then(tone => {
         playRingtone(tone);
       });
@@ -51,25 +51,32 @@ export const UrgentReminderOverlay = () => {
     setSlideX(0);
   }, []);
 
-  const handleComplete = useCallback(() => {
+  const handleComplete = useCallback(async () => {
     if (!reminder) return;
-    // Dispatch complete event
-    window.dispatchEvent(new CustomEvent('urgentTaskComplete', { detail: { taskId: reminder.id } }));
+    try {
+      const items = await loadTodoItems();
+      const updated = items.map(item =>
+        item.id === reminder.id ? { ...item, completed: true } : item
+      );
+      await saveTodoItems(updated);
+      window.dispatchEvent(new CustomEvent('urgentTaskComplete', { detail: { taskId: reminder.id } }));
+    } catch (e) {
+      console.error('[UrgentReminder] Failed to complete task:', e);
+    }
     dismiss();
   }, [reminder, dismiss]);
 
-  // Slide to stop handlers
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+  const handleTouchStart = useCallback(() => {
     setIsDragging(true);
     if (sliderRef.current) {
-      trackWidth.current = sliderRef.current.getBoundingClientRect().width - 56; // minus thumb size
+      trackWidth.current = sliderRef.current.getBoundingClientRect().width - 56;
     }
   }, []);
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
     if (!isDragging || !sliderRef.current) return;
     const rect = sliderRef.current.getBoundingClientRect();
-    const x = e.touches[0].clientX - rect.left - 28; // center of thumb
+    const x = e.touches[0].clientX - rect.left - 28;
     const clamped = Math.max(0, Math.min(x, trackWidth.current));
     setSlideX(clamped);
   }, [isDragging]);
@@ -84,7 +91,6 @@ export const UrgentReminderOverlay = () => {
     }
   }, [slideX, dismiss]);
 
-  // Mouse fallback
   const handleMouseDown = useCallback(() => {
     setIsDragging(true);
     if (sliderRef.current) {
@@ -144,8 +150,8 @@ export const UrgentReminderOverlay = () => {
           </p>
         </div>
 
-        {/* Center - Big time display */}
-        <div className="flex flex-col items-center">
+        {/* Center - Big time display + Flowist branding */}
+        <div className="flex flex-col items-center gap-4">
           <motion.h1
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -154,11 +160,11 @@ export const UrgentReminderOverlay = () => {
           >
             {displayTime}
           </motion.h1>
+          <p className="text-white/30 text-sm font-medium tracking-widest uppercase">Flowist</p>
         </div>
 
         {/* Bottom section - Complete button + Slide to stop */}
         <div className="w-full max-w-sm flex flex-col gap-4">
-          {/* Complete button */}
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={handleComplete}
@@ -168,13 +174,11 @@ export const UrgentReminderOverlay = () => {
             Complete
           </motion.button>
 
-          {/* Slide to stop */}
           <div
             ref={sliderRef}
             className="relative w-full h-14 rounded-full overflow-hidden"
             style={{ backgroundColor: 'rgba(255,255,255,0.1)' }}
           >
-            {/* Fill */}
             <div
               className="absolute inset-y-0 left-0 rounded-full transition-none"
               style={{
@@ -182,8 +186,6 @@ export const UrgentReminderOverlay = () => {
                 backgroundColor: `rgba(239, 68, 68, ${0.2 + slideProgress * 0.4})`,
               }}
             />
-
-            {/* Label */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <span
                 className="text-white/40 text-sm font-medium transition-opacity"
@@ -192,8 +194,6 @@ export const UrgentReminderOverlay = () => {
                 slide to stop
               </span>
             </div>
-
-            {/* Thumb */}
             <div
               className="absolute top-1 left-1 w-12 h-12 rounded-full bg-white/20 backdrop-blur flex items-center justify-center cursor-grab active:cursor-grabbing select-none"
               style={{
