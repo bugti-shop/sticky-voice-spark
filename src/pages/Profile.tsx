@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { m as motion } from 'framer-motion';
 import { BottomNavigation } from '@/components/BottomNavigation';
 import { TodoBottomNavigation } from '@/components/TodoBottomNavigation';
-import { getSetting } from '@/utils/settingsStorage';
+import { getSetting, setSetting } from '@/utils/settingsStorage';
 import { useGoogleAuth } from '@/contexts/GoogleAuthContext';
 import { performSync, getLastSyncInfo, SyncMeta, SyncResult, SyncState, addSyncListener } from '@/utils/driveSyncManager';
 import { Button } from '@/components/ui/button';
@@ -15,6 +15,7 @@ import { useUserProfile } from '@/hooks/useUserProfile';
 import { ProfileImageCropper } from '@/components/ProfileImageCropper';
 import { ProfileStatsBanner } from '@/components/profile/ProfileStats';
 import { ProfileAchievements } from '@/components/profile/ProfileAchievements';
+import { CountryFlagPickerSheet } from '@/components/CountryFlagPickerSheet';
 
 
 export default function Profile() {
@@ -32,6 +33,12 @@ export default function Profile() {
   const coverInputRef = useRef<HTMLInputElement>(null);
   const [cropImageSrc, setCropImageSrc] = useState<string | null>(null);
   const [coverCropSrc, setCoverCropSrc] = useState<string | null>(null);
+  const [manualCountryCode, setManualCountryCode] = useState<string | null>(null);
+  const [showCountryPicker, setShowCountryPicker] = useState(false);
+
+  useEffect(() => {
+    getSetting<string | null>('flowist_manual_country', null).then(setManualCountryCode);
+  }, []);
 
   useEffect(() => {
     getLastSyncInfo().then(setLastSync);
@@ -95,11 +102,17 @@ export default function Profile() {
     });
   };
 
+  const codeToFlag = (code: string) =>
+    String.fromCodePoint(...code.toUpperCase().split('').map(c => 0x1F1E6 + c.charCodeAt(0) - 65));
+
   const getCountryFlag = () => {
+    // Manual override takes priority
+    if (manualCountryCode && manualCountryCode.length === 2) {
+      return codeToFlag(manualCountryCode);
+    }
     try {
       const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
       const tzCountryMap: Record<string, string> = {
-        // Americas
         'America/New_York': 'US', 'America/Chicago': 'US', 'America/Denver': 'US',
         'America/Los_Angeles': 'US', 'America/Phoenix': 'US', 'America/Anchorage': 'US',
         'Pacific/Honolulu': 'US', 'America/Detroit': 'US', 'America/Indiana/Indianapolis': 'US',
@@ -123,7 +136,6 @@ export default function Profile() {
         'America/Managua': 'NI', 'America/Belize': 'BZ', 'America/Port_of_Spain': 'TT',
         'America/Barbados': 'BB', 'America/Martinique': 'MQ', 'America/Guadeloupe': 'GP',
         'America/Curacao': 'CW', 'America/Aruba': 'AW',
-        // Europe
         'Europe/London': 'GB', 'Europe/Paris': 'FR', 'Europe/Berlin': 'DE',
         'Europe/Rome': 'IT', 'Europe/Madrid': 'ES', 'Europe/Istanbul': 'TR',
         'Europe/Moscow': 'RU', 'Europe/Warsaw': 'PL', 'Europe/Amsterdam': 'NL',
@@ -141,7 +153,6 @@ export default function Profile() {
         'Europe/San_Marino': 'SM', 'Europe/Vatican': 'VA', 'Europe/Gibraltar': 'GI',
         'Atlantic/Reykjavik': 'IS', 'Europe/Guernsey': 'GG', 'Europe/Jersey': 'JE',
         'Europe/Isle_of_Man': 'IM', 'Atlantic/Faroe': 'FO',
-        // Asia
         'Asia/Karachi': 'PK', 'Asia/Kolkata': 'IN', 'Asia/Calcutta': 'IN',
         'Asia/Tokyo': 'JP', 'Asia/Seoul': 'KR', 'Asia/Shanghai': 'CN',
         'Asia/Hong_Kong': 'HK', 'Asia/Taipei': 'TW', 'Asia/Dubai': 'AE',
@@ -161,7 +172,6 @@ export default function Profile() {
         'Asia/Aden': 'YE', 'Asia/Damascus': 'SY', 'Asia/Nicosia': 'CY',
         'Asia/Samarkand': 'UZ', 'Asia/Oral': 'KZ', 'Asia/Hovd': 'MN',
         'Indian/Maldives': 'MV', 'Indian/Mauritius': 'MU',
-        // Africa
         'Africa/Cairo': 'EG', 'Africa/Lagos': 'NG', 'Africa/Johannesburg': 'ZA',
         'Africa/Nairobi': 'KE', 'Africa/Casablanca': 'MA', 'Africa/Algiers': 'DZ',
         'Africa/Tunis': 'TN', 'Africa/Tripoli': 'LY', 'Africa/Accra': 'GH',
@@ -181,7 +191,6 @@ export default function Profile() {
         'Indian/Reunion': 'RE', 'Atlantic/Cape_Verde': 'CV',
         'Africa/Sao_Tome': 'ST', 'Africa/Ndjamena': 'TD', 'Africa/Bangui': 'CF',
         'Africa/El_Aaiun': 'EH', 'Africa/Ceuta': 'ES',
-        // Oceania
         'Australia/Sydney': 'AU', 'Australia/Melbourne': 'AU', 'Australia/Brisbane': 'AU',
         'Australia/Perth': 'AU', 'Australia/Adelaide': 'AU', 'Australia/Darwin': 'AU',
         'Australia/Hobart': 'AU', 'Pacific/Auckland': 'NZ', 'Pacific/Chatham': 'NZ',
@@ -191,17 +200,13 @@ export default function Profile() {
         'Pacific/Tarawa': 'KI', 'Pacific/Nauru': 'NR', 'Pacific/Funafuti': 'TV',
         'Pacific/Efate': 'VU', 'Pacific/Guadalcanal': 'SB', 'Pacific/Pago_Pago': 'AS',
         'Pacific/Kosrae': 'FM', 'Pacific/Chuuk': 'FM', 'Pacific/Pohnpei': 'FM',
-        // Russia extended
         'Asia/Vladivostok': 'RU', 'Asia/Yakutsk': 'RU', 'Asia/Irkutsk': 'RU',
         'Asia/Krasnoyarsk': 'RU', 'Asia/Novosibirsk': 'RU', 'Asia/Omsk': 'RU',
         'Asia/Yekaterinburg': 'RU', 'Europe/Samara': 'RU', 'Asia/Kamchatka': 'RU',
         'Asia/Magadan': 'RU', 'Asia/Sakhalin': 'RU', 'Asia/Srednekolymsk': 'RU',
         'Europe/Kaliningrad': 'RU', 'Europe/Volgograd': 'RU',
       };
-
       let countryCode = tzCountryMap[tz];
-
-      // Fallback: try locale
       if (!countryCode) {
         const locale = navigator.language || navigator.languages?.[0] || '';
         const parts = locale.split('-');
@@ -209,15 +214,23 @@ export default function Profile() {
           countryCode = parts[1].toUpperCase();
         }
       }
-
       if (countryCode && countryCode.length === 2) {
-        const flag = String.fromCodePoint(
-          ...countryCode.toUpperCase().split('').map(c => 0x1F1E6 + c.charCodeAt(0) - 65)
-        );
-        return flag;
+        return codeToFlag(countryCode);
       }
     } catch {}
     return '🌍';
+  };
+
+  const handleCountrySelect = async (code: string) => {
+    setManualCountryCode(code);
+    await setSetting('flowist_manual_country', code);
+    toast({ title: t('profile.countryUpdated', 'Country flag updated') });
+  };
+
+  const handleCountryReset = async () => {
+    setManualCountryCode(null);
+    await setSetting('flowist_manual_country', null);
+    toast({ title: t('profile.countryAutoDetect', 'Using auto-detected flag') });
   };
 
   const displayName = profile.name || user?.name || t('profile.guest', 'Guest User');
@@ -311,7 +324,13 @@ export default function Profile() {
         <div className="mt-3">
           <div className="flex items-center gap-2">
             <h2 className="text-2xl font-extrabold text-foreground">{displayName}</h2>
-            <span className="text-lg">{getCountryFlag()}</span>
+            <button
+              onClick={() => setShowCountryPicker(true)}
+              className="text-lg hover:scale-110 transition-transform active:scale-95"
+              title={t('profile.changeCountry', 'Change country flag')}
+            >
+              {getCountryFlag()}
+            </button>
           </div>
           {user?.email && (
             <p className="text-sm text-muted-foreground mt-0.5">{user.email}</p>
@@ -419,6 +438,14 @@ export default function Profile() {
           onCancel={() => setCoverCropSrc(null)}
         />
       )}
+
+      <CountryFlagPickerSheet
+        open={showCountryPicker}
+        onOpenChange={setShowCountryPicker}
+        selectedCode={manualCountryCode}
+        onSelect={handleCountrySelect}
+        onReset={handleCountryReset}
+      />
     </div>
   );
 }
