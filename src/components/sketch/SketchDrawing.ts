@@ -702,7 +702,7 @@ export const drawStroke = (ctx: CanvasRenderingContext2D, stroke: Stroke, asClip
       // Draw the thick stroke with washi pattern fill on top
       ctx.strokeStyle = canvasPattern;
       ctx.lineWidth = washiWidth;
-      ctx.globalAlpha = 0.85;
+      ctx.globalAlpha = 0.92;
 
       ctx.beginPath();
       ctx.moveTo(stroke.points[0].x, stroke.points[0].y);
