@@ -605,7 +605,7 @@ export const drawWashiTape = (ctx: CanvasRenderingContext2D, tape: WashiTapeData
   ctx.closePath();
   ctx.clip();
 
-  ctx.globalAlpha = tape.opacity;
+  ctx.globalAlpha = Math.max(tape.opacity, 0.95);
   ctx.fillStyle = tiledPattern;
   ctx.fillRect(0, 0, tape.width, tape.height);
 
