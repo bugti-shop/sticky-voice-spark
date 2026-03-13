@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NotesCalendarView } from '@/components/NotesCalendarView';
 import { CalendarSyncBadge } from '@/components/CalendarSyncBadge';
+import appLogo from '@/assets/app-logo.webp';
 import { Plus, StickyNote, FileText, FileEdit, Pen, FileCode, Mic, Image } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { NoteEditor } from '@/components/NoteEditor';
@@ -36,6 +37,7 @@ const NotesCalendar = () => {
   const [folders, setFolders] = useState<Folder[]>([]);
   const [calendarBackground, setCalendarBackground] = useState<string>('none');
   const [isBackgroundSheetOpen, setIsBackgroundSheetOpen] = useState(false);
+  const [isSyncOpen, setIsSyncOpen] = useState(false);
   
   // Load folders and background preference
   useEffect(() => {
@@ -150,9 +152,10 @@ const NotesCalendar = () => {
   return (
     <div className="min-h-screen min-h-screen-dynamic bg-background pb-16 sm:pb-20 flex flex-col">
       <div style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }} className="flex-1 flex flex-col overflow-hidden">
-        {/* Calendar Sync Button */}
-        <div className="px-4 pt-2">
-          <CalendarSyncBadge alwaysVisible />
+        {/* Header with App Logo */}
+        <div className="flex items-center gap-2 px-4 pt-3 pb-1">
+          <img src={appLogo} alt="Flowist" className="h-7 w-7 flex-shrink-0" />
+          <h1 className="text-lg font-bold text-foreground">{t('nav.calendar', 'Calendar')}</h1>
         </div>
         {/* Calendar View with Background */}
         <NotesCalendarView
@@ -164,7 +167,16 @@ const NotesCalendar = () => {
           emptyStateSubMessage={t('calendar.clickToCreate', 'Click "+" to create your notes.')}
           calendarBackground={calendarBackground}
           onBackgroundSettingsClick={() => setIsBackgroundSheetOpen(true)}
+          showSyncCalendar
+          onSyncCalendarClick={() => setIsSyncOpen(true)}
         />
+
+        {/* Sync Calendar (hidden, triggered from menu) */}
+        {isSyncOpen && (
+          <div className="px-4 py-2">
+            <CalendarSyncBadge alwaysVisible />
+          </div>
+        )}
 
         {/* Notes for Selected Date - Scrollable */}
         {selectedDateNotes.length > 0 && (

@@ -1,5 +1,5 @@
 import { format, isSameDay, startOfMonth, endOfMonth, eachDayOfInterval, getDay, addMonths, subMonths, isSameMonth } from "date-fns";
-import { ChevronLeft, ChevronRight, ChevronDown, MoreVertical, Image, Settings2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronDown, MoreVertical, Image, RefreshCw } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
 import { loadNotesFromDB } from '@/utils/noteStorage';
 import { useTranslation } from "react-i18next";
@@ -24,6 +24,8 @@ interface NotesCalendarViewProps {
   showEmptyState?: boolean;
   calendarBackground?: string;
   onBackgroundSettingsClick?: () => void;
+  showSyncCalendar?: boolean;
+  onSyncCalendarClick?: () => void;
 }
 
 const BACKGROUND_GRADIENTS: Record<string, string | null> = {
@@ -58,6 +60,8 @@ export const NotesCalendarView = ({
   showEmptyState = false,
   calendarBackground = 'none',
   onBackgroundSettingsClick,
+  showSyncCalendar = true,
+  onSyncCalendarClick,
 }: NotesCalendarViewProps) => {
   const { t } = useTranslation();
   const resolvedEmptyMessage = emptyStateMessage || t('calendar.noNotes', 'No notes for the day.');
@@ -210,6 +214,12 @@ export const NotesCalendarView = ({
               <DropdownMenuItem onClick={handleGoToToday}>
                 {t('calendar.goToToday', 'Go to Today')}
               </DropdownMenuItem>
+              {showSyncCalendar && (
+                <DropdownMenuItem onClick={onSyncCalendarClick} className="gap-2">
+                  <RefreshCw className="h-4 w-4" />
+                  {t('calendar.syncCalendar', 'Sync Calendar')}
+                </DropdownMenuItem>
+              )}
               {onBackgroundSettingsClick && (
                 <DropdownMenuItem onClick={onBackgroundSettingsClick} className="gap-2">
                   <Image className="h-4 w-4" />
