@@ -197,7 +197,7 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
   const [showSketchMetaDialog, setShowSketchMetaDialog] = useState(false);
   const [sketchMetaTitle, setSketchMetaTitle] = useState('');
   const [sketchMetaDesc, setSketchMetaDesc] = useState('');
-  
+  const sketchMetaPendingCloseRef = useRef(false);
   // PDF export success dialog state
   const [pdfExportResult, setPdfExportResult] = useState<{ filename: string; base64Data: string } | null>(null);
   const [showPdfOptionsSheet, setShowPdfOptionsSheet] = useState(false);
