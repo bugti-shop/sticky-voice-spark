@@ -6,6 +6,10 @@
 
 import { Capacitor } from '@capacitor/core';
 import { LocalNotifications } from '@capacitor/local-notifications';
+import { App } from '@capacitor/app';
+
+// Track scheduled urgent reminders for resume-check
+const pendingUrgentReminders = new Map<string, { taskText: string; reminderTime: Date }>();
 
 // Generate a stable numeric ID from a string ID
 const hashStringToId = (str: string): number => {
