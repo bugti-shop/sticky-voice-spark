@@ -581,21 +581,27 @@ export const drawWashiTape = (ctx: CanvasRenderingContext2D, tape: WashiTapeData
   ctx.fillRect(-1, -1, tape.width + 2, tape.height + 2);
   ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0; ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0;
 
-  // Cached HD pattern
-  // Cached HD pattern at 3x resolution for crisp rendering
-  const scaleFactor = 10;
-  const legacyCacheKey = `legacy_${pattern.id}_${Math.round(tape.width)}_${Math.round(tape.height)}_maxhd`;
-  let cachedLegacy = washiPatternCache.get(legacyCacheKey) as any;
-  if (!cachedLegacy) {
-    const offCanvas = document.createElement('canvas');
-    offCanvas.width = Math.max(4, Math.round(tape.width * scaleFactor));
-    offCanvas.height = Math.max(4, Math.round(tape.height * scaleFactor));
-    const offCtx = offCanvas.getContext('2d')!;
+  // Cached pattern tile — small fixed tile that repeats, 3x resolution for crisp rendering
+  const scaleFactor = 3;
+  const tileSize = 128;
+  const cacheKey = `washi_tape_tile_${pattern.id}`;
+  let cachedTile = washiPatternCache.get(cacheKey) as HTMLCanvasElement | undefined;
+  if (!cachedTile) {
+    cachedTile = document.createElement('canvas');
+    cachedTile.width = tileSize * scaleFactor;
+    cachedTile.height = tileSize * scaleFactor;
+    const offCtx = cachedTile.getContext('2d')!;
     offCtx.scale(scaleFactor, scaleFactor);
-    pattern.draw(offCtx, tape.width, tape.height);
-    (washiPatternCache as any).set(legacyCacheKey, offCanvas);
-    cachedLegacy = offCanvas;
+    pattern.draw(offCtx, tileSize, tileSize);
+    washiPatternCache.set(cacheKey, cachedTile);
   }
+
+  // Draw by tiling the cached pattern across the tape area
+  const tiledPattern = ctx.createPattern(cachedTile, 'repeat');
+  if (!tiledPattern) { ctx.restore(); return; }
+  const patMatrix = new DOMMatrix();
+  patMatrix.scaleSelf(1 / scaleFactor, 1 / scaleFactor);
+  tiledPattern.setTransform(patMatrix);
 
   // Torn edge clipping
   ctx.save();
