@@ -627,16 +627,13 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
       toast.error(t('editor.sketchDescRequired', 'Description is required for sketch notes'));
       return;
     }
-    // Update state for UI
+    // Update state for UI - performClose will be called after state propagates
     setTitle(sketchMetaTitle.trim());
     setMetaDescription(sketchMetaDesc.trim());
     setShowSketchMetaDialog(false);
-    // Directly patch the refs/values used by buildCurrentNote before closing
-    // We need to ensure the save picks up the new values
-    titleRef.current = sketchMetaTitle.trim();
-    metaDescRef.current = sketchMetaDesc.trim();
-    setTimeout(() => performClose(), 50);
-  }, [sketchMetaTitle, sketchMetaDesc, performClose, t]);
+    // Use a flag to trigger close after state update
+    sketchMetaPendingCloseRef.current = true;
+  }, [sketchMetaTitle, sketchMetaDesc, t]);
 
   const handleCloseRef = useRef(handleClose);
   useEffect(() => {
