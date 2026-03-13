@@ -200,10 +200,9 @@ export const initializeReminders = async (): Promise<void> => {
 
   await createReminderChannels();
   
-  // Listen for notification received events to trigger urgent overlay
+  // Listen for notification received events to trigger urgent overlay IMMEDIATELY (full-screen)
   LocalNotifications.addListener('localNotificationReceived', (notification) => {
     if (notification.extra?.isUrgent === 'true') {
-      // Dispatch event to show full-screen urgent reminder overlay
       window.dispatchEvent(new CustomEvent('urgentReminderTriggered', {
         detail: {
           id: notification.extra.taskId,
