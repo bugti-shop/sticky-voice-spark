@@ -200,41 +200,6 @@ const NotesCalendar = () => {
         )}
       </div>
 
-      {/* Floating Action Button */}
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            size="lg"
-            className="fixed right-6 h-14 w-14 rounded-full shadow-lg z-30"
-            style={{ bottom: 'calc(5rem + env(safe-area-inset-bottom, 0px))' }}
-            disabled={!date}
-          >
-            <Plus className="h-6 w-6" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" side="top" className="mb-2 w-48 z-50 bg-card">
-          <DropdownMenuItem onClick={() => handleCreateNote('sticky')} className="gap-2">
-            <StickyNote className="h-4 w-4" />
-            {t('notesMenu.stickyNotes')}
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleCreateNote('lined')} className="gap-2">
-            <FileText className="h-4 w-4" />
-            {t('notesMenu.linedNotes')}
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleCreateNote('regular')} className="gap-2">
-            <FileEdit className="h-4 w-4" />
-            {t('notesMenu.regularNotes')}
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleCreateNote('code')} className="gap-2">
-            <FileCode className="h-4 w-4" />
-            {t('notesMenu.codeNotes')}
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleCreateNote('voice')} className="gap-2">
-            <Mic className="h-4 w-4" />
-            {t('notes.noteTypes.voice', 'Voice Note')}
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
 
       <NoteEditor
         note={editingNote}
