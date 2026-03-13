@@ -16,10 +16,10 @@ export interface WashiTapePattern {
 export const WASHI_PATTERNS: WashiTapePattern[] = [
   // 1. Clouds on sky blue
   {
-    id: 'clouds-blue', name: 'Cloudy Sky', color: '#a8d8ea', bgColor: '#c9e4f2',
+    id: 'clouds-blue', name: 'Cloudy Sky', color: '#7cc4e8', bgColor: '#a8daf5',
     draw: (ctx, w, h) => {
-      ctx.fillStyle = '#c9e4f2'; ctx.fillRect(0, 0, w, h);
-      ctx.fillStyle = '#ffffff'; ctx.globalAlpha = 0.9;
+      ctx.fillStyle = '#a8daf5'; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#ffffff'; ctx.globalAlpha = 1;
       const drawCloud = (cx: number, cy: number, s: number) => {
         ctx.beginPath();
         ctx.arc(cx, cy, s * 1.2, 0, Math.PI * 2); ctx.fill();
@@ -39,11 +39,11 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
   },
   // 2. Pink hearts
   {
-    id: 'hearts-pink', name: 'Love Hearts', color: '#f9a8d4', bgColor: '#fce7f3',
+    id: 'hearts-pink', name: 'Love Hearts', color: '#f472b6', bgColor: '#fce7f3',
     draw: (ctx, w, h) => {
       ctx.fillStyle = '#fce7f3'; ctx.fillRect(0, 0, w, h);
       const drawHeart = (cx: number, cy: number, s: number, color: string) => {
-        ctx.fillStyle = color; ctx.globalAlpha = 0.85;
+        ctx.fillStyle = color; ctx.globalAlpha = 1;
         ctx.beginPath();
         ctx.moveTo(cx, cy + s * 0.4);
         ctx.bezierCurveTo(cx - s, cy - s * 0.3, cx - s * 0.5, cy - s, cx, cy - s * 0.4);
@@ -53,7 +53,7 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
       for (let x = 7; x < w; x += 14) {
         for (let y = 7; y < h; y += 13) {
           const ox = Math.floor(y / 13) % 2 ? 7 : 0;
-          const colors = ['#f472b6', '#fb7185', '#f9a8d4', '#ec4899'];
+          const colors = ['#ec4899', '#f43f5e', '#f472b6', '#db2777'];
           drawHeart(x + ox, y, 4, colors[(Math.floor(x / 14) + Math.floor(y / 13)) % colors.length]);
         }
       }
@@ -62,28 +62,25 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
   },
   // 3. Flowers on warm yellow
   {
-    id: 'flowers-yellow', name: 'Flower Garden', color: '#fde68a', bgColor: '#fef9c3',
+    id: 'flowers-yellow', name: 'Flower Garden', color: '#f59e0b', bgColor: '#fef3c7',
     draw: (ctx, w, h) => {
-      ctx.fillStyle = '#fef3c4'; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#fef3c7'; ctx.fillRect(0, 0, w, h);
       for (let x = 10; x < w; x += 20) {
         for (let y = 8; y < h; y += 18) {
           const ox = Math.floor(y / 18) % 2 ? 10 : 0;
           const fx = x + ox, fy = y;
-          // Petals
-          const petalColors = ['#fb923c', '#f87171', '#fdba74', '#fca5a5'];
+          const petalColors = ['#f97316', '#ef4444', '#fb923c', '#f87171'];
           for (let a = 0; a < 5; a++) {
             const ang = (a / 5) * Math.PI * 2 - Math.PI / 2;
             const px = fx + Math.cos(ang) * 3.8, py = fy + Math.sin(ang) * 3.8;
-            ctx.fillStyle = petalColors[a % petalColors.length]; ctx.globalAlpha = 0.85;
+            ctx.fillStyle = petalColors[a % petalColors.length]; ctx.globalAlpha = 1;
             ctx.beginPath(); ctx.arc(px, py, 2.8, 0, Math.PI * 2); ctx.fill();
           }
-          // Center
-          ctx.fillStyle = '#fbbf24'; ctx.globalAlpha = 0.95;
+          ctx.fillStyle = '#f59e0b'; ctx.globalAlpha = 1;
           ctx.beginPath(); ctx.arc(fx, fy, 2, 0, Math.PI * 2); ctx.fill();
         }
       }
-      // Small leaves
-      ctx.fillStyle = '#86efac'; ctx.globalAlpha = 0.7;
+      ctx.fillStyle = '#22c55e'; ctx.globalAlpha = 0.9;
       for (let x = 20; x < w; x += 20) {
         for (let y = 14; y < h; y += 18) {
           ctx.save(); ctx.translate(x, y); ctx.rotate(0.5);
@@ -96,10 +93,10 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
   },
   // 4. Stars on green
   {
-    id: 'stars-green', name: 'Starry Meadow', color: '#86efac', bgColor: '#bbf7d0',
+    id: 'stars-green', name: 'Starry Meadow', color: '#22c55e', bgColor: '#86efac',
     draw: (ctx, w, h) => {
-      ctx.fillStyle = '#86cba0'; ctx.fillRect(0, 0, w, h);
-      ctx.fillStyle = '#ffffff'; ctx.globalAlpha = 0.9;
+      ctx.fillStyle = '#4ade80'; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#ffffff'; ctx.globalAlpha = 1;
       const drawStar = (cx: number, cy: number, r: number) => {
         ctx.beginPath();
         for (let i = 0; i < 5; i++) {
@@ -119,23 +116,20 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
       ctx.globalAlpha = 1;
     },
   },
-  // 5. Sparkles/snowflakes on coral
+  // 5. Sparkles on coral
   {
-    id: 'sparkles-coral', name: 'Coral Sparkles', color: '#fca5a5', bgColor: '#fecaca',
+    id: 'sparkles-coral', name: 'Coral Sparkles', color: '#f87171', bgColor: '#fca5a5',
     draw: (ctx, w, h) => {
-      ctx.fillStyle = '#f0a0a0'; ctx.fillRect(0, 0, w, h);
-      ctx.strokeStyle = '#fecdd3'; ctx.fillStyle = '#fecdd3';
-      ctx.globalAlpha = 0.9; ctx.lineWidth = 1.5; ctx.lineCap = 'round';
+      ctx.fillStyle = '#f87171'; ctx.fillRect(0, 0, w, h);
+      ctx.strokeStyle = '#ffffff'; ctx.fillStyle = '#ffffff';
+      ctx.globalAlpha = 1; ctx.lineWidth = 1.5; ctx.lineCap = 'round';
       const drawSparkle = (cx: number, cy: number, s: number) => {
-        // 4-pointed sparkle
         ctx.beginPath(); ctx.moveTo(cx, cy - s); ctx.lineTo(cx, cy + s); ctx.stroke();
         ctx.beginPath(); ctx.moveTo(cx - s, cy); ctx.lineTo(cx + s, cy); ctx.stroke();
-        // Diagonal smaller
         const ds = s * 0.6;
         ctx.beginPath(); ctx.moveTo(cx - ds, cy - ds); ctx.lineTo(cx + ds, cy + ds); ctx.stroke();
         ctx.beginPath(); ctx.moveTo(cx + ds, cy - ds); ctx.lineTo(cx - ds, cy + ds); ctx.stroke();
-        // Center dot
-        ctx.beginPath(); ctx.arc(cx, cy, 1, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx, cy, 1.2, 0, Math.PI * 2); ctx.fill();
       };
       for (let x = 10; x < w; x += 18) {
         for (let y = 8; y < h; y += 16) {
@@ -148,13 +142,12 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
   },
   // 6. Suns on light blue
   {
-    id: 'suns-blue', name: 'Sunny Day', color: '#93c5fd', bgColor: '#bfdbfe',
+    id: 'suns-blue', name: 'Sunny Day', color: '#3b82f6', bgColor: '#93c5fd',
     draw: (ctx, w, h) => {
-      ctx.fillStyle = '#bdd4ee'; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#93c5fd'; ctx.fillRect(0, 0, w, h);
       const drawSun = (cx: number, cy: number, r: number) => {
-        // Rays
-        ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 1.5; ctx.lineCap = 'round';
-        ctx.globalAlpha = 0.8;
+        ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 1.8; ctx.lineCap = 'round';
+        ctx.globalAlpha = 1;
         for (let a = 0; a < 8; a++) {
           const angle = (a / 8) * Math.PI * 2;
           ctx.beginPath();
@@ -162,8 +155,7 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
           ctx.lineTo(cx + Math.cos(angle) * (r + 3.5), cy + Math.sin(angle) * (r + 3.5));
           ctx.stroke();
         }
-        // Center circle
-        ctx.fillStyle = '#fbbf24'; ctx.globalAlpha = 0.9;
+        ctx.fillStyle = '#f59e0b'; ctx.globalAlpha = 1;
         ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
       };
       for (let x = 12; x < w; x += 22) {
@@ -177,22 +169,20 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
   },
   // 7. Small flowers on sage green
   {
-    id: 'flowers-sage', name: 'Sage Blossoms', color: '#86efac', bgColor: '#a8d5ba',
+    id: 'flowers-sage', name: 'Sage Blossoms', color: '#22c55e', bgColor: '#6bc990',
     draw: (ctx, w, h) => {
-      ctx.fillStyle = '#a8d5ba'; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#6bc990'; ctx.fillRect(0, 0, w, h);
       for (let x = 10; x < w; x += 18) {
         for (let y = 8; y < h; y += 16) {
           const ox = Math.floor(y / 16) % 2 ? 9 : 0;
           const fx = x + ox, fy = y;
-          // Petals (cream/yellow)
-          ctx.fillStyle = '#fef3c7'; ctx.globalAlpha = 0.9;
+          ctx.fillStyle = '#fef3c7'; ctx.globalAlpha = 1;
           for (let a = 0; a < 5; a++) {
             const ang = (a / 5) * Math.PI * 2 - Math.PI / 2;
             const px = fx + Math.cos(ang) * 3, py = fy + Math.sin(ang) * 3;
             ctx.beginPath(); ctx.arc(px, py, 2.2, 0, Math.PI * 2); ctx.fill();
           }
-          // Center
-          ctx.fillStyle = '#fbbf24'; ctx.globalAlpha = 0.95;
+          ctx.fillStyle = '#f59e0b'; ctx.globalAlpha = 1;
           ctx.beginPath(); ctx.arc(fx, fy, 1.5, 0, Math.PI * 2); ctx.fill();
         }
       }
@@ -201,20 +191,19 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
   },
   // 8. Rainbows on warm yellow
   {
-    id: 'rainbows-yellow', name: 'Rainbow Dreams', color: '#fde68a', bgColor: '#fef9c3',
+    id: 'rainbows-yellow', name: 'Rainbow Dreams', color: '#f59e0b', bgColor: '#fef3c7',
     draw: (ctx, w, h) => {
-      ctx.fillStyle = '#f5e6b8'; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#fde68a'; ctx.fillRect(0, 0, w, h);
       const drawRainbow = (cx: number, cy: number, s: number) => {
         const colors = ['#ef4444', '#f97316', '#eab308', '#22c55e', '#3b82f6', '#8b5cf6'];
         for (let i = 0; i < colors.length; i++) {
-          ctx.strokeStyle = colors[i]; ctx.lineWidth = 1.2; ctx.globalAlpha = 0.75;
+          ctx.strokeStyle = colors[i]; ctx.lineWidth = 1.5; ctx.globalAlpha = 1;
           const r = s - i * 1.2;
           if (r > 0) {
             ctx.beginPath(); ctx.arc(cx, cy + s * 0.5, r, Math.PI, 0); ctx.stroke();
           }
         }
-        // Small clouds at base
-        ctx.fillStyle = '#ffffff'; ctx.globalAlpha = 0.8;
+        ctx.fillStyle = '#ffffff'; ctx.globalAlpha = 0.95;
         ctx.beginPath(); ctx.arc(cx - s + 1, cy + s * 0.5, 2, 0, Math.PI * 2); ctx.fill();
         ctx.beginPath(); ctx.arc(cx + s - 1, cy + s * 0.5, 2, 0, Math.PI * 2); ctx.fill();
       };
@@ -229,19 +218,18 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
   },
   // 9. Leaves on pink
   {
-    id: 'leaves-pink', name: 'Pink Leaves', color: '#f9a8d4', bgColor: '#fce7f3',
+    id: 'leaves-pink', name: 'Pink Leaves', color: '#ec4899', bgColor: '#fce7f3',
     draw: (ctx, w, h) => {
-      ctx.fillStyle = '#f8d5e0'; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#fce7f3'; ctx.fillRect(0, 0, w, h);
       const drawLeaf = (cx: number, cy: number, s: number, angle: number, color: string) => {
         ctx.save(); ctx.translate(cx, cy); ctx.rotate(angle);
-        ctx.fillStyle = color; ctx.globalAlpha = 0.8;
+        ctx.fillStyle = color; ctx.globalAlpha = 1;
         ctx.beginPath();
         ctx.moveTo(0, -s);
         ctx.bezierCurveTo(s * 0.7, -s * 0.5, s * 0.5, s * 0.5, 0, s);
         ctx.bezierCurveTo(-s * 0.5, s * 0.5, -s * 0.7, -s * 0.5, 0, -s);
         ctx.fill();
-        // Vein
-        ctx.strokeStyle = color === '#86efac' ? '#22c55e' : '#059669'; ctx.lineWidth = 0.6; ctx.globalAlpha = 0.4;
+        ctx.strokeStyle = '#15803d'; ctx.lineWidth = 0.8; ctx.globalAlpha = 0.6;
         ctx.beginPath(); ctx.moveTo(0, -s * 0.8); ctx.lineTo(0, s * 0.8); ctx.stroke();
         ctx.restore();
       };
@@ -249,7 +237,7 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
         for (let y = 7; y < h; y += 13) {
           const ox = Math.floor(y / 13) % 2 ? 7 : 0;
           const angle = ((x + y) * 0.7) % (Math.PI * 2);
-          const colors = ['#86efac', '#6ee7b7', '#4ade80'];
+          const colors = ['#22c55e', '#16a34a', '#4ade80'];
           drawLeaf(x + ox, y, 5, angle, colors[(Math.floor(x / 14) + Math.floor(y / 13)) % colors.length]);
         }
       }
@@ -258,12 +246,12 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
   },
   // 10. Diagonal stripes (coral + orange)
   {
-    id: 'stripes-coral', name: 'Coral Stripes', color: '#fb923c', bgColor: '#fed7aa',
+    id: 'stripes-coral', name: 'Coral Stripes', color: '#f97316', bgColor: '#fb923c',
     draw: (ctx, w, h) => {
-      ctx.fillStyle = '#f0a682'; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#fb923c'; ctx.fillRect(0, 0, w, h);
       ctx.lineCap = 'butt'; ctx.lineWidth = 5;
       for (let x = -h * 2; x < w + h * 2; x += 10) {
-        ctx.strokeStyle = '#c47a5a'; ctx.globalAlpha = 0.45;
+        ctx.strokeStyle = '#c2410c'; ctx.globalAlpha = 0.7;
         ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x + h, h); ctx.stroke();
       }
       ctx.globalAlpha = 1;
@@ -271,10 +259,10 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
   },
   // 11. White polka dots on blue
   {
-    id: 'polka-blue-white', name: 'Blue Polka', color: '#93c5fd', bgColor: '#7daed0',
+    id: 'polka-blue-white', name: 'Blue Polka', color: '#3b82f6', bgColor: '#60a5fa',
     draw: (ctx, w, h) => {
-      ctx.fillStyle = '#7daed0'; ctx.fillRect(0, 0, w, h);
-      ctx.fillStyle = '#ffffff'; ctx.globalAlpha = 0.85;
+      ctx.fillStyle = '#60a5fa'; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#ffffff'; ctx.globalAlpha = 1;
       for (let x = 6; x < w; x += 12) {
         for (let y = 5; y < h; y += 11) {
           const ox = Math.floor(y / 11) % 2 ? 6 : 0;
@@ -286,10 +274,10 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
   },
   // 12. Yellow vertical stripes
   {
-    id: 'stripes-yellow', name: 'Butter Stripes', color: '#fde68a', bgColor: '#fef9c3',
+    id: 'stripes-yellow', name: 'Butter Stripes', color: '#eab308', bgColor: '#fde68a',
     draw: (ctx, w, h) => {
-      ctx.fillStyle = '#fef9c3'; ctx.fillRect(0, 0, w, h);
-      ctx.fillStyle = '#fde68a'; ctx.globalAlpha = 0.6;
+      ctx.fillStyle = '#fef3c7'; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#eab308'; ctx.globalAlpha = 0.8;
       for (let x = 0; x < w; x += 8) {
         ctx.fillRect(x, 0, 4, h);
       }
@@ -298,11 +286,10 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
   },
   // 13. Scallop edge on cream/yellow
   {
-    id: 'scallop-cream', name: 'Cream Scallop', color: '#fde68a', bgColor: '#fef3c7',
+    id: 'scallop-cream', name: 'Cream Scallop', color: '#f59e0b', bgColor: '#fef3c7',
     draw: (ctx, w, h) => {
-      ctx.fillStyle = '#fce9a8'; ctx.fillRect(0, 0, w, h);
-      // Scallop pattern along top and bottom
-      ctx.fillStyle = '#fbbf24'; ctx.globalAlpha = 0.35;
+      ctx.fillStyle = '#fde68a'; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#f59e0b'; ctx.globalAlpha = 0.6;
       const scW = 10;
       for (let x = 0; x < w + scW; x += scW) {
         ctx.beginPath(); ctx.arc(x, 0, scW / 2, 0, Math.PI); ctx.fill();
@@ -313,11 +300,11 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
   },
   // 14. Pink grid/plaid
   {
-    id: 'grid-pink', name: 'Pink Plaid', color: '#f9a8d4', bgColor: '#fce7f3',
+    id: 'grid-pink', name: 'Pink Plaid', color: '#ec4899', bgColor: '#fce7f3',
     draw: (ctx, w, h) => {
       ctx.fillStyle = '#fce7f3'; ctx.fillRect(0, 0, w, h);
       const spacing = 6;
-      ctx.strokeStyle = '#f9a8d4'; ctx.lineWidth = 1.5; ctx.globalAlpha = 0.5;
+      ctx.strokeStyle = '#ec4899'; ctx.lineWidth = 1.5; ctx.globalAlpha = 0.7;
       for (let y = 0; y < h; y += spacing) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
       for (let x = 0; x < w; x += spacing) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
       ctx.globalAlpha = 1;
@@ -325,13 +312,13 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
   },
   // 15. Green + pink vertical stripes
   {
-    id: 'stripes-green-pink', name: 'Garden Stripes', color: '#86efac', bgColor: '#d1fae5',
+    id: 'stripes-green-pink', name: 'Garden Stripes', color: '#22c55e', bgColor: '#d1fae5',
     draw: (ctx, w, h) => {
       ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h);
-      const colors = ['#86cba0', '#f9a8d4', '#86cba0'];
+      const colors = ['#22c55e', '#ec4899', '#22c55e'];
       const stripeW = 6;
       for (let x = 0; x < w; x += stripeW) {
-        ctx.fillStyle = colors[(Math.floor(x / stripeW)) % colors.length]; ctx.globalAlpha = 0.55;
+        ctx.fillStyle = colors[(Math.floor(x / stripeW)) % colors.length]; ctx.globalAlpha = 0.8;
         ctx.fillRect(x, 0, stripeW, h);
       }
       ctx.globalAlpha = 1;
@@ -339,10 +326,10 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
   },
   // 16. Lavender solid with subtle texture
   {
-    id: 'solid-lavender', name: 'Soft Lavender', color: '#c4b5fd', bgColor: '#ddd6fe',
+    id: 'solid-lavender', name: 'Soft Lavender', color: '#a78bfa', bgColor: '#c4b5fd',
     draw: (ctx, w, h) => {
-      ctx.fillStyle = '#d5ccf5'; ctx.fillRect(0, 0, w, h);
-      ctx.globalAlpha = 0.08;
+      ctx.fillStyle = '#a78bfa'; ctx.fillRect(0, 0, w, h);
+      ctx.globalAlpha = 0.15;
       for (let i = 0; i < w * h * 0.01; i++) {
         ctx.fillStyle = '#ffffff';
         ctx.beginPath(); ctx.arc(Math.random() * w, Math.random() * h, 0.8, 0, Math.PI * 2); ctx.fill();
@@ -352,32 +339,32 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
   },
   // 17. Peach solid
   {
-    id: 'solid-peach', name: 'Soft Peach', color: '#fdba74', bgColor: '#fed7aa',
+    id: 'solid-peach', name: 'Soft Peach', color: '#f97316', bgColor: '#fdba74',
     draw: (ctx, w, h) => {
-      ctx.fillStyle = '#f5c9a0'; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#fb923c'; ctx.fillRect(0, 0, w, h);
       ctx.globalAlpha = 1;
     },
   },
   // 18. Mint solid
   {
-    id: 'solid-mint', name: 'Fresh Mint', color: '#6ee7b7', bgColor: '#a7f3d0',
+    id: 'solid-mint', name: 'Fresh Mint', color: '#10b981', bgColor: '#6ee7b7',
     draw: (ctx, w, h) => {
-      ctx.fillStyle = '#a0dfc4'; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#34d399'; ctx.fillRect(0, 0, w, h);
       ctx.globalAlpha = 1;
     },
   },
   // 19. Cherry blossom petals
   {
-    id: 'sakura', name: 'Cherry Blossom', color: '#fda4af', bgColor: '#fff1f2',
+    id: 'sakura', name: 'Cherry Blossom', color: '#f43f5e', bgColor: '#fecdd3',
     draw: (ctx, w, h) => {
-      ctx.fillStyle = '#f8d5da'; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#fecdd3'; ctx.fillRect(0, 0, w, h);
       for (let i = 0; i < Math.min(w * h * 0.005, 50); i++) {
         const px = Math.random() * w, py = Math.random() * h;
         const angle = Math.random() * Math.PI * 2;
         const size = 2 + Math.random() * 2.5;
         ctx.save(); ctx.translate(px, py); ctx.rotate(angle);
-        ctx.fillStyle = ['#fda4af', '#fb7185', '#f9a8d4'][Math.floor(Math.random() * 3)];
-        ctx.globalAlpha = 0.7;
+        ctx.fillStyle = ['#f43f5e', '#e11d48', '#ec4899'][Math.floor(Math.random() * 3)];
+        ctx.globalAlpha = 0.9;
         ctx.beginPath();
         ctx.moveTo(0, -size);
         ctx.bezierCurveTo(size * 0.8, -size * 0.6, size * 0.8, size * 0.6, 0, size * 0.5);
@@ -390,12 +377,12 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
   },
   // 20. Diagonal stripes blue + white
   {
-    id: 'stripes-blue-diag', name: 'Ocean Stripes', color: '#93c5fd', bgColor: '#bfdbfe',
+    id: 'stripes-blue-diag', name: 'Ocean Stripes', color: '#3b82f6', bgColor: '#93c5fd',
     draw: (ctx, w, h) => {
       ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h);
       ctx.lineCap = 'butt'; ctx.lineWidth = 5;
       for (let x = -h * 2; x < w + h * 2; x += 10) {
-        ctx.strokeStyle = '#93c5fd'; ctx.globalAlpha = 0.6;
+        ctx.strokeStyle = '#3b82f6'; ctx.globalAlpha = 0.85;
         ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x + h, h); ctx.stroke();
       }
       ctx.globalAlpha = 1;
@@ -408,7 +395,7 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
       ctx.fillStyle = '#fecaca'; ctx.fillRect(0, 0, w, h);
       ctx.lineCap = 'butt'; ctx.lineWidth = 2;
       for (let x = -h * 2; x < w + h * 2; x += 7) {
-        ctx.strokeStyle = '#dc2626'; ctx.globalAlpha = 0.7;
+        ctx.strokeStyle = '#dc2626'; ctx.globalAlpha = 0.9;
         ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x + h, h); ctx.stroke();
       }
       ctx.globalAlpha = 1;
@@ -419,7 +406,7 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
     id: 'stripes-red', name: 'Red Stripes', color: '#ef4444', bgColor: '#fee2e2',
     draw: (ctx, w, h) => {
       ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h);
-      ctx.fillStyle = '#ef4444'; ctx.globalAlpha = 0.65;
+      ctx.fillStyle = '#ef4444'; ctx.globalAlpha = 0.85;
       for (let y = 0; y < h; y += 6) {
         ctx.fillRect(0, y, w, 3);
       }
@@ -431,7 +418,7 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
     id: 'red-hearts-emoji', name: 'Red Hearts', color: '#ef4444', bgColor: '#fee2e2',
     draw: (ctx, w, h) => {
       ctx.fillStyle = '#fee2e2'; ctx.fillRect(0, 0, w, h);
-      ctx.font = '8px serif'; ctx.globalAlpha = 0.9;
+      ctx.font = '8px serif'; ctx.globalAlpha = 1;
       for (let x = 4; x < w; x += 14) {
         for (let y = 9; y < h; y += 13) {
           const ox = Math.floor(y / 13) % 2 ? 7 : 0;
@@ -447,7 +434,7 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
     id: 'red-stars-emoji', name: 'Red Stars', color: '#dc2626', bgColor: '#fca5a5',
     draw: (ctx, w, h) => {
       ctx.fillStyle = '#fca5a5'; ctx.fillRect(0, 0, w, h);
-      ctx.font = '7px serif'; ctx.globalAlpha = 0.85;
+      ctx.font = '7px serif'; ctx.globalAlpha = 1;
       for (let x = 4; x < w; x += 12) {
         for (let y = 8; y < h; y += 11) {
           const ox = Math.floor(y / 11) % 2 ? 6 : 0;
@@ -462,8 +449,8 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
   {
     id: 'red-fire-emoji', name: 'Red Fire', color: '#dc2626', bgColor: '#fee2e2',
     draw: (ctx, w, h) => {
-      ctx.fillStyle = '#f8d0d0'; ctx.fillRect(0, 0, w, h);
-      ctx.font = '8px serif'; ctx.globalAlpha = 0.9;
+      ctx.fillStyle = '#fca5a5'; ctx.fillRect(0, 0, w, h);
+      ctx.font = '8px serif'; ctx.globalAlpha = 1;
       for (let x = 4; x < w; x += 14) {
         for (let y = 9; y < h; y += 13) {
           const ox = Math.floor(y / 13) % 2 ? 7 : 0;
@@ -479,9 +466,9 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
     id: 'border-red', name: 'Red Border', color: '#ef4444', bgColor: '#fee2e2',
     draw: (ctx, w, h) => {
       ctx.fillStyle = '#fee2e2'; ctx.fillRect(0, 0, w, h);
-      ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2; ctx.globalAlpha = 0.8;
+      ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2.5; ctx.globalAlpha = 1;
       ctx.strokeRect(2, 2, w - 4, h - 4);
-      ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 1; ctx.globalAlpha = 0.5;
+      ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 1.5; ctx.globalAlpha = 0.7;
       ctx.strokeRect(5, 5, w - 10, h - 10);
       ctx.globalAlpha = 1;
     },
@@ -491,7 +478,7 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
     id: 'border-red-dashed', name: 'Red Dashed', color: '#ef4444', bgColor: '#fecaca',
     draw: (ctx, w, h) => {
       ctx.fillStyle = '#fecaca'; ctx.fillRect(0, 0, w, h);
-      ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2; ctx.globalAlpha = 0.75;
+      ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2.5; ctx.globalAlpha = 1;
       ctx.setLineDash([4, 3]);
       ctx.strokeRect(3, 3, w - 6, h - 6);
       ctx.setLineDash([]);
@@ -503,13 +490,11 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
     id: 'border-red-dotted', name: 'Red Dotted', color: '#ef4444', bgColor: '#fee2e2',
     draw: (ctx, w, h) => {
       ctx.fillStyle = '#fee2e2'; ctx.fillRect(0, 0, w, h);
-      // Dotted border
-      ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 1.5; ctx.globalAlpha = 0.7;
+      ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 1.8; ctx.globalAlpha = 0.9;
       ctx.setLineDash([2, 2]);
       ctx.strokeRect(2, 2, w - 4, h - 4);
       ctx.setLineDash([]);
-      // Center horizontal line
-      ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 1; ctx.globalAlpha = 0.4;
+      ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 1.2; ctx.globalAlpha = 0.6;
       ctx.beginPath(); ctx.moveTo(4, h / 2); ctx.lineTo(w - 4, h / 2); ctx.stroke();
       ctx.globalAlpha = 1;
     },
@@ -519,7 +504,7 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
     id: 'crosshatch-red', name: 'Red Crosshatch', color: '#ef4444', bgColor: '#fecaca',
     draw: (ctx, w, h) => {
       ctx.fillStyle = '#fecaca'; ctx.fillRect(0, 0, w, h);
-      ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 1; ctx.globalAlpha = 0.5;
+      ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 1.2; ctx.globalAlpha = 0.75;
       for (let x = -h; x < w + h; x += 6) {
         ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x + h, h); ctx.stroke();
         ctx.beginPath(); ctx.moveTo(x + h, 0); ctx.lineTo(x, h); ctx.stroke();
@@ -529,17 +514,15 @@ export const WASHI_PATTERNS: WashiTapePattern[] = [
   },
   // 30. Deep red solid with gold accent border
   {
-    id: 'red-gold', name: 'Red & Gold', color: '#b91c1c', bgColor: '#f87171',
+    id: 'red-gold', name: 'Red & Gold', color: '#b91c1c', bgColor: '#ef4444',
     draw: (ctx, w, h) => {
       ctx.fillStyle = '#dc2626'; ctx.fillRect(0, 0, w, h);
-      // Gold borders
-      ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 2; ctx.globalAlpha = 0.8;
+      ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 2.5; ctx.globalAlpha = 1;
       ctx.beginPath(); ctx.moveTo(0, 2); ctx.lineTo(w, 2); ctx.stroke();
       ctx.beginPath(); ctx.moveTo(0, h - 2); ctx.lineTo(w, h - 2); ctx.stroke();
-      // Subtle gold dots
-      ctx.fillStyle = '#fbbf24'; ctx.globalAlpha = 0.5;
+      ctx.fillStyle = '#f59e0b'; ctx.globalAlpha = 0.8;
       for (let x = 6; x < w; x += 10) {
-        ctx.beginPath(); ctx.arc(x, h / 2, 1, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(x, h / 2, 1.2, 0, Math.PI * 2); ctx.fill();
       }
       ctx.globalAlpha = 1;
     },
@@ -626,13 +609,13 @@ export const drawWashiTape = (ctx: CanvasRenderingContext2D, tape: WashiTapeData
   ctx.fillStyle = tiledPattern;
   ctx.fillRect(0, 0, tape.width, tape.height);
 
-  // Top glossy highlight
-  ctx.globalAlpha = 0.12;
-  const gloss = ctx.createLinearGradient(0, 0, 0, tape.height * 0.35);
-  gloss.addColorStop(0, 'rgba(255,255,255,0.5)');
+  // Top glossy highlight — very subtle to preserve color vibrancy
+  ctx.globalAlpha = 0.06;
+  const gloss = ctx.createLinearGradient(0, 0, 0, tape.height * 0.25);
+  gloss.addColorStop(0, 'rgba(255,255,255,0.4)');
   gloss.addColorStop(1, 'rgba(255,255,255,0)');
   ctx.fillStyle = gloss;
-  ctx.fillRect(0, 0, tape.width, tape.height * 0.35);
+  ctx.fillRect(0, 0, tape.width, tape.height * 0.25);
 
   ctx.restore();
 
