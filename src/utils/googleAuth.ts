@@ -156,6 +156,10 @@ const nativeRefresh = async (): Promise<GoogleUser> => {
 let tokenClient: any = null;
 let gisLoaded = false;
 let refreshInProgress: Promise<GoogleUser | null> | null = null;
+let tokenRefreshInProgress: Promise<GoogleUser> | null = null;
+let nativeRefreshCooldownUntil = 0;
+let webSilentRefreshCooldownUntil = 0;
+const REFRESH_RETRY_COOLDOWN_MS = 2 * 60 * 1000;
 
 export const loadGoogleIdentityServices = (): Promise<void> => {
   if (isNative()) return Promise.resolve();
