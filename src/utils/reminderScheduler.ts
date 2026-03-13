@@ -13,9 +13,44 @@ const hashStringToId = (str: string): number => {
   for (let i = 0; i < str.length; i++) {
     const char = str.charCodeAt(i);
     hash = ((hash << 5) - hash) + char;
-    hash |= 0; // Convert to 32bit integer
+    hash |= 0;
   }
-  return Math.abs(hash) % 2147483647; // Keep within safe int range
+  return Math.abs(hash) % 2147483647;
+};
+
+// In-app urgent reminder timers (fires overlay directly, no notification tap needed)
+const urgentTimers = new Map<string, ReturnType<typeof setTimeout>>();
+
+const scheduleUrgentInAppTimer = (taskId: string, taskText: string, reminderTime: Date) => {
+  // Clear any existing timer for this task
+  cancelUrgentInAppTimer(taskId);
+  
+  const delay = reminderTime.getTime() - Date.now();
+  if (delay <= 0) return;
+  
+  const timer = setTimeout(() => {
+    urgentTimers.delete(taskId);
+    console.log('[Reminder] Urgent in-app timer fired for:', taskText);
+    window.dispatchEvent(new CustomEvent('urgentReminderTriggered', {
+      detail: {
+        id: taskId,
+        taskName: taskText,
+        triggeredAt: new Date(),
+        reminderTime: reminderTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      }
+    }));
+  }, delay);
+  
+  urgentTimers.set(taskId, timer);
+  console.log('[Reminder] Urgent in-app timer set for', taskText, 'in', Math.round(delay / 1000), 'seconds');
+};
+
+const cancelUrgentInAppTimer = (taskId: string) => {
+  const existing = urgentTimers.get(taskId);
+  if (existing) {
+    clearTimeout(existing);
+    urgentTimers.delete(taskId);
+  }
 };
 
 /**
@@ -45,22 +80,30 @@ export const scheduleTaskReminder = async (
   reminderTime: Date,
   isUrgent?: boolean
 ): Promise<void> => {
-  if (!Capacitor.isNativePlatform()) {
-    console.log('[Reminder] Web: would schedule task reminder for', taskText, 'at', reminderTime, isUrgent ? '(URGENT)' : '');
-    return;
-  }
-
   const now = new Date();
   if (reminderTime <= now) {
     console.log('[Reminder] Skipping past reminder for task:', taskText);
     return;
   }
 
+  // For urgent reminders, ALWAYS set an in-app timer so it shows full-screen automatically
+  if (isUrgent) {
+    scheduleUrgentInAppTimer(taskId, taskText, reminderTime);
+  }
+
+  if (!Capacitor.isNativePlatform()) {
+    console.log('[Reminder] Web: would schedule task reminder for', taskText, 'at', reminderTime, isUrgent ? '(URGENT)' : '');
+    return;
+  }
+
   const notifId = hashStringToId(`task-${taskId}`);
 
   try {
-    // Cancel existing reminder for this task first
     await cancelTaskReminder(taskId);
+    // Re-set the in-app timer since cancelTaskReminder clears it
+    if (isUrgent) {
+      scheduleUrgentInAppTimer(taskId, taskText, reminderTime);
+    }
 
     await LocalNotifications.schedule({
       notifications: [{
@@ -83,6 +126,9 @@ export const scheduleTaskReminder = async (
  * Cancel a task reminder
  */
 export const cancelTaskReminder = async (taskId: string): Promise<void> => {
+  // Always cancel the in-app urgent timer
+  cancelUrgentInAppTimer(taskId);
+
   if (!Capacitor.isNativePlatform()) return;
 
   const notifId = hashStringToId(`task-${taskId}`);
