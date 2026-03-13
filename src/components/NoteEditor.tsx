@@ -627,10 +627,14 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
       toast.error(t('editor.sketchDescRequired', 'Description is required for sketch notes'));
       return;
     }
+    // Update state for UI
     setTitle(sketchMetaTitle.trim());
     setMetaDescription(sketchMetaDesc.trim());
     setShowSketchMetaDialog(false);
-    // Wait a tick for state to propagate before saving
+    // Directly patch the refs/values used by buildCurrentNote before closing
+    // We need to ensure the save picks up the new values
+    titleRef.current = sketchMetaTitle.trim();
+    metaDescRef.current = sketchMetaDesc.trim();
     setTimeout(() => performClose(), 50);
   }, [sketchMetaTitle, sketchMetaDesc, performClose, t]);
 
