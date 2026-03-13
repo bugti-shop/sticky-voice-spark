@@ -55,8 +55,14 @@ const ensureNativeInit = async () => {
 };
 
 const getNativeAccessToken = (result: any): string => {
-  const r = result?.result;
-  return r?.accessToken?.token || r?.accessToken || '';
+  const r = result?.result ?? result;
+  return (
+    r?.accessToken?.token ||
+    r?.accessToken ||
+    result?.accessToken?.token ||
+    result?.accessToken ||
+    ''
+  );
 };
 
 const extractNativeProfile = async (r: any, accessToken: string) => {
@@ -110,34 +116,27 @@ const nativeRefresh = async (): Promise<GoogleUser> => {
   const stored = await getStoredGoogleUser();
   if (!stored) throw new Error('No stored Google user');
 
+  // Prevent repeated refresh retries that can trigger chooser loops on some devices
+  if (Date.now() < nativeRefreshCooldownUntil) return stored;
+
   await ensureNativeInit();
   const { SocialLogin } = await import('@capgo/capacitor-social-login');
 
-  // 1) Try native refresh API (non-interactive)
   try {
-    await SocialLogin.refresh({
-      provider: 'google',
-      options: NATIVE_LOGIN_OPTIONS,
-    });
-  } catch (err) {
-    console.warn('Native refresh API failed, trying auto-select reauth:', err);
-  }
-
-  // 2) Re-auth with auto-select (usually no visible prompt)
-  try {
-    const result = await SocialLogin.login({
+    const refreshResult = await SocialLogin.refresh({
       provider: 'google',
       options: NATIVE_LOGIN_OPTIONS,
     });
 
-    const r = result.result as any;
-    const accessToken = getNativeAccessToken(result);
-    if (!accessToken) return stored;
+    const accessToken = getNativeAccessToken(refreshResult);
+    if (!accessToken) {
+      nativeRefreshCooldownUntil = Date.now() + REFRESH_RETRY_COOLDOWN_MS;
+      return stored;
+    }
 
+    nativeRefreshCooldownUntil = 0;
     const refreshedUser: GoogleUser = {
-      email: r.profile?.email || r.email || stored.email,
-      name: r.profile?.name || r.name || stored.name,
-      picture: r.profile?.imageUrl || r.profile?.picture || stored.picture,
+      ...stored,
       accessToken,
       accessTokenExpiresAt: Date.now() + ACCESS_TOKEN_TTL,
       expiresAt: Date.now() + SESSION_TTL,
@@ -146,7 +145,8 @@ const nativeRefresh = async (): Promise<GoogleUser> => {
     await setSetting('googleUser', refreshedUser);
     return refreshedUser;
   } catch (err) {
-    console.warn('Native reauth failed, keeping stored token:', err);
+    nativeRefreshCooldownUntil = Date.now() + REFRESH_RETRY_COOLDOWN_MS;
+    console.warn('Native silent refresh failed, keeping stored token:', err);
     return stored;
   }
 };
