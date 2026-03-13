@@ -24,17 +24,16 @@ const driveApiFetch = async (url: string, options: RequestInit = {}): Promise<Re
     try {
       const res = await fetchWithToken(url, options, token);
 
-      if (res.status === 401) {
+      if (res.status === 401 && attempt < 2) {
         try {
           const refreshed = await refreshGoogleToken();
           token = refreshed.accessToken;
-          if (attempt < 2) {
-            await sleep(250 * (attempt + 1));
-            continue;
-          }
-          throw new Error('Authentication expired. Please sign in again.');
+          await sleep(250 * (attempt + 1));
+          continue;
         } catch {
-          throw new Error('Authentication expired. Please sign in again.');
+          // Silent refresh failed — retry with current token
+          await sleep(400);
+          continue;
         }
       }
 
