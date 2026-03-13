@@ -1042,6 +1042,10 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
                     <span className="font-medium text-primary">{t('editor.copyWithFormatting', 'Copy with Formatting')}</span>
                   </DropdownMenuItem>
                 )}
+                <DropdownMenuItem onClick={() => setIsTitleEditOpen(true)}>
+                  <FileText className="h-4 w-4 mr-2" />
+                  {t('editor.editTitle', 'Edit Title')}
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setIsMetaDescInputOpen(true)}>
                   <FileText className="h-4 w-4 mr-2" />
                   {metaDescription ? t('editor.editMetaDescription') : t('editor.addMetaDescription')}
