@@ -1,27 +1,34 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AlertTriangle, ChevronDown } from 'lucide-react';
+import { AlarmClock } from 'lucide-react';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
+import { playRingtone, stopRingtone, RingtoneType } from '@/utils/urgentRingtones';
+import { getSetting } from '@/utils/settingsStorage';
 
 interface UrgentReminder {
   id: string;
   taskName: string;
   triggeredAt: Date;
+  reminderTime?: string;
 }
 
 export const UrgentReminderOverlay = () => {
   const [reminder, setReminder] = useState<UrgentReminder | null>(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const dismissThreshold = 0.85; // 85% scroll to dismiss
+  const [slideX, setSlideX] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const trackWidth = useRef(0);
+  const dismissThreshold = 0.8;
 
-  // Listen for urgent reminder events
   useEffect(() => {
     const handleUrgentReminder = (e: CustomEvent<UrgentReminder>) => {
       setReminder(e.detail);
-      setScrollProgress(0);
-      // Haptic burst for urgent attention
+      setSlideX(0);
       triggerUrgentHaptics();
+      // Play ringtone
+      getSetting<RingtoneType>('urgentRingtone', 'alarm').then(tone => {
+        playRingtone(tone);
+      });
     };
 
     window.addEventListener('urgentReminderTriggered', handleUrgentReminder as EventListener);
@@ -37,22 +44,84 @@ export const UrgentReminderOverlay = () => {
     } catch {}
   };
 
-  const handleScroll = useCallback(() => {
-    if (!scrollRef.current) return;
-    const el = scrollRef.current;
-    const maxScroll = el.scrollHeight - el.clientHeight;
-    if (maxScroll <= 0) return;
-    const progress = el.scrollTop / maxScroll;
-    setScrollProgress(progress);
+  const dismiss = useCallback(() => {
+    stopRingtone();
+    Haptics.impact({ style: ImpactStyle.Heavy }).catch(() => {});
+    setReminder(null);
+    setSlideX(0);
+  }, []);
 
-    if (progress >= dismissThreshold) {
-      // Dismiss with haptic
-      Haptics.impact({ style: ImpactStyle.Heavy }).catch(() => {});
-      setReminder(null);
+  const handleComplete = useCallback(() => {
+    if (!reminder) return;
+    // Dispatch complete event
+    window.dispatchEvent(new CustomEvent('urgentTaskComplete', { detail: { taskId: reminder.id } }));
+    dismiss();
+  }, [reminder, dismiss]);
+
+  // Slide to stop handlers
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    setIsDragging(true);
+    if (sliderRef.current) {
+      trackWidth.current = sliderRef.current.getBoundingClientRect().width - 56; // minus thumb size
     }
   }, []);
 
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (!isDragging || !sliderRef.current) return;
+    const rect = sliderRef.current.getBoundingClientRect();
+    const x = e.touches[0].clientX - rect.left - 28; // center of thumb
+    const clamped = Math.max(0, Math.min(x, trackWidth.current));
+    setSlideX(clamped);
+  }, [isDragging]);
+
+  const handleTouchEnd = useCallback(() => {
+    setIsDragging(false);
+    const progress = trackWidth.current > 0 ? slideX / trackWidth.current : 0;
+    if (progress >= dismissThreshold) {
+      dismiss();
+    } else {
+      setSlideX(0);
+    }
+  }, [slideX, dismiss]);
+
+  // Mouse fallback
+  const handleMouseDown = useCallback(() => {
+    setIsDragging(true);
+    if (sliderRef.current) {
+      trackWidth.current = sliderRef.current.getBoundingClientRect().width - 56;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isDragging) return;
+    const handleMove = (e: MouseEvent) => {
+      if (!sliderRef.current) return;
+      const rect = sliderRef.current.getBoundingClientRect();
+      const x = e.clientX - rect.left - 28;
+      const clamped = Math.max(0, Math.min(x, trackWidth.current));
+      setSlideX(clamped);
+    };
+    const handleUp = () => {
+      setIsDragging(false);
+      const progress = trackWidth.current > 0 ? slideX / trackWidth.current : 0;
+      if (progress >= dismissThreshold) {
+        dismiss();
+      } else {
+        setSlideX(0);
+      }
+    };
+    window.addEventListener('mousemove', handleMove);
+    window.addEventListener('mouseup', handleUp);
+    return () => {
+      window.removeEventListener('mousemove', handleMove);
+      window.removeEventListener('mouseup', handleUp);
+    };
+  }, [isDragging, slideX, dismiss]);
+
   if (!reminder) return null;
+
+  const displayTime = reminder.reminderTime || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const slideProgress = trackWidth.current > 0 ? slideX / trackWidth.current : 0;
 
   return (
     <AnimatePresence>
@@ -60,87 +129,85 @@ export const UrgentReminderOverlay = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[9999] bg-black"
+        className="fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-between py-16 px-6"
       >
-        <div
-          ref={scrollRef}
-          onScroll={handleScroll}
-          className="h-full overflow-y-auto"
-          style={{ scrollBehavior: 'smooth' }}
-        >
-          {/* Main content - takes full viewport */}
-          <div className="min-h-[100vh] flex flex-col items-center justify-center px-6 relative">
-            {/* Pulsing background ring */}
-            <motion.div
-              animate={{ scale: [1, 1.3, 1], opacity: [0.15, 0.3, 0.15] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute w-64 h-64 rounded-full bg-destructive"
-            />
-            <motion.div
-              animate={{ scale: [1.1, 1.5, 1.1], opacity: [0.08, 0.15, 0.08] }}
-              transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
-              className="absolute w-80 h-80 rounded-full bg-destructive"
-            />
-
-            {/* Alert icon */}
-            <motion.div
-              animate={{ scale: [1, 1.15, 1] }}
-              transition={{ duration: 1, repeat: Infinity }}
-              className="relative z-10 mb-8"
-            >
-              <div className="w-24 h-24 rounded-full bg-destructive flex items-center justify-center shadow-2xl shadow-destructive/50">
-                <AlertTriangle className="w-12 h-12 text-destructive-foreground" />
-              </div>
-            </motion.div>
-
-            {/* Label */}
-            <motion.p
-              animate={{ opacity: [0.6, 1, 0.6] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="relative z-10 text-destructive font-bold text-lg tracking-widest uppercase mb-4"
-            >
-              URGENT REMINDER
-            </motion.p>
-
-            {/* Task name */}
-            <h1 className="relative z-10 text-white text-3xl font-bold text-center max-w-sm leading-tight mb-12">
-              {reminder.taskName}
-            </h1>
-
-            {/* Scroll instruction */}
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-              className="relative z-10 flex flex-col items-center gap-2 text-white/50"
-            >
-              <p className="text-sm">Scroll down to dismiss</p>
-              <ChevronDown className="w-6 h-6" />
-              <ChevronDown className="w-6 h-6 -mt-4" />
-            </motion.div>
-          </div>
-
-          {/* Extra scroll space for dismissal */}
-          <div className="h-[80vh] flex items-center justify-center">
-            <motion.div
-              style={{ opacity: scrollProgress }}
-              className="flex flex-col items-center gap-3"
-            >
-              <div className="w-16 h-16 rounded-full border-2 border-white/30 flex items-center justify-center">
-                <ChevronDown className="w-8 h-8 text-white/50" />
-              </div>
-              <p className="text-white/40 text-sm">
-                {scrollProgress >= dismissThreshold ? 'Releasing...' : 'Keep scrolling...'}
-              </p>
-            </motion.div>
-          </div>
+        {/* Top section - alarm icon + task name */}
+        <div className="flex flex-col items-center gap-3 mt-8">
+          <motion.div
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+          >
+            <AlarmClock className="w-10 h-10 text-white/70" />
+          </motion.div>
+          <p className="text-white/90 text-lg font-medium text-center max-w-xs leading-snug">
+            {reminder.taskName}
+          </p>
         </div>
 
-        {/* Progress bar at bottom */}
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10">
-          <motion.div
-            className="h-full bg-destructive"
-            style={{ width: `${Math.min(scrollProgress / dismissThreshold, 1) * 100}%` }}
-          />
+        {/* Center - Big time display */}
+        <div className="flex flex-col items-center">
+          <motion.h1
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="text-white font-bold text-center leading-none"
+            style={{ fontSize: 'clamp(5rem, 20vw, 8rem)' }}
+          >
+            {displayTime}
+          </motion.h1>
+        </div>
+
+        {/* Bottom section - Complete button + Slide to stop */}
+        <div className="w-full max-w-sm flex flex-col gap-4">
+          {/* Complete button */}
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            onClick={handleComplete}
+            className="w-full py-4 rounded-2xl text-white font-semibold text-lg transition-all active:brightness-90"
+            style={{ backgroundColor: '#3c78f0' }}
+          >
+            Complete
+          </motion.button>
+
+          {/* Slide to stop */}
+          <div
+            ref={sliderRef}
+            className="relative w-full h-14 rounded-full overflow-hidden"
+            style={{ backgroundColor: 'rgba(255,255,255,0.1)' }}
+          >
+            {/* Fill */}
+            <div
+              className="absolute inset-y-0 left-0 rounded-full transition-none"
+              style={{
+                width: slideX + 56,
+                backgroundColor: `rgba(239, 68, 68, ${0.2 + slideProgress * 0.4})`,
+              }}
+            />
+
+            {/* Label */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <span
+                className="text-white/40 text-sm font-medium transition-opacity"
+                style={{ opacity: 1 - slideProgress }}
+              >
+                slide to stop
+              </span>
+            </div>
+
+            {/* Thumb */}
+            <div
+              className="absolute top-1 left-1 w-12 h-12 rounded-full bg-white/20 backdrop-blur flex items-center justify-center cursor-grab active:cursor-grabbing select-none"
+              style={{
+                transform: `translateX(${slideX}px)`,
+                transition: isDragging ? 'none' : 'transform 0.3s ease',
+              }}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              onMouseDown={handleMouseDown}
+            >
+              <div className="w-6 h-1 rounded-full bg-white/60" />
+            </div>
+          </div>
         </div>
       </motion.div>
     </AnimatePresence>
