@@ -1039,7 +1039,14 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
                   {metaDescription ? t('editor.editMetaDescription') : t('editor.addMetaDescription')}
                 </DropdownMenuItem>
 
-                
+  // Effect: close after sketch meta state has propagated
+  useEffect(() => {
+    if (sketchMetaPendingCloseRef.current && title.trim() && metaDescription.trim()) {
+      sketchMetaPendingCloseRef.current = false;
+      performClose();
+    }
+  }, [title, metaDescription, performClose]);
+
                 {/* Note Reminder */}
                 <div className="px-2 py-1.5 text-sm font-semibold flex items-center gap-2">
                   <Bell className="h-4 w-4" />
