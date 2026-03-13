@@ -214,6 +214,12 @@ export const NotesCalendarView = ({
               <DropdownMenuItem onClick={handleGoToToday}>
                 {t('calendar.goToToday', 'Go to Today')}
               </DropdownMenuItem>
+              {showSyncCalendar && (
+                <DropdownMenuItem onClick={onSyncCalendarClick} className="gap-2">
+                  <RefreshCw className="h-4 w-4" />
+                  {t('calendar.syncCalendar', 'Sync Calendar')}
+                </DropdownMenuItem>
+              )}
               {onBackgroundSettingsClick && (
                 <DropdownMenuItem onClick={onBackgroundSettingsClick} className="gap-2">
                   <Image className="h-4 w-4" />
