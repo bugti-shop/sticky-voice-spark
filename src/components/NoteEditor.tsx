@@ -197,7 +197,7 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
   const [showSketchMetaDialog, setShowSketchMetaDialog] = useState(false);
   const [sketchMetaTitle, setSketchMetaTitle] = useState('');
   const [sketchMetaDesc, setSketchMetaDesc] = useState('');
-  
+  const sketchMetaPendingCloseRef = useRef(false);
   // PDF export success dialog state
   const [pdfExportResult, setPdfExportResult] = useState<{ filename: string; base64Data: string } | null>(null);
   const [showPdfOptionsSheet, setShowPdfOptionsSheet] = useState(false);
@@ -606,8 +606,8 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
   const handleClose = useCallback(async () => {
     if (!isOpenRef.current) return;
     
-    // For sketch notes, show the compulsory title + meta description dialog
-    if (noteType === 'sketch') {
+    // For sketch notes, only show dialog if title or description is missing
+    if (noteType === 'sketch' && (!title.trim() || !metaDescription.trim())) {
       setSketchMetaTitle(title);
       setSketchMetaDesc(metaDescription);
       setShowSketchMetaDialog(true);
@@ -627,12 +627,21 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
       toast.error(t('editor.sketchDescRequired', 'Description is required for sketch notes'));
       return;
     }
+    // Update state for UI - performClose will be called after state propagates
     setTitle(sketchMetaTitle.trim());
     setMetaDescription(sketchMetaDesc.trim());
     setShowSketchMetaDialog(false);
-    // Wait a tick for state to propagate before saving
-    setTimeout(() => performClose(), 50);
-  }, [sketchMetaTitle, sketchMetaDesc, performClose, t]);
+    // Use a flag to trigger close after state update
+    sketchMetaPendingCloseRef.current = true;
+  }, [sketchMetaTitle, sketchMetaDesc, t]);
+
+  // Effect: close after sketch meta state has propagated
+  useEffect(() => {
+    if (sketchMetaPendingCloseRef.current && title.trim() && metaDescription.trim()) {
+      sketchMetaPendingCloseRef.current = false;
+      performClose();
+    }
+  }, [title, metaDescription, performClose]);
 
   const handleCloseRef = useRef(handleClose);
   useEffect(() => {
@@ -1037,9 +1046,8 @@ export const NoteEditor = ({ note, isOpen, onClose, onSave, defaultType = 'regul
                   <FileText className="h-4 w-4 mr-2" />
                   {metaDescription ? t('editor.editMetaDescription') : t('editor.addMetaDescription')}
                 </DropdownMenuItem>
-                
 
-                
+
                 {/* Note Reminder */}
                 <div className="px-2 py-1.5 text-sm font-semibold flex items-center gap-2">
                   <Bell className="h-4 w-4" />
