@@ -55,15 +55,14 @@ export const defaultActions: ActionItem[] = [
   { id: 'deadline', name: 'Deadline', icon: CalendarClock, enabled: true, color: 'text-rose-500', group: 'scheduling' },
   { id: 'reminder', name: 'Reminders', icon: Timer, enabled: true, color: 'text-purple-500', group: 'scheduling' },
   { id: 'repeat', name: 'Repeat', icon: Repeat, enabled: true, color: 'text-indigo-500', group: 'scheduling' },
+  { id: 'urgent', name: 'Urgent', icon: AlertTriangle, enabled: true, color: 'text-destructive', group: 'scheduling' },
   { id: 'priority', name: 'Priority', icon: Flag, enabled: true, color: 'text-orange-500', group: 'organization' },
   { id: 'tags', name: 'Tags', icon: Tag, enabled: true, color: 'text-teal-500', group: 'organization' },
   { id: 'folder', name: 'Folder', icon: FolderIcon, enabled: true, color: 'text-amber-500', group: 'organization' },
   { id: 'section', name: 'Section', icon: ListTodo, enabled: true, color: 'text-violet-500', group: 'organization' },
   { id: 'description', name: 'Description', icon: FileText, enabled: true, color: 'text-cyan-500', group: 'organization' },
-  { id: 'location', name: 'Location', icon: MapPin, enabled: true, color: 'text-pink-500', group: 'organization' },
   { id: 'image', name: 'Image', icon: ImageIcon, enabled: true, color: 'text-emerald-500', group: 'media' },
   { id: 'attachment', name: 'Files', icon: Paperclip, enabled: true, color: 'text-sky-500', group: 'media' },
-  { id: 'effort', name: 'Estimate', icon: Hourglass, enabled: true, color: 'text-primary', group: 'scheduling' },
 ];
 
 const groupInfo = {
