@@ -659,8 +659,8 @@ export const drawStroke = (ctx: CanvasRenderingContext2D, stroke: Stroke, asClip
       const bh = Math.max(4, Math.ceil(maxY - minY + washiWidth * 2));
 
       // Create or get cached washi pattern tile at high resolution
-      const scaleFactor = 3; // HD quality
-      const cacheKey = `washi_stroke_${pattern.id}_${bw}_${bh}_hd`;
+      const scaleFactor = 4; // Ultra HD quality
+      const cacheKey = `washi_stroke_${pattern.id}_${bw}_${bh}_uhd`;
       let cachedCanvas = washiPatternCache.get(cacheKey) as HTMLCanvasElement | undefined;
       if (!cachedCanvas) {
         cachedCanvas = document.createElement('canvas');
@@ -684,9 +684,9 @@ export const drawStroke = (ctx: CanvasRenderingContext2D, stroke: Stroke, asClip
       canvasPattern.setTransform(patternMatrix);
 
       // Draw subtle shadow/edge first (behind)
-      ctx.globalAlpha = 0.12;
-      ctx.strokeStyle = 'rgba(0,0,0,0.3)';
-      ctx.lineWidth = washiWidth + 2;
+      ctx.globalAlpha = 0.18;
+      ctx.strokeStyle = 'rgba(0,0,0,0.35)';
+      ctx.lineWidth = washiWidth + 3;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       ctx.beginPath();
@@ -702,7 +702,7 @@ export const drawStroke = (ctx: CanvasRenderingContext2D, stroke: Stroke, asClip
       // Draw the thick stroke with washi pattern fill on top
       ctx.strokeStyle = canvasPattern;
       ctx.lineWidth = washiWidth;
-      ctx.globalAlpha = 0.92;
+      ctx.globalAlpha = 1.0;
 
       ctx.beginPath();
       ctx.moveTo(stroke.points[0].x, stroke.points[0].y);

@@ -440,8 +440,8 @@ export const drawWashiTape = (ctx: CanvasRenderingContext2D, tape: WashiTapeData
 
   // Cached HD pattern
   // Cached HD pattern at 3x resolution for crisp rendering
-  const scaleFactor = 3;
-  const legacyCacheKey = `legacy_${pattern.id}_${Math.round(tape.width)}_${Math.round(tape.height)}_hd`;
+  const scaleFactor = 4;
+  const legacyCacheKey = `legacy_${pattern.id}_${Math.round(tape.width)}_${Math.round(tape.height)}_uhd`;
   let cachedLegacy = washiPatternCache.get(legacyCacheKey) as any;
   if (!cachedLegacy) {
     const offCanvas = document.createElement('canvas');
